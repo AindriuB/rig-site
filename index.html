@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>rig: the mechanical parts of a branch-per-task workflow</title>
+  <meta name="description" content="rig is a small command-line tool for pushing a task branch, opening and reading pull requests, waiting for CI, and keeping tasks, findings and notes.">
+  <link rel="icon" type="image/svg+xml" href="assets/theme/brand/favicon.svg">
+  <link rel="icon" type="image/png" href="assets/theme/brand/favicon.png">
+  <link rel="stylesheet" href="assets/theme/tokens.css">
+  <link rel="stylesheet" href="assets/theme/fonts.css">
+  <link rel="stylesheet" href="assets/landing/landing.css">
+  <script src="assets/landing/landing.js" defer></script>
+</head>
+<body>
+<header class="site-header">
+  <a class="brand" href="./">
+    <img class="brand-mark" src="assets/theme/brand/mark.svg" alt="" aria-hidden="true" width="48" height="16">
+    <img class="brand-word brand-word-dark" src="assets/theme/brand/wordmark.svg" alt="rig" width="60" height="35">
+    <img class="brand-word brand-word-light" src="assets/theme/brand/wordmark-light.svg" alt="rig" width="60" height="35">
+  </a>
+  <nav aria-label="Site">
+    <a href="docs/">Docs</a>
+    <a href="docs/dev/">Dev docs</a>
+    <a href="changelog/">Changelog</a>
+    <a href="https://github.com/AindriuB/rig">GitHub</a>
+  </nav>
+</header>
+
+<main id="main">
+<section class="hero" aria-labelledby="hero-h">
+  <h1 id="hero-h">A task branch, from idea to done.</h1>
+  <p class="lede"><strong>rig</strong> is a small command-line tool for the mechanical parts of a
+  branch-per-task workflow: pushing a task branch, opening and reading pull requests, waiting for CI,
+  keeping tasks, findings and notes, and printing where the work stands. It was built for loops where
+  coding agents run these steps many times a day, but it does not depend on any particular loop.</p>
+  <p class="cta"><a class="button" href="docs/">Read the docs</a>
+  <a href="https://github.com/AindriuB/rig">Source on GitHub</a></p>
+
+  <figure class="hero-figure">
+    <svg class="hero-svg" viewBox="0 0 1120 250" role="img" aria-labelledby="hero-title hero-desc">
+      <title id="hero-title">A task card travelling through seven stops</title>
+      <desc id="hero-desc">A task card moves left to right: todo (rig task new), in progress (rig task start),
+      pushed (rig push), PR (rig pr open), CI (rig pr wait, shown pulsing amber while it runs), green
+      (rig pr wait, exit 0) and done (rig task move, task, done). It ends on done.</desc>
+      <line class="track" x1="80" y1="100" x2="1040" y2="100"/>
+
+      <g class="stop" transform="translate(80 100)">
+        <circle class="node" r="10"/>
+        <text class="state" y="-34">todo</text>
+        <text class="cmd" y="38">rig task new</text>
+      </g>
+      <g class="stop" transform="translate(240 100)">
+        <circle class="node" r="10"/>
+        <text class="state" y="-34">in progress</text>
+        <text class="cmd" y="38">rig task start</text>
+      </g>
+      <g class="stop" transform="translate(400 100)">
+        <circle class="node" r="10"/>
+        <text class="state" y="-34">pushed</text>
+        <text class="cmd" y="38">rig push</text>
+      </g>
+      <g class="stop" transform="translate(560 100)">
+        <circle class="node" r="10"/>
+        <text class="state" y="-34">PR</text>
+        <text class="cmd" y="38">rig pr open</text>
+      </g>
+      <g class="stop stop-ci" transform="translate(720 100)">
+        <circle class="ci-pulse" r="10"/>
+        <circle class="node node-ci" r="10"/>
+        <text class="state" y="-34">CI</text>
+        <text class="cmd" y="38">rig pr wait</text>
+      </g>
+      <g class="stop stop-green" transform="translate(880 100)">
+        <circle class="node node-green" r="10"/>
+        <text class="state" y="-34">green</text>
+        <text class="cmd" y="38">rig pr wait</text>
+        <text class="cmd cmd-sub" y="58">exit 0</text>
+      </g>
+      <g class="stop stop-done" transform="translate(1040 100)">
+        <circle class="node node-done" r="10"/>
+        <text class="state" y="-34">done</text>
+        <text class="cmd" y="38">rig task move</text>
+        <text class="cmd cmd-sub" y="58">&lt;task&gt; done</text>
+      </g>
+
+      <g class="card-slot">
+        <g class="card">
+          <rect class="card-body" x="-34" y="-18" width="68" height="36" rx="6"/>
+          <line class="card-line" x1="-22" y1="-6" x2="22" y2="-6"/>
+          <line class="card-line" x1="-22" y1="6" x2="8" y2="6"/>
+        </g>
+      </g>
+    </svg>
+    <figcaption>One task card, seven stops, and the rig command at each.</figcaption>
+  </figure>
+</section>
+
+<section class="terminal-section" aria-labelledby="term-h">
+  <h2 id="term-h">What it prints</h2>
+  <p>Real output from rig 0.5.0: push a task branch, wait for CI, move the task to done.</p>
+  <div class="terminal" role="group" aria-label="Terminal transcript">
+    <div class="terminal-bar" aria-hidden="true"><span class="dot dot-red"></span><span class="dot dot-amber"></span><span class="dot dot-green"></span></div>
+    <pre class="term-block" data-capture="push">$ rig push 08
+# rig 0.5.0, captured 2026-11-24
+pushed task/08-demo to origin</pre>
+    <pre class="term-block" data-capture="pr-wait">$ rig pr wait 52
+# rig 0.5.0, captured 2026-11-24
+CI green: PR #52</pre>
+    <pre class="term-block" data-capture="task-move">$ rig task move 08-demo done
+# rig 0.5.0, captured 2026-11-24
+t-a70j  done</pre>
+  </div>
+</section>
+
+<section class="slot" id="push-panel" aria-labelledby="push-panel-h">
+  <h2 id="push-panel-h">The narrow push</h2>
+  <p>rig push takes a task id or a branch name and nothing else. It cannot push the default branch, a tag,
+  a refspec or a force push, so it is safe to allow without a prompt.</p>
+  <div class="push-grid">
+    <div class="push-col push-accepted">
+      <h3><span class="mark" aria-hidden="true">✓</span> Accepted</h3>
+      <ul>
+        <li><code>rig push &lt;task id&gt;</code></li>
+        <li><code>rig push task/&lt;name&gt;</code></li>
+        <li><code>rig push record/&lt;name&gt;</code></li>
+      </ul>
+      <p class="push-note">A branch by task id or name that exists locally and is not the default branch. It goes to the branch of the same name on <code>origin</code>.</p>
+    </div>
+    <div class="push-col push-refused">
+      <h3><span class="mark" aria-hidden="true">✕</span> Refused</h3>
+      <ul>
+        <li><span class="refused-label">Refused:</span> <code>the default branch</code></li>
+        <li><span class="refused-label">Refused:</span> <code>a tag</code></li>
+        <li><span class="refused-label">Refused:</span> <code>a refspec</code></li>
+        <li><span class="refused-label">Refused:</span> <code>a force push</code></li>
+      </ul>
+      <p class="push-note">There is no option for another remote, a force push or tags.</p>
+    </div>
+  </div>
+</section>
+
+<section class="slot" id="forges" aria-labelledby="forges-h">
+  <h2 id="forges-h">One interface over two forges</h2>
+  <p>The same commands and the same output work on GitHub and GitLab. rig runs <code>gh</code> or
+  <code>glab</code> underneath and uses the login you already have. It stores a token only for Jira, which
+  has no such tool, and then in the OS keychain.</p>
+  <figure class="forges-figure">
+    <svg class="forges-svg" viewBox="0 0 900 260" role="img" aria-labelledby="forges-title forges-desc">
+      <title id="forges-title">rig reaches GitHub and GitLab through gh and glab, and Jira directly</title>
+      <desc id="forges-desc">rig calls gh, which talks to GitHub, and calls glab, which talks to GitLab, both
+      using the login you already have. rig reaches Jira directly with a token kept in the OS keychain.</desc>
+      <g class="box"><rect x="20" y="95" width="120" height="70" rx="8"/><text class="label" x="80" y="137">rig</text></g>
+
+      <path class="link" d="M140 130 H200 V50 H300"/>
+      <path class="link" d="M140 130 H300"/>
+      <path class="link link-direct" d="M140 130 H200 V210 H560"/>
+
+      <g class="box"><rect x="300" y="20" width="120" height="60" rx="8"/><text class="mono" x="360" y="56">gh</text></g>
+      <g class="box"><rect x="300" y="100" width="120" height="60" rx="8"/><text class="mono" x="360" y="136">glab</text></g>
+      <path class="link" d="M420 50 H560"/>
+      <path class="link" d="M420 130 H560"/>
+      <g class="box"><rect x="560" y="20" width="140" height="60" rx="8"/><text class="label" x="630" y="56">GitHub</text></g>
+      <g class="box"><rect x="560" y="100" width="140" height="60" rx="8"/><text class="label" x="630" y="136">GitLab</text></g>
+      <g class="box"><rect x="560" y="180" width="140" height="60" rx="8"/><text class="label" x="630" y="216">Jira</text></g>
+
+      <text class="note" x="730" y="56">the login you already have</text>
+      <text class="note" x="730" y="136">the login you already have</text>
+      <text class="note" x="730" y="216">token in the OS keychain</text>
+      <text class="note" x="360" y="248">direct, no gh or glab</text>
+    </svg>
+    <figcaption>rig runs gh or glab underneath; Jira is reached directly.</figcaption>
+  </figure>
+</section>
+
+<section class="slot" id="state" aria-labelledby="state-h">
+  <h2 id="state-h">Where tasks live</h2>
+  <p>Tasks, findings and notes live in your repository's git directory, outside any branch. They are in
+  <code>refs/rig/</code> and <code>.git/rig/</code> of the clone, so they stay on your machine: rig does not
+  push or fetch them.</p>
+  <figure class="state-figure">
+    <svg class="state-svg" viewBox="0 0 900 250" role="img" aria-labelledby="state-title state-desc">
+      <title id="state-title">The task store sits in the git directory, beside your branches</title>
+      <desc id="state-desc">Inside the clone's git directory, your working branches sit beside the rig task
+      store, which holds refs/rig/ and .git/rig/. The task store is outside every branch. A remote sits
+      outside the clone, and rig neither pushes nor fetches the task store to it.</desc>
+      <g class="clone"><rect x="20" y="20" width="560" height="210" rx="10"/><text class="head" x="40" y="48">your clone's git directory</text></g>
+      <g class="branch"><rect x="45" y="70" width="230" height="130" rx="8"/><text class="head" x="65" y="100">working branches</text>
+        <text class="mono" x="65" y="135">main</text><text class="mono" x="65" y="165">task/&lt;name&gt;</text></g>
+      <g class="store"><rect x="305" y="70" width="250" height="130" rx="8"/><text class="head" x="325" y="100">task store</text>
+        <text class="mono" x="325" y="135">refs/rig/</text><text class="mono" x="325" y="165">.git/rig/</text></g>
+      <g class="remote"><rect x="700" y="70" width="180" height="130" rx="8"/><text class="head" x="720" y="130">remote</text><text class="mono" x="720" y="160">origin</text></g>
+      <path class="blocked" d="M555 135 H700"/>
+      <path class="cross" d="M610 117 L640 153 M640 117 L610 153"/>
+      <text class="note" x="627" y="105">not pushed or fetched</text>
+    </svg>
+    <figcaption>The task store is in the git directory, not on any branch, and is not pushed or fetched.</figcaption>
+  </figure>
+</section>
+
+</main>
+<footer class="site-footer">
+  <p>rig is open source. <a href="https://github.com/AindriuB/rig">Source on GitHub</a>.</p>
+</footer>
+
+</body>
+</html>

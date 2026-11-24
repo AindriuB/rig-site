@@ -1,0 +1,171 @@
+/* Landing page. Colours and fonts come from the theme tokens only. */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--rig-bg);
+  color: var(--rig-text);
+  font-family: var(--rig-font-sans);
+  line-height: 1.6;
+}
+
+a { color: var(--rig-link); }
+a:focus-visible, .button:focus-visible { outline: 2px solid var(--rig-accent); outline-offset: 2px; }
+
+main, .site-header, .site-footer { max-width: 1100px; margin: 0 auto; padding: 0 1.25rem; }
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.brand { display: flex; align-items: center; gap: 0.75rem; }
+.brand-word { height: 2rem; width: auto; }
+.brand-word-light { display: none; }
+.site-header nav { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-md-color-scheme]) .brand-word-dark { display: none; }
+  :root:not([data-md-color-scheme]) .brand-word-light { display: inline; }
+}
+[data-md-color-scheme="default"] .brand-word-dark { display: none; }
+[data-md-color-scheme="default"] .brand-word-light { display: inline; }
+
+h1 { font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; margin: 2rem 0 1rem; }
+h2 { font-size: 1.6rem; margin: 3rem 0 0.5rem; }
+.lede { max-width: 46rem; font-size: 1.1rem; color: var(--rig-text-muted); }
+.lede strong { color: var(--rig-text); }
+
+.cta { display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap; }
+.button {
+  display: inline-block;
+  padding: 0.5rem 1.1rem;
+  border-radius: 6px;
+  background: var(--rig-accent);
+  color: var(--rig-on-accent);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.slot {
+  border: 1px solid var(--rig-border);
+  border-radius: 8px;
+  background: var(--rig-surface);
+  padding: 0.5rem 1.25rem 1rem;
+  margin-top: 2rem;
+}
+.slot h2 { margin-top: 0.75rem; }
+
+.site-footer { padding-top: 3rem; padding-bottom: 3rem; color: var(--rig-text-muted); }
+
+/* Visual 4: one interface over two forges. */
+.forges-figure { margin: 1rem 0 0; }
+.forges-figure figcaption { color: var(--rig-text-muted); font-size: 0.9rem; }
+.forges-svg { width: 100%; height: auto; display: block; }
+.forges-svg .box rect { fill: var(--rig-bg); stroke: var(--rig-border); stroke-width: 2; }
+.forges-svg .box text { text-anchor: middle; fill: var(--rig-text); font-size: 20px; }
+.forges-svg .label { font-family: var(--rig-font-sans); font-weight: 600; }
+.forges-svg .mono { font-family: var(--rig-font-mono); }
+.forges-svg .link { fill: none; stroke: var(--rig-accent); stroke-width: 3; }
+.forges-svg .link-direct { stroke-dasharray: 8 6; }
+.forges-svg .note { fill: var(--rig-text-muted); font-family: var(--rig-font-sans); font-size: 13px; }
+.forges-svg text.note[x="360"] { text-anchor: middle; }
+
+/* Visual 1: the hero. Outside the motion media query it shows the final (done) state. */
+.hero-figure { margin: 2rem 0 0; }
+.hero-figure figcaption { color: var(--rig-text-muted); font-size: 0.9rem; }
+.hero-svg { width: 100%; height: auto; display: block; }
+
+.hero-svg .track { stroke: var(--rig-border); stroke-width: 3; }
+.hero-svg .node { fill: var(--rig-surface); stroke: var(--rig-border); stroke-width: 3; }
+.hero-svg .node-ci { stroke: var(--rig-signal-amber); }
+.hero-svg .node-green { stroke: var(--rig-signal-green); }
+.hero-svg .node-done { fill: var(--rig-signal-green); stroke: var(--rig-signal-green); }
+.hero-svg .ci-pulse { fill: none; stroke: var(--rig-signal-amber); stroke-width: 3; opacity: 0.4;
+  transform-box: fill-box; transform-origin: center; }
+.hero-svg text { text-anchor: middle; }
+.hero-svg .state { fill: var(--rig-text); font-family: var(--rig-font-sans); font-size: 18px; font-weight: 600; }
+.hero-svg .cmd { fill: var(--rig-text-muted); font-family: var(--rig-font-mono); font-size: 14px; }
+.hero-svg .card { transform: translate(1040px, 100px); }
+.hero-svg .card-body { fill: var(--rig-accent); stroke: var(--rig-surface); stroke-width: 3; }
+.hero-svg .card-line { stroke: var(--rig-on-accent); stroke-width: 3; stroke-linecap: round; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-svg .card { animation: rig-card-travel 12s ease-in-out 1 forwards; }
+  .hero-svg .ci-pulse { animation: rig-ci-pulse 1.6s ease-out infinite; }
+  .hero-svg .node { transition: fill 0.3s; }
+  @keyframes rig-card-travel {
+    0% { transform: translate(80px, 100px); }
+    8% { transform: translate(80px, 100px); }
+    15% { transform: translate(240px, 100px); }
+    23% { transform: translate(240px, 100px); }
+    30% { transform: translate(400px, 100px); }
+    38% { transform: translate(400px, 100px); }
+    45% { transform: translate(560px, 100px); }
+    53% { transform: translate(560px, 100px); }
+    60% { transform: translate(720px, 100px); }
+    68% { transform: translate(720px, 100px); }
+    75% { transform: translate(880px, 100px); }
+    83% { transform: translate(880px, 100px); }
+    100% { transform: translate(1040px, 100px); }
+  }
+  @keyframes rig-ci-pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2.4); opacity: 0; }
+  }
+}
+
+/* Visual 3: the narrow push. Refused items use a dashed border, a cross and a struck-through name, not colour alone. */
+.push-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; margin-top: 1rem; }
+.push-col { border: 2px solid var(--rig-signal-green); border-radius: 8px; padding: 0.25rem 1rem 0.75rem; background: var(--rig-bg); }
+.push-refused { border: 2px dashed var(--rig-signal-red); }
+.push-col h3 { margin: 0.5rem 0; font-size: 1.1rem; }
+.push-col ul { list-style: none; margin: 0; padding: 0; }
+.push-col li { padding: 0.3rem 0; }
+.push-col code { font-family: var(--rig-font-mono); }
+.push-accepted .mark { color: var(--rig-signal-green); }
+.push-refused .mark { color: var(--rig-signal-red); }
+.push-refused li code { text-decoration: line-through; text-decoration-thickness: 2px; }
+.refused-label { font-weight: 700; color: var(--rig-text); }
+.push-note { margin: 0.5rem 0 0; color: var(--rig-text-muted); font-size: 0.9rem; }
+
+/* Visual 5: where state lives. The blocked link is dashed and crossed, not colour alone. */
+.state-figure { margin: 1rem 0 0; }
+.state-figure figcaption { color: var(--rig-text-muted); font-size: 0.9rem; }
+.state-svg { width: 100%; height: auto; display: block; }
+.state-svg rect { fill: var(--rig-bg); stroke: var(--rig-border); stroke-width: 2; }
+.state-svg .clone rect { fill: var(--rig-surface); stroke-dasharray: 2 0; }
+.state-svg .store rect { stroke: var(--rig-accent); stroke-width: 3; }
+.state-svg .head { fill: var(--rig-text); font-family: var(--rig-font-sans); font-size: 17px; font-weight: 600; }
+.state-svg .mono { fill: var(--rig-text-muted); font-family: var(--rig-font-mono); font-size: 16px; }
+.state-svg .blocked { stroke: var(--rig-border); stroke-width: 3; stroke-dasharray: 8 6; fill: none; }
+.state-svg .cross { stroke: var(--rig-signal-red); stroke-width: 4; stroke-linecap: round; fill: none; }
+.state-svg .note { fill: var(--rig-text-muted); font-family: var(--rig-font-sans); font-size: 13px; text-anchor: middle; }
+
+/* Visual 2: the terminal replay. The full transcript is the default. */
+.terminal {
+  background: var(--rig-code-bg);
+  border: 1px solid var(--rig-border);
+  border-radius: 8px;
+  padding: 0 1rem 1rem;
+  overflow-x: auto;
+}
+.terminal-bar { display: flex; gap: 0.4rem; padding: 0.75rem 0 0.25rem; }
+.dot { width: 0.7rem; height: 0.7rem; border-radius: 50%; display: inline-block; }
+.dot-red { background: var(--rig-signal-red); }
+.dot-amber { background: var(--rig-signal-amber); }
+.dot-green { background: var(--rig-signal-green); }
+.term-block {
+  margin: 0.75rem 0 0;
+  font-family: var(--rig-font-mono);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--rig-text);
+  white-space: pre-wrap;
+  user-select: text;
+}
+.term-block.is-typing::after { content: "\2588"; color: var(--rig-accent); }
