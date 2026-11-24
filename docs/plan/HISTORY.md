@@ -17,6 +17,10 @@ in the same commit.
 **Cost:** <what was hard, what was tried and abandoned, what not to retry.>
 -->
 
+## 2026-11-24 — Follow-up sweep: motion, landing guards, render, pytest session
+Four small tasks closed fifteen follow-ups. The hero CI pulse now stops after a bounded count and the centred forges note has a class (12); the landing build fails on duplicate capture names and the srcset, `@import`, inline-colour and push-panel guards were tightened (13); the Mermaid render and lifecycle transform findings from tasks 04 and 05 were fixed (14); and loading the changelog build by path lets one `pytest site-src` session pass (root `pytest.ini` added), with the deploy concurrency key made per-ref (15). `rig owns` for task 10 was updated, closing f-xcb0.
+**Cost:** Open follow-ups: f-2p6e (P3, from 12); f-vfzw and f-thea (P3, from 14); f-0gn1 (NOTE, from 15); their wording is in the verify reports, not copied here. The f-bthm collision was fixed by loading the changelog `build.py` by path in its test (`test_changelog.py`) rather than renaming either file; `pytest.ini` only sets `norecursedirs`.
+
 ## 2026-11-24 — Pages deploy workflow
 `.github/workflows/pages.yml`, `build.sh` and `root.py` build the whole site and deploy it to Pages from main only, with the site guards run before deploy; `check_site.py` and the landing header partial were amended into Owns and edited. Merged through PR #1.
 **Cost:** The decorative-image guard had to allow `aria-hidden` imgs with an empty alt. Follow-ups, all open: f-bthm (P3) `site-src/landing/build.py` and `site-src/changelog/build.py` are both imported as top-level `build`, so `pytest site-src` in one session collides (4 failed, 9 errors); each directory passes alone, so rename one or import by path (`test_landing.py:13`); f-p9ze (P3) the concurrency key sends a `workflow_dispatch` on a non-main ref into the deploy group, where it can cancel a pending main run whose content is then not published; key the group on `refs/heads/main` too (`pages.yml:25`); f-xcb0 (NOTE) `rig owns` lists only the original five paths, so a gate reading it will flag `check_site.py` and `header.html` until the field is updated.

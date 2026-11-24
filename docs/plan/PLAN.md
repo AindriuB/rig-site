@@ -19,16 +19,14 @@ than no plan.
 -->
 
 ### Owner action: Pages dispatch token
-All ten site tasks are done. The `RIG_SITE_DISPATCH_TOKEN` secret must still be set in the rig repo so rig releases trigger a site rebuild.
+The site tasks are done apart from 11 and 16 (theme CSS, brand mark), which are in review. The `RIG_SITE_DISPATCH_TOKEN` secret must still be set in the rig repo so rig releases trigger a site rebuild.
 **Blocked by:** owner.
 
 ### Follow-ups
 All open P3 and NOTE findings, with no blocker; details in HISTORY.md.
-- 04: f-drha, f-fdg2, f-r5zg, f-r6fy.
-- 05: f-1zbs, f-q2vc.
-- 06: f-qx4j, f-sfkd, f-mr59, f-4n0e, f-gd7q.
-- 07: f-qk6m, f-0ky3.
-- 10: f-bthm, f-p9ze, f-xcb0.
+- 12: f-2p6e (P3).
+- 14: f-vfzw, f-thea (P3).
+- 15: f-0gn1 (NOTE).
 
 ## Next
 
