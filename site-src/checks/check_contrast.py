@@ -39,8 +39,15 @@ def parse_sets(css: str) -> dict[str, dict[str, str]]:
     css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)
     # The @media fallback repeats the light set for pages with no Material
     # scheme; drop it so it cannot be read as a dark rule.
-    css = re.sub(r"@media[^{]*\{(?:[^{}]*\{[^{}]*\})*[^{}]*\}", "", css)
+    media = re.compile(r"@media[^{]*\{((?:[^{}]*\{[^{}]*\})*)[^{}]*\}")
     sets: dict[str, dict[str, str]] = {}
+    for mm in media.finditer(css):
+        for m in re.finditer(r"([^{}]+)\{([^{}]*)\}", mm.group(1)):
+            if "--rig-bg" in m.group(2):
+                sets.setdefault("system", {}).update(
+                    {n: v.lower() for n, v in _DECL.findall(m.group(2))}
+                )
+    css = media.sub("", css)
     for m in re.finditer(r"([^{}]+)\{([^{}]*)\}", css):
         selector, body = m.group(1), m.group(2)
         if "--rig-bg" not in body:
@@ -72,6 +79,8 @@ def check(css: str) -> tuple[list[str], list[str]]:
     sets = parse_sets(css)
     lines: list[str] = []
     fails: list[str] = []
+    if sets.get("system") != sets.get("light"):
+        fails.append("@media (prefers-color-scheme: light) set differs from the default-scheme light set")
     for scheme in ("dark", "light"):
         tokens = sets.get(scheme, {})
         for name in REQUIRED:
@@ -91,11 +100,16 @@ def check(css: str) -> tuple[list[str], list[str]]:
 
 def main(argv: list[str]) -> int:
     path = Path(argv[1]) if len(argv) > 1 else TOKENS
-    lines, fails = check(path.read_text())
+    try:
+        css = path.read_text()
+    except OSError as e:
+        print(f"{path}: cannot read token file: {e.strerror or e}", file=sys.stderr)
+        return 1
+    lines, fails = check(css)
     print("\n".join(lines))
     if fails:
-        print("\nFailing:", file=sys.stderr)
-        print("\n".join(fails), file=sys.stderr)
+        for f in fails:
+            print(f"{path}: {f}", file=sys.stderr)
         return 1
     return 0
 

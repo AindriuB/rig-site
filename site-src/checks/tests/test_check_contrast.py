@@ -65,3 +65,21 @@ def test_non_text_threshold_is_three():
     bad = css.replace("--rig-border: #858b95;", "--rig-border: #f7f6f3;")
     _, fails = cc.check(bad)
     assert any("light: --rig-border on --rig-bg" in f for f in fails)
+
+
+def test_media_light_set_must_match_default(tmp_path):
+    css = TOKENS.read_text()
+    i = css.index("@media")
+    bad = css[:i] + css[i:].replace("--rig-text-muted: #4a515b;", "--rig-text-muted: #f0f0f0;")
+    assert bad != css
+    p = tmp_path / "tokens.css"
+    p.write_text(bad)
+    r = run(p)
+    assert r.returncode == 1
+    assert "tokens.css:" in r.stderr and "@media" in r.stderr
+
+
+def test_unreadable_file_reports_path(tmp_path):
+    r = run(tmp_path / "nope.css")
+    assert r.returncode == 1
+    assert "nope.css:" in r.stderr and "Traceback" not in r.stderr

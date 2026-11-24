@@ -8,13 +8,13 @@ theme:
   logo: assets/theme/brand/mark.svg
   favicon: assets/theme/brand/favicon.png
   palette:
-      scheme: slate
+    - scheme: slate
       primary: custom
       accent: custom
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode
-      scheme: default
+    - scheme: default
       primary: custom
       accent: custom
       toggle:
