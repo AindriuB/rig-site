@@ -17,6 +17,11 @@ in the same commit.
 **Cost:** <what was hard, what was tried and abandoned, what not to retry.>
 -->
 
+## 2026-11-24 — Mermaid diagrams at natural width
+Both Mermaid configs now set `useMaxWidth` false for flowchart, sequence and state, so rendered SVGs carry a pixel width and the docs image shows at natural size instead of the 688px column. The live browser check after PRs #2 and #3 had found diagrams still stretched, because Mermaid's default writes width="100%" on the SVG root. Task 11's CSS cap (min(40rem,100%)) could not help: 40rem is 800px at Material's 20px root. Task 17 fixed it; the orchestrator confirms diagram width separately.
+The same live check confirmed task 11 and 16 behaviour: the header site-name topic and version selector are hidden when scrolled (visibility hidden), the header logo is 84px at 1440px, the drawer logo 72px at 1024px, the hero pulse is `1.6s ease-out 7 forwards`, and the new `mark.svg` with its track is served.
+**Cost:** The orchestrator's task 11 brief diagnosed the symptom as a CSS problem without checking the SVG's width attribute; check the SVG root attributes before reaching for CSS on rendered diagrams.
+
 ## 2026-11-24 — Brand mark: dots on a track
 The brand mark and favicons are now horizontal dots joined by a #667080 track (owner's option C, chosen over a vertical traffic-signal design). The brand test reads the favicon PNG with the standard library.
 **Cost:** Task 16 was redesigned mid-task after the owner saw the first mark. The test decodes the PNG itself because the CI venv has no Pillow; do not add Pillow for it. Open follow-ups: f-sen8 (P3) nothing checks that the committed `favicon.png` matches what `make_favicon.py` produces; f-79pq (P3) the circle regex in `test_brand_mark.py` matches one attribute order only.
