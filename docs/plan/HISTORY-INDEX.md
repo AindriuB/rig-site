@@ -20,6 +20,7 @@ no row is one `planner` cannot find, and will re-plan.
 
 | Date | Task IDs | Summary | Heading (grep this exact string) |
 |---|---|---|---|
+| 2026-11-24 | - | Rig release dispatch verified by pages run 45510354455 | ## 2026-11-24 — Release dispatch live |
 | 2026-11-24 | 17 | Mermaid SVGs at natural width (useMaxWidth false); live header and logo checks | ## 2026-11-24 — Mermaid diagrams at natural width |
 | 2026-11-24 | 16 | Brand mark as dots on a track | ## 2026-11-24 — Brand mark: dots on a track |
 | 2026-11-24 | 11 | Header logo sizes, Mermaid sizing, header topic | ## 2026-11-24 — Theme header and diagram sizing |

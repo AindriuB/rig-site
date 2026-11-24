@@ -19,8 +19,7 @@ than no plan.
 -->
 
 ### Owner action: Pages dispatch token
-All site tasks are merged. The `RIG_SITE_DISPATCH_TOKEN` secret must still be set in the rig repo so rig releases trigger a site rebuild.
-**Blocked by:** owner.
+All site tasks are merged and the rig release dispatch is live: the owner set `RIG_SITE_DISPATCH_TOKEN` on the rig repo on 2026-11-24, and rig's `site-dispatch` workflow triggered rig-site pages run 45510354455, which deployed successfully.
 
 ### Follow-ups
 All open P3 and NOTE findings, with no blocker; details in HISTORY.md.
