@@ -1,0 +1,26 @@
+# Pulled in by each generated config via INHERIT. Paths are relative to a build
+# dir with this theme's overrides at theme/overrides and its assets under the
+# docs dir at assets/theme/.
+theme:
+  name: material
+  font: false
+  custom_dir: theme/overrides
+  logo: assets/theme/brand/mark.svg
+  favicon: assets/theme/brand/favicon.png
+  palette:
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+extra_css:
+  - assets/theme/tokens.css
+  - assets/theme/fonts.css
+  - assets/theme/extra.css
