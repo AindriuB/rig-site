@@ -17,6 +17,10 @@ in the same commit.
 **Cost:** <what was hard, what was tried and abandoned, what not to retry.>
 -->
 
+## 2026-11-24 — Release dispatch live
+The owner set `RIG_SITE_DISPATCH_TOKEN` on the rig repo, so a rig release now triggers a site rebuild. Rig's `site-dispatch` workflow triggered rig-site pages run 45510354455, which deployed successfully.
+**Cost:** None; the only blocker was the owner setting the secret.
+
 ## 2026-11-24 — Mermaid diagrams at natural width
 Both Mermaid configs now set `useMaxWidth` false for flowchart, sequence and state, so rendered SVGs carry a pixel width and the docs image shows at natural size instead of the 688px column. The live browser check after PRs #2 and #3 had found diagrams still stretched, because Mermaid's default writes width="100%" on the SVG root. Task 11's CSS cap (min(40rem,100%)) could not help: 40rem is 800px at Material's 20px root. Task 17 fixed it; the orchestrator confirms diagram width separately.
 The same live check confirmed task 11 and 16 behaviour: the header site-name topic and version selector are hidden when scrolled (visibility hidden), the header logo is 84px at 1440px, the drawer logo 72px at 1024px, the hero pulse is `1.6s ease-out 7 forwards`, and the new `mark.svg` with its track is served.
