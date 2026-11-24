@@ -653,10 +653,10 @@
 
 <h1 id="rig-generic-actions-for-agentic-workflows"><code>rig</code>: generic actions for agentic workflows<a class="headerlink" href="#rig-generic-actions-for-agentic-workflows" title="Permanent link">&para;</a></h1>
 <p>Status: phase 1 was released as 0.1.0. Phases 2 and 2.5 ship together as
-0.3.0 and are described in <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.md">phase-2.md</a> and
-<a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.5.md">phase-2.5.md</a>; <a href="../workflows/">workflows.md</a> documents the
+0.3.0 and are described in <a href="https://github.com/AindriuB/rig/blob/v0.5.1/docs/phase-2.md">phase-2.md</a> and
+<a href="https://github.com/AindriuB/rig/blob/v0.5.1/docs/phase-2.5.md">phase-2.5.md</a>; <a href="../workflows/">workflows.md</a> documents the
 workflow file. Phase 3 (views and trackers) ships as 0.4.0 and 0.5.0: 0.4.0 is
-built and is described in <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-3.md">phase-3.md</a>; <code>rig tracker report</code> is
+built and is described in <a href="https://github.com/AindriuB/rig/blob/v0.5.1/docs/phase-3.md">phase-3.md</a>; <code>rig tracker report</code> is
 built in 0.5.0. Later phases are outlines, each planned separately before
 it is built.</p>
 <p><strong>Direction.</strong> rig provides generic actions (tasks, findings, notes,
@@ -695,19 +695,25 @@ has to recognise one in arbitrary shell.</p>
 <li><strong>Go, standard library where possible.</strong> One static binary, no runtime.</li>
 <li><strong>Forge adapters only.</strong> <code>gh</code> now, <code>glab</code> next. Git is called directly; there
   is no git abstraction to swap.</li>
-<li><strong>The forge is auto-detected</strong> from the <code>origin</code> remote's host.
-  <code>.claude/rig.json</code> overrides it.</li>
+<li><strong>The forge is auto-detected</strong> from the <code>origin</code> remote's host. The layered
+  config (<code>rig config</code>) overrides it, by the scope order <code>rig config get</code>
+  reports (local, repo section, <code>.claude/rig.json</code>, global), then origin
+  detection. A kind from a less specific scope never overrides a host from a
+  more specific one; a host that names no known forge falls back to a less
+  specific kind. Without a home directory forge selection treats the global
+  layer as empty, but <code>rig push</code> still fails closed (exit 2): its policy may
+  live in the global file.</li>
 <li><strong>rig holds a token only for a service with no CLI of its own.</strong> GitHub and
   GitLab stay with <code>gh</code> and <code>glab</code>: the adapters shell out to them and use
   whatever login the user already has, and <code>rig login github|gitlab</code> only
   hands over to <code>gh auth login</code> or <code>glab auth login</code>. For Jira, which has no
   such tool, <code>rig login jira</code> stores a token, in the OS keychain unless the
   user explicitly chooses <code>--store file</code>. No config key holds a token or an
-  account; see <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.5.md">phase-2.5.md</a>.</li>
+  account; see <a href="https://github.com/AindriuB/rig/blob/v0.5.1/docs/phase-2.5.md">phase-2.5.md</a>.</li>
 <li><strong>No built-in workflow.</strong> States, transitions, gates, severities and task
   fields come from a workflow file; rig ships only a small <code>basic</code> one.
   What rig enforces whatever the workflow says is listed in
-  <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.md#what-rig-enforces-whatever-the-workflow-says">phase-2.md</a>.</li>
+  <a href="https://github.com/AindriuB/rig/blob/v0.5.1/docs/phase-2.md#what-rig-enforces-whatever-the-workflow-says">phase-2.md</a>.</li>
 <li><strong>Harness-neutral.</strong> The CLI with <code>--json</code> and exit codes, and later an
   MCP server, are the only surfaces. Nothing assumes Claude Code.</li>
 <li><strong><code>scripts/push-guard.sh</code> is unchanged.</strong> It stays as the backstop for a raw
@@ -742,7 +748,8 @@ has to recognise one in arbitrary shell.</p>
 <li><code>internal/proc</code> runs a subprocess from an argument vector with a deadline. It
   never builds a shell string, and it kills the child when the deadline passes.</li>
 <li><code>internal/git</code> wraps the handful of git calls rig needs.</li>
-<li><code>internal/config</code> reads <code>.claude/rig.json</code>:</li>
+<li><code>internal/config</code> reads the layered config (<code>rig config</code>); <code>.claude/rig.json</code>
+  is still honoured, and the forge and the push prefixes come from it:</li>
 </ul>
 <table>
 <thead>
@@ -981,8 +988,8 @@ anything in the tables below raises the major version.</p>
 understand. In the phase-2 commands, exit 1 means refused by a gate or the
 workflow with nothing written, and exit 2 covers usage errors, an unknown or
 ambiguous task, a bad workflow file, and store or git errors. The commands'
-flags and behaviour are described in <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.md">phase-2.md</a> and
-<a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.5.md">phase-2.5.md</a>, and the workflow file in
+flags and behaviour are described in <a href="https://github.com/AindriuB/rig/blob/v0.5.1/docs/phase-2.md">phase-2.md</a> and
+<a href="https://github.com/AindriuB/rig/blob/v0.5.1/docs/phase-2.5.md">phase-2.5.md</a>, and the workflow file in
 <a href="../workflows/">workflows.md</a>. <code>RIG_ACTOR</code> names who acted and <code>RIG_WORKFLOW</code>
 the workflow to use. The commands that write the store (<code>task new</code>, <code>edit</code>,
 <code>move</code>, <code>set</code>, <code>count</code>, <code>parent</code>, <code>link</code>, <code>unlink</code>; <code>finding add</code>, <code>set</code>;
@@ -1138,7 +1145,12 @@ there is none) and <code>external</code> (absent when the task is not linked):</
   acceptance, priority, assignee, labels, type, status, parent, rev}</code>.</li>
 <li><code>rig tracker status --json</code> is <code>{kind, trusted, capabilities, login}</code>;
   <code>capabilities</code> is <code>{parent, children, types, search, comment, setStatus,
-  levels}</code> or <code>null</code>, and <code>login</code> is <code>{ok, error?}</code>.</li>
+  levels}</code> or <code>null</code>, and <code>login</code> is <code>{ok, error?}</code>. For a tracker that can
+  check its configured project (Jira) there is also <code>project</code>, <code>{key, exists,
+  empty}</code>, and the text output gains <code>project: RIG ok</code>, <code>project: RIG not found</code>
+  or <code>project: RIG ok (no issues yet)</code>; a missing project does not change the
+  exit code. When the check fails with an error, <code>project</code> is <code>{error}</code> and the
+  text output says <code>project: not checked: &lt;error&gt;</code>.</li>
 </ul>
 <p><strong>Tracker report.</strong> <code>rig tracker report</code> sends a task's progress to the issue
 it is linked to (the task must be linked to an issue of the configured tracker,
@@ -1178,7 +1190,9 @@ state</code>.</p>
   of the same kind has the same digest. Two report runs at once can both send:
   there is no lock. When every requested part is
   skipped nothing is sent, no event is written, and the output says <code>skipped</code>
-  (<code>"skipped": true</code> in JSON).</li>
+  (<code>"skipped": true</code> in JSON). <code>skipped</code> means the repeat check dropped a part:
+  when the tracker's capabilities alone empty the request, the run exits 0 with
+  the warnings and the normal (or dry-run) line, and <code>skipped</code> is false.</li>
 <li><code>--dry-run</code> calls no tracker method that writes, and writes nothing; it prints
   <code>status: &lt;name&gt;</code> and <code>comment (&lt;kind&gt;):</code> followed by the exact body a real run
   would send, with the same skip rules and warnings applied (a tracker that
@@ -1229,6 +1243,7 @@ remote, or a force or delete option. Exit 2 means <code>git push</code> never st
 <li><strong><code>.claude/rig.json</code> is the user's file.</strong> Its <code>pushPrefixes</code> decide which
   prefixes count, so whoever can write it can widen the pushes: to
   <code>release/x</code>, say, though still never to a bare branch, a tag or a force.
+  In a bare layout the worktree's own files apply, as for <code>rig config</code>.
   An agent must not edit it. The project settings template makes any Edit or
   Write of <code>.claude/rig.json</code>, in the project or in a worktree below it, and any shell
   command that names <code>rig.json</code>, ask first (<code>tests/rig-settings.bats</code> pins
@@ -1340,7 +1355,7 @@ log per task under <code>refs/rig/tasks/&lt;ULID&gt;</code>, local to the clone 
 user opts in to sharing it. A task's state is a fold over its events. Which
 states exist, which transitions are allowed and which gates guard them come
 from a workflow file, not from rig. Tasks, findings and notes carry typed
-fields the workflow declares. <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.md">phase-2.md</a> has the format, the
+fields the workflow declares. <a href="https://github.com/AindriuB/rig/blob/v0.5.1/docs/phase-2.md">phase-2.md</a> has the format, the
 commands and the extension points.</p>
 <p>The state machine this section used to define (planned → implementing →
 reviewed → verified@sha → pr_open → ci_green → ready → merged) is now
@@ -1376,7 +1391,7 @@ an example workflow file, shown in phase-2.md as the worked example.</p>
 </tr>
 <tr>
 <td>3</td>
-<td>Views and trackers, see <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-3.md">phase-3.md</a>. <strong>0.4.0 is built</strong>: <code>--format markdown</code> for <code>task show</code>, <code>task list</code> and <code>context</code>; task parent and external links (<code>task parent</code>, <code>link</code>, <code>unlink</code>, <code>list --parent\|--roots\|--tree</code>, <code>show --children</code>); a tracker port with <code>github</code>, <code>gitlab</code>, <code>jira</code> and <code>exec</code> adapters; <code>rig task new --from</code>, <code>rig tracker pull</code>, <code>refresh</code>, <code>show</code> and <code>status</code>; branch stamping with <code>{key}</code>; the store view in <code>rig status</code>; <code>rig task start</code> and <code>finish</code> with <code>worktrees.root</code>. <strong>0.5.0</strong>: <code>rig tracker report</code></td>
+<td>Views and trackers, see <a href="https://github.com/AindriuB/rig/blob/v0.5.1/docs/phase-3.md">phase-3.md</a>. <strong>0.4.0 is built</strong>: <code>--format markdown</code> for <code>task show</code>, <code>task list</code> and <code>context</code>; task parent and external links (<code>task parent</code>, <code>link</code>, <code>unlink</code>, <code>list --parent\|--roots\|--tree</code>, <code>show --children</code>); a tracker port with <code>github</code>, <code>gitlab</code>, <code>jira</code> and <code>exec</code> adapters; <code>rig task new --from</code>, <code>rig tracker pull</code>, <code>refresh</code>, <code>show</code> and <code>status</code>; branch stamping with <code>{key}</code>; the store view in <code>rig status</code>; <code>rig task start</code> and <code>finish</code> with <code>worktrees.root</code>. <strong>0.5.0</strong>: <code>rig tracker report</code></td>
 </tr>
 <tr>
 <td>4</td>
