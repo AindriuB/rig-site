@@ -150,8 +150,25 @@ def test_mermaid_config_colours_from_tokens(scheme):
     assert cfg["theme"] == "base" and cfg["flowchart"]["htmlLabels"] is False
     light, dark = _tokens()
     allowed = light if scheme == "light" else dark
-    found = set(re.findall(r"#[0-9a-fA-F]{3,8}\b", render.config_path(scheme).read_text()))
-    assert found and found <= allowed
+    values = {k: v for k, v in cfg["themeVariables"].items() if k != "fontFamily"}
+    assert values
+    bad = {k: v for k, v in values.items() if v not in allowed}
+    assert not bad, bad
+
+
+@pytest.mark.parametrize("svg", [
+    '<svg xmlns="http://www.w3.org/2000/svg"><foreignObject/></svg>',
+    '<svg xmlns="http://www.w3.org/2000/svg"><script>x</script></svg>',
+    '<svg xmlns="http://www.w3.org/2000/svg"><a href="https://example.com"/></svg>',
+])
+def test_mermaid_rejects_unsafe_svg(tmp_path, svg):
+    def runner(argv):
+        out = next(a.split(":")[0] for a in argv if a.endswith(":/out"))
+        Path(out, "diagram.svg").write_text(svg)
+        return subprocess.CompletedProcess(argv, 0, "", "")
+    with pytest.raises(BuildError, match=r"a\.md:3: .*not self-contained"):
+        render.render_svg("flowchart LR", "light", tmp_path, "a.md:3", runner)
+    assert not list((tmp_path / "mermaid").glob("*.svg"))
 
 
 @pytest.mark.docker

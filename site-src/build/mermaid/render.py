@@ -79,6 +79,23 @@ def run_docker(argv: list[str]) -> subprocess.CompletedProcess:
     return subprocess.run(argv, capture_output=True, text=True)
 
 
+ALLOWED_URLS = {"http://www.w3.org/2000/svg", "http://www.w3.org/1999/xlink"}
+
+
+def validate_svg(text: str, where: str, scheme: str) -> None:
+    """Fail the build on SVG that needs HTML, script or the network (AC6)."""
+    problems = []
+    if "<foreignObject" in text:
+        problems.append("<foreignObject>")
+    if "<script" in text:
+        problems.append("<script>")
+    bad = [u for u in re.findall(r"https?://[^\s\"')<]+", text) if u.rstrip("/") not in ALLOWED_URLS]
+    if bad:
+        problems.append("external URL " + bad[0])
+    if problems:
+        raise BuildError(f"{where}: mermaid SVG ({scheme}) is not self-contained: " + ", ".join(problems))
+
+
 def render_svg(source: str, scheme: str, cache_dir: Path, where: str, runner=run_docker) -> Path:
     """Return the cached SVG for `source`, rendering it first on a miss. `where` is `page:line`."""
     cache = cache_dir / "mermaid"
@@ -99,6 +116,7 @@ def render_svg(source: str, scheme: str, cache_dir: Path, where: str, runner=run
         svg = outdir / "diagram.svg"
         if proc.returncode != 0 or not svg.exists():
             raise BuildError(f"{where}: mermaid render failed ({scheme}): {proc.stderr.strip()}")
+        validate_svg(svg.read_text(encoding="utf-8"), where, scheme)
         part = hit.with_suffix(".tmp")
         shutil.copyfile(svg, part)
         part.replace(hit)
