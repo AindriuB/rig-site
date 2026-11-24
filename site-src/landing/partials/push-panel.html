@@ -1,4 +1,26 @@
 <section class="slot" id="push-panel" aria-labelledby="push-panel-h">
   <h2 id="push-panel-h">The narrow push</h2>
-  <p>rig push takes a task id or a branch name and nothing else.</p>
+  <p>rig push takes a task id or a branch name and nothing else. It cannot push the default branch, a tag,
+  a refspec or a force push, so it is safe to allow without a prompt.</p>
+  <div class="push-grid">
+    <div class="push-col push-accepted">
+      <h3><span class="mark" aria-hidden="true">✓</span> Accepted</h3>
+      <ul>
+        <li><code>rig push &lt;task id&gt;</code></li>
+        <li><code>rig push task/&lt;name&gt;</code></li>
+        <li><code>rig push record/&lt;name&gt;</code></li>
+      </ul>
+      <p class="push-note">A branch by task id or name that exists locally and is not the default branch. It goes to the branch of the same name on <code>origin</code>.</p>
+    </div>
+    <div class="push-col push-refused">
+      <h3><span class="mark" aria-hidden="true">✕</span> Refused</h3>
+      <ul>
+        <li><span class="refused-label">Refused:</span> <code>the default branch</code></li>
+        <li><span class="refused-label">Refused:</span> <code>a tag</code></li>
+        <li><span class="refused-label">Refused:</span> <code>a refspec</code></li>
+        <li><span class="refused-label">Refused:</span> <code>a force push</code></li>
+      </ul>
+      <p class="push-note">There is no option for another remote, a force push or tags.</p>
+    </div>
+  </div>
 </section>

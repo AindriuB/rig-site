@@ -1,0 +1,12 @@
+/* Visual 4: one interface over two forges. */
+.forges-figure { margin: 1rem 0 0; }
+.forges-figure figcaption { color: var(--rig-text-muted); font-size: 0.9rem; }
+.forges-svg { width: 100%; height: auto; display: block; }
+.forges-svg .box rect { fill: var(--rig-bg); stroke: var(--rig-border); stroke-width: 2; }
+.forges-svg .box text { text-anchor: middle; fill: var(--rig-text); font-size: 20px; }
+.forges-svg .label { font-family: var(--rig-font-sans); font-weight: 600; }
+.forges-svg .mono { font-family: var(--rig-font-mono); }
+.forges-svg .link { fill: none; stroke: var(--rig-accent); stroke-width: 3; }
+.forges-svg .link-direct { stroke-dasharray: 8 6; }
+.forges-svg .note { fill: var(--rig-text-muted); font-family: var(--rig-font-sans); font-size: 13px; }
+.forges-svg text.note[x="360"] { text-anchor: middle; }

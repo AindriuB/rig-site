@@ -1,4 +1,24 @@
 <section class="slot" id="state" aria-labelledby="state-h">
   <h2 id="state-h">Where tasks live</h2>
-  <p>Tasks, findings and notes live in your repository's git directory, outside any branch.</p>
+  <p>Tasks, findings and notes live in your repository's git directory, outside any branch. They are in
+  <code>refs/rig/</code> and <code>.git/rig/</code> of the clone, so they stay on your machine: rig does not
+  push or fetch them.</p>
+  <figure class="state-figure">
+    <svg class="state-svg" viewBox="0 0 900 250" role="img" aria-labelledby="state-title state-desc">
+      <title id="state-title">The task store sits in the git directory, beside your branches</title>
+      <desc id="state-desc">Inside the clone's git directory, your working branches sit beside the rig task
+      store, which holds refs/rig/ and .git/rig/. The task store is outside every branch. A remote sits
+      outside the clone, and rig neither pushes nor fetches the task store to it.</desc>
+      <g class="clone"><rect x="20" y="20" width="560" height="210" rx="10"/><text class="head" x="40" y="48">your clone's git directory</text></g>
+      <g class="branch"><rect x="45" y="70" width="230" height="130" rx="8"/><text class="head" x="65" y="100">working branches</text>
+        <text class="mono" x="65" y="135">main</text><text class="mono" x="65" y="165">task/&lt;name&gt;</text></g>
+      <g class="store"><rect x="305" y="70" width="250" height="130" rx="8"/><text class="head" x="325" y="100">task store</text>
+        <text class="mono" x="325" y="135">refs/rig/</text><text class="mono" x="325" y="165">.git/rig/</text></g>
+      <g class="remote"><rect x="700" y="70" width="180" height="130" rx="8"/><text class="head" x="720" y="130">remote</text><text class="mono" x="720" y="160">origin</text></g>
+      <path class="blocked" d="M555 135 H700"/>
+      <path class="cross" d="M610 117 L640 153 M640 117 L610 153"/>
+      <text class="note" x="627" y="105">not pushed or fetched</text>
+    </svg>
+    <figcaption>The task store is in the git directory, not on any branch, and is not pushed or fetched.</figcaption>
+  </figure>
 </section>
