@@ -20,4 +20,6 @@ no row is one `planner` cannot find, and will re-plan.
 
 | Date | Task IDs | Summary | Heading (grep this exact string) |
 |---|---|---|---|
+| 2026-11-24 | 03 | Per-version docs assembly and mike deploy pipeline | ## 2026-11-24 — Versioned docs pipeline |
+| 2026-11-24 | 02 | Tokens, fonts, brand marks, Material theme, contrast check | ## 2026-11-24 — rig identity and Material theme |
 | 2026-11-24 | 01 | Conventions, architecture and release docs filled; toolchain pinned | ## 2026-11-24 — Kit scaffold filled and toolchain pinned |
