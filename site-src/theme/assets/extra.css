@@ -38,7 +38,20 @@
   color: var(--rig-text);
 }
 
-.md-header__button.md-logo img {
+.md-typeset img[src$="#only-light"],
+.md-typeset img[src$="#only-dark"] {
+  max-width: min(40rem, 100%);
+  height: auto;
+  margin-inline: auto;
+}
+
+.md-header .md-header__button.md-logo img {
   height: 1.4rem;
   width: auto;
+}
+
+.md-header__title--active .md-header__topic:first-child,
+.md-header__title--active .md-header__topic:first-child * {
+  visibility: hidden;
+  pointer-events: none;
 }
