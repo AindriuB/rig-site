@@ -18,6 +18,12 @@ IMAGE = ("minlag/mermaid-cli:10.9.1@sha256:"
 SCHEMES = ("light", "dark")
 ALT_RE = re.compile(r"^%%\s*alt:\s*(\S.*?)\s*$")
 OPEN_RE = re.compile(r"^ {0,3}(`{3,}|~{3,})\s*([^\s`]*)")
+INDENTED_RE = re.compile(r"^(?: {4,}|\t)(`{3,}|~{3,})\s*mermaid\s*$")
+
+
+class IndentedSource(str):
+    """Source of a mermaid fence indented 4+ spaces; render_svg refuses it with page:line."""
+    indented = True
 
 
 @dataclass
@@ -36,6 +42,8 @@ def find_fences(text: str) -> list[Fence]:
     while i < len(lines):
         m = OPEN_RE.match(lines[i])
         if not m:
+            if INDENTED_RE.match(lines[i]):
+                out.append(Fence(i, i, i + 1, IndentedSource("")))
             i += 1
             continue
         marker, lang = m.group(1), m.group(2)
@@ -50,6 +58,8 @@ def find_fences(text: str) -> list[Fence]:
 
 
 def alt_text(source: str) -> str | None:
+    if getattr(source, "indented", False):
+        return ""  # render_svg reports the indented fence with page:line
     for line in source.split("\n"):
         if line.strip():
             m = ALT_RE.match(line.strip())
@@ -63,7 +73,8 @@ def config_path(scheme: str) -> Path:
 
 def cache_key(source: str, scheme: str) -> str:
     h = hashlib.sha256()
-    for part in (source.encode(), config_path(scheme).read_bytes(), IMAGE.encode()):
+    flags = "\0".join(docker_argv(Path("/in"), Path("/out")))
+    for part in (source.encode(), config_path(scheme).read_bytes(), IMAGE.encode(), flags.encode()):
         h.update(hashlib.sha256(part).digest())
     return h.hexdigest()
 
@@ -89,7 +100,7 @@ def validate_svg(text: str, where: str, scheme: str) -> None:
         problems.append("<foreignObject>")
     if "<script" in text:
         problems.append("<script>")
-    bad = [u for u in re.findall(r"https?://[^\s\"')<]+", text) if u.rstrip("/") not in ALLOWED_URLS]
+    bad = [u for u in re.findall(r"https?://[^\s\"')<]+", text, re.I) if u.rstrip("/").lower() not in ALLOWED_URLS]
     if bad:
         problems.append("external URL " + bad[0])
     if problems:
@@ -98,10 +109,13 @@ def validate_svg(text: str, where: str, scheme: str) -> None:
 
 def render_svg(source: str, scheme: str, cache_dir: Path, where: str, runner=run_docker) -> Path:
     """Return the cached SVG for `source`, rendering it first on a miss. `where` is `page:line`."""
+    if getattr(source, "indented", False):
+        raise BuildError(f"{where}: mermaid fence is indented 4 or more spaces; unindent it")
     cache = cache_dir / "mermaid"
     cache.mkdir(parents=True, exist_ok=True)
     hit = cache / f"{cache_key(source, scheme)}.svg"
     if hit.exists():
+        validate_svg(hit.read_text(encoding="utf-8"), where, scheme)
         return hit
     with tempfile.TemporaryDirectory(prefix="rig-mermaid-") as tmp:
         indir, outdir = Path(tmp) / "in", Path(tmp) / "out"
