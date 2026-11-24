@@ -1,0 +1,43 @@
+/* Visual 1: the hero. Outside the motion media query it shows the final (done) state. */
+.hero-figure { margin: 2rem 0 0; }
+.hero-figure figcaption { color: var(--rig-text-muted); font-size: 0.9rem; }
+.hero-svg { width: 100%; height: auto; display: block; }
+
+.hero-svg .track { stroke: var(--rig-border); stroke-width: 3; }
+.hero-svg .node { fill: var(--rig-surface); stroke: var(--rig-border); stroke-width: 3; }
+.hero-svg .node-ci { stroke: var(--rig-signal-amber); }
+.hero-svg .node-green { stroke: var(--rig-signal-green); }
+.hero-svg .node-done { fill: var(--rig-signal-green); stroke: var(--rig-signal-green); }
+.hero-svg .ci-pulse { fill: none; stroke: var(--rig-signal-amber); stroke-width: 3; opacity: 0.4;
+  transform-box: fill-box; transform-origin: center; }
+.hero-svg text { text-anchor: middle; }
+.hero-svg .state { fill: var(--rig-text); font-family: var(--rig-font-sans); font-size: 18px; font-weight: 600; }
+.hero-svg .cmd { fill: var(--rig-text-muted); font-family: var(--rig-font-mono); font-size: 14px; }
+.hero-svg .card { transform: translate(1040px, 100px); }
+.hero-svg .card-body { fill: var(--rig-accent); stroke: var(--rig-surface); stroke-width: 3; }
+.hero-svg .card-line { stroke: var(--rig-on-accent); stroke-width: 3; stroke-linecap: round; }
+
+@media (prefers-reduced-motion: no-preference) {
+  .hero-svg .card { animation: rig-card-travel 12s ease-in-out 1 forwards; }
+  .hero-svg .ci-pulse { animation: rig-ci-pulse 1.6s ease-out infinite; }
+  .hero-svg .node { transition: fill 0.3s; }
+  @keyframes rig-card-travel {
+    0% { transform: translate(80px, 100px); }
+    8% { transform: translate(80px, 100px); }
+    15% { transform: translate(240px, 100px); }
+    23% { transform: translate(240px, 100px); }
+    30% { transform: translate(400px, 100px); }
+    38% { transform: translate(400px, 100px); }
+    45% { transform: translate(560px, 100px); }
+    53% { transform: translate(560px, 100px); }
+    60% { transform: translate(720px, 100px); }
+    68% { transform: translate(720px, 100px); }
+    75% { transform: translate(880px, 100px); }
+    83% { transform: translate(880px, 100px); }
+    100% { transform: translate(1040px, 100px); }
+  }
+  @keyframes rig-ci-pulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2.4); opacity: 0; }
+  }
+}

@@ -1,0 +1,67 @@
+<section class="hero" aria-labelledby="hero-h">
+  <h1 id="hero-h">A task branch, from idea to done.</h1>
+  <p class="lede"><strong>rig</strong> is a small command-line tool for the mechanical parts of a
+  branch-per-task workflow: pushing a task branch, opening and reading pull requests, waiting for CI,
+  keeping tasks, findings and notes, and printing where the work stands. It was built for loops where
+  coding agents run these steps many times a day, but it does not depend on any particular loop.</p>
+  <p class="cta"><a class="button" href="docs/">Read the docs</a>
+  <a href="https://github.com/AindriuB/rig">Source on GitHub</a></p>
+
+  <figure class="hero-figure">
+    <svg class="hero-svg" viewBox="0 0 1120 250" role="img" aria-labelledby="hero-title hero-desc">
+      <title id="hero-title">A task card travelling through seven stops</title>
+      <desc id="hero-desc">A task card moves left to right: todo (rig task new), in progress (rig task start),
+      pushed (rig push), PR (rig pr open), CI (rig pr wait, shown pulsing amber while it runs), green
+      (rig pr wait, exit 0) and done (rig task move, task, done). It ends on done.</desc>
+      <line class="track" x1="80" y1="100" x2="1040" y2="100"/>
+
+      <g class="stop" transform="translate(80 100)">
+        <circle class="node" r="10"/>
+        <text class="state" y="-34">todo</text>
+        <text class="cmd" y="38">rig task new</text>
+      </g>
+      <g class="stop" transform="translate(240 100)">
+        <circle class="node" r="10"/>
+        <text class="state" y="-34">in progress</text>
+        <text class="cmd" y="38">rig task start</text>
+      </g>
+      <g class="stop" transform="translate(400 100)">
+        <circle class="node" r="10"/>
+        <text class="state" y="-34">pushed</text>
+        <text class="cmd" y="38">rig push</text>
+      </g>
+      <g class="stop" transform="translate(560 100)">
+        <circle class="node" r="10"/>
+        <text class="state" y="-34">PR</text>
+        <text class="cmd" y="38">rig pr open</text>
+      </g>
+      <g class="stop stop-ci" transform="translate(720 100)">
+        <circle class="ci-pulse" r="10"/>
+        <circle class="node node-ci" r="10"/>
+        <text class="state" y="-34">CI</text>
+        <text class="cmd" y="38">rig pr wait</text>
+      </g>
+      <g class="stop stop-green" transform="translate(880 100)">
+        <circle class="node node-green" r="10"/>
+        <text class="state" y="-34">green</text>
+        <text class="cmd" y="38">rig pr wait</text>
+        <text class="cmd cmd-sub" y="58">exit 0</text>
+      </g>
+      <g class="stop stop-done" transform="translate(1040 100)">
+        <circle class="node node-done" r="10"/>
+        <text class="state" y="-34">done</text>
+        <text class="cmd" y="38">rig task move</text>
+        <text class="cmd cmd-sub" y="58">&lt;task&gt; done</text>
+      </g>
+
+      <g class="card-slot">
+        <g class="card">
+          <rect class="card-body" x="-34" y="-18" width="68" height="36" rx="6"/>
+          <line class="card-line" x1="-22" y1="-6" x2="22" y2="-6"/>
+          <line class="card-line" x1="-22" y1="6" x2="8" y2="6"/>
+        </g>
+      </g>
+    </svg>
+    <figcaption>One task card, seven stops, and the rig command at each.</figcaption>
+  </figure>
+</section>

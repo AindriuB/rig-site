@@ -1,0 +1,3 @@
+$ rig task move 08-demo done
+# rig 0.5.0, captured 2026-11-24
+t-a70j  done
