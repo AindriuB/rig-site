@@ -2,9 +2,9 @@
 
 import importlib.util
 import re
+import struct
+import zlib
 from pathlib import Path
-
-from PIL import Image
 
 THEME = Path(__file__).resolve().parent.parent
 BRAND = THEME / "assets" / "brand"
@@ -51,11 +51,55 @@ def test_favicon_svg():
     svg = _svg("favicon.svg")
     assert 'viewBox="0 0 48 48"' in svg
     ln = _line(svg)
+    assert (ln["x1"], ln["x2"]) == ("6", "42")
     assert ln["y1"] == ln["y2"] == "24" and 3 <= float(ln["stroke-width"]) <= 5
     assert ln["stroke"] == DARK["border"]
     dots = _dots(svg)
     assert len(dots) == 3 and len({d[2] for d in dots}) == 1 and 5 <= float(dots[0][2]) <= 7
+    assert [d[0] for d in dots] == ["8", "24", "40"] and {d[1] for d in dots} == {"24"}
     assert [d[3] for d in dots] == [DARK[f"signal-{n}"] for n in ("red", "amber", "green")]
+
+
+def _decode_png(path):
+    """Decode an 8-bit RGBA, non-interlaced PNG with struct+zlib. Returns (w, h, rows)."""
+    data = path.read_bytes()
+    assert data[:8] == b"\x89PNG\r\n\x1a\n"
+    pos, idat, hdr = 8, b"", None
+    while pos < len(data):
+        n, typ = struct.unpack(">I4s", data[pos : pos + 8])
+        body = data[pos + 8 : pos + 8 + n]
+        pos += 12 + n
+        if typ == b"IHDR":
+            hdr = struct.unpack(">IIBBBBB", body)
+        elif typ == b"IDAT":
+            idat += body
+    w, h, depth, ctype, _, _, interlace = hdr
+    assert (depth, ctype, interlace) == (8, 6, 0)
+    raw, stride, bpp = zlib.decompress(idat), w * 4, 4
+    rows, prev = [], bytearray(stride)
+    for y in range(h):
+        off = y * (stride + 1)
+        f, line = raw[off], bytearray(raw[off + 1 : off + 1 + stride])
+        for i in range(stride):
+            a = line[i - bpp] if i >= bpp else 0
+            b = prev[i]
+            c = prev[i - bpp] if i >= bpp else 0
+            if f == 1:
+                line[i] = (line[i] + a) & 255
+            elif f == 2:
+                line[i] = (line[i] + b) & 255
+            elif f == 3:
+                line[i] = (line[i] + (a + b) // 2) & 255
+            elif f == 4:
+                p = a + b - c
+                pa, pb, pc = abs(p - a), abs(p - b), abs(p - c)
+                pr = a if pa <= pb and pa <= pc else (b if pb <= pc else c)
+                line[i] = (line[i] + pr) & 255
+            else:
+                assert f == 0
+        rows.append(line)
+        prev = line
+    return w, h, rows
 
 
 def _nearest(px, cands):
@@ -63,15 +107,15 @@ def _nearest(px, cands):
 
 
 def test_favicon_png():
-    img = Image.open(BRAND / "favicon.png")
-    assert img.size == (32, 32) and img.mode == "RGBA"
+    w, h, rows = _decode_png(BRAND / "favicon.png")
+    assert (w, h) == (32, 32)
     cands = {n: DARK[f"signal-{n}"] for n in ("red", "amber", "green")}
     cands["border"] = DARK["border"]
     for x, want in ((5, "red"), (16, "amber"), (27, "green")):
-        assert _nearest(img.getpixel((x, 16)), cands) == want
+        assert _nearest(rows[16][x * 4 : x * 4 + 3], cands) == want
     # track between the first two dots
-    assert _nearest(img.getpixel((10, 16)), cands) == "border"
-    assert _nearest(img.getpixel((11, 16)), cands) == "border"
+    assert _nearest(rows[16][40:43], cands) == "border"
+    assert _nearest(rows[16][44:47], cands) == "border"
 
 
 def test_svg_colours_in_dark_set():
