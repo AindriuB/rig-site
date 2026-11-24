@@ -73,7 +73,7 @@ h2 { font-size: 1.6rem; margin: 3rem 0 0.5rem; }
 .forges-svg .link { fill: none; stroke: var(--rig-accent); stroke-width: 3; }
 .forges-svg .link-direct { stroke-dasharray: 8 6; }
 .forges-svg .note { fill: var(--rig-text-muted); font-family: var(--rig-font-sans); font-size: 13px; }
-.forges-svg text.note[x="360"] { text-anchor: middle; }
+.forges-svg text.note-centre { text-anchor: middle; }
 
 /* Visual 1: the hero. Outside the motion media query it shows the final (done) state. */
 .hero-figure { margin: 2rem 0 0; }
@@ -96,7 +96,7 @@ h2 { font-size: 1.6rem; margin: 3rem 0 0.5rem; }
 
 @media (prefers-reduced-motion: no-preference) {
   .hero-svg .card { animation: rig-card-travel 12s ease-in-out 1 forwards; }
-  .hero-svg .ci-pulse { animation: rig-ci-pulse 1.6s ease-out infinite; }
+  .hero-svg .ci-pulse { animation: rig-ci-pulse 1.6s ease-out 7 forwards; }
   .hero-svg .node { transition: fill 0.3s; }
   @keyframes rig-card-travel {
     0% { transform: translate(80px, 100px); }
