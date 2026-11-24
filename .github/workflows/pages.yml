@@ -18,11 +18,11 @@ on:
 permissions:
   contents: read
 
-# Deploying events share one group and queue (never cancel a running deploy),
-# so each build starts from the latest gh-pages. Pull requests get a per-ref
-# group.
+# Only non-pull-request events on refs/heads/main share the deploy group and
+# queue (never cancel a running deploy), so each build starts from the latest
+# gh-pages. Pull requests and dispatches on any other ref get a per-ref group.
 concurrency:
-  group: pages-${{ github.event_name == 'pull_request' && github.ref || 'deploy' }}
+  group: pages-${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && 'deploy' || github.ref }}
   cancel-in-progress: false
 
 jobs:
