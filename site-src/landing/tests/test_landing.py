@@ -169,6 +169,7 @@ def test_svgs_accessible(page):
 
 
 EXTERNAL = re.compile(r"^\s*([a-z][a-z0-9+.-]*:|//)", re.I)
+IMPORT = re.compile(r"@import", re.I)
 
 
 def _external_refs(page):
@@ -181,7 +182,14 @@ def _external_refs(page):
             r"""\b(src|href|xlink:href|data|poster|srcset|action|formaction)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))""",
             attrs, re.I,
         ):
-            yield tag.group(0), m.group(2) or m.group(3) or m.group(4) or ""
+            value = m.group(2) or m.group(3) or m.group(4) or ""
+            if m.group(1).lower() == "srcset":
+                # every comma-separated candidate: "<url> [descriptor]"
+                for cand in value.split(","):
+                    parts = cand.split()
+                    yield tag.group(0), parts[0] if parts else ""
+            else:
+                yield tag.group(0), value
 
 
 def test_nothing_external_loaded(page, css):
@@ -190,7 +198,7 @@ def test_nothing_external_loaded(page, css):
     for m in re.finditer(r"url\(([^)]*)\)", css + page):
         assert not re.match(r"""^\s*['"]?\s*([a-z][a-z0-9+.-]*:|//)""", m.group(1), re.I)
     styles = css + "".join(re.findall(r"<style\b[^>]*>(.*?)</style>", page, re.S | re.I))
-    assert "@import" not in styles
+    assert not IMPORT.search(styles)
 
 
 def test_external_guard_catches_bad_refs():
@@ -199,6 +207,9 @@ def test_external_guard_catches_bad_refs():
            "<use xlink:href=https://e.com/s.svg#a />"]
     for b in bad:
         assert any(EXTERNAL.match(u) for _, u in _external_refs(b)), b
+    assert any(EXTERNAL.match(u) for _, u in _external_refs('<img srcset="a.png 1x, https://e.com/b.png 2x">'))
+    assert not any(EXTERNAL.match(u) for _, u in _external_refs('<img srcset="a.png 1x, b.png 2x">'))
+    assert IMPORT.search("@IMPORT url(x.css);")
     assert not list(_external_refs('<a href="https://github.com/x">x</a>'))
 
 
@@ -240,12 +251,29 @@ PAINT_CSS = re.compile(
 PAINT_ATTR = re.compile(r"""\b(?:fill|stroke|color|stop-color|flood-color)\s*=\s*(?:"([^"]*)"|'([^']*)')""", re.I)
 
 
+STYLE_ATTR = re.compile(r"""\bstyle\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>"']+))""", re.I)
+
+
+def _named_in_style_attrs(text):
+    """Named colours in the values of inline style attributes, whatever the property."""
+    for m in STYLE_ATTR.finditer(text):
+        for decl in (m.group(1) or m.group(2) or m.group(3) or "").split(";"):
+            value = decl.partition(":")[2]
+            if NAMED.search(value):
+                yield decl.strip()
+
+
 def _bad_paint(value):
     v = value.strip().lower()
     return not (v.startswith("var(--rig-") or v in PAINT_OK or v.startswith("url(#"))
 
 
 def test_no_colour_literals_in_sources():
+    """No colour literal outside the token files: hex/functional colours anywhere, named
+    colours in CSS and in inline style attributes, and bad fill/stroke/colour values.
+
+    Exempt: captures/ (verbatim terminal output) and tests/ (this guard's own fixtures).
+    """
     for p in LANDING.rglob("*"):
         rel = p.relative_to(LANDING).parts
         if not p.is_file() or rel[0] in ("captures", "tests", "__pycache__"):
@@ -260,6 +288,7 @@ def test_no_colour_literals_in_sources():
         if p.suffix in (".html", ".svg"):
             for m in PAINT_ATTR.finditer(text):
                 assert not _bad_paint(m.group(1) or m.group(2)), (p, m.group(0))
+            assert not list(_named_in_style_attrs(text)), p
 
 
 def test_colour_guard_catches_bad_values():
@@ -268,6 +297,14 @@ def test_colour_guard_catches_bad_values():
         hit = COLOUR.search(bad) or NAMED.search(bad) or any(_bad_paint(m.group(1)) for m in PAINT_CSS.finditer(bad)) \
             or any(_bad_paint(m.group(1) or m.group(2)) for m in PAINT_ATTR.finditer(bad))
         assert hit, bad
+
+
+def test_colour_guard_catches_named_in_style_attrs():
+    for bad in ('<p style="color: red">', '<svg style="border-top: 1px solid red"/>',
+                "<p style='margin:0;outline:2px dotted blue'>", "<p style=border:red>",
+                "<p style=box-shadow:0/0/red>"):
+        assert list(_named_in_style_attrs(bad)), bad
+    assert not list(_named_in_style_attrs('<p style="color: var(--rig-fg); margin: 0">'))
 
 
 def test_errors_name_the_file(tmp_path):
@@ -298,3 +335,12 @@ def test_brand_and_favicons(page):
     assert re.search(r'<link rel="icon"[^>]*favicon\.png', page)
     assert "assets/theme/tokens.css" in page
     assert "var(--rig-" in (LANDING / "styles" / "base.css").read_text()
+
+
+def test_duplicate_capture_names_raise(tmp_path):
+    src = make_src(tmp_path, "<p>x</p>", {})
+    (src / "captures").mkdir(exist_ok=True)
+    (src / "captures" / "01-push.txt").write_text("a")
+    (src / "captures" / "04-push.txt").write_text("b")
+    with pytest.raises(build.BuildError, match=r"04-push\.txt.*01-push\.txt"):
+        build.load_captures(src)

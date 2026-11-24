@@ -39,8 +39,13 @@ def _line(text: str, pos: int) -> int:
 
 def load_captures(src: Path) -> dict:
     caps = {}
+    origin = {}
     for p in sorted((src / "captures").glob("*.txt")):
-        caps[_capture_name(p.stem)] = _read(p)
+        name = _capture_name(p.stem)
+        if name in origin:
+            raise BuildError(f"{p}: capture name '{name}' duplicates {origin[name]}")
+        origin[name] = p
+        caps[name] = _read(p)
     return caps
 
 
