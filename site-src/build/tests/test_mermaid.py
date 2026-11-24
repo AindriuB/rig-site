@@ -160,8 +160,12 @@ paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purpl
 rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue
 slategray slategrey snow springgreen steelblue tan teal thistle tomato turquoise violet wheat white
 whitesmoke yellow yellowgreen""".split())
-COLOUR_RE = re.compile(r"#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch)\([^)]*\)"
-                       r"|\b[A-Za-z]+\b")
+SYSTEM_COLOURS = {"canvas", "canvastext", "linktext", "visitedtext", "activetext", "buttonface",
+                  "buttontext", "buttonborder", "field", "fieldtext", "highlight", "highlighttext",
+                  "mark", "marktext", "graytext", "selecteditem", "selecteditemtext", "accentcolor",
+                  "accentcolortext"}
+COLOUR_RE = re.compile(r"#[0-9a-f]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\([^)]*\)"
+                       r"|\b[a-z]+\b", re.I)
 
 
 def colour_literals(node, key=""):
@@ -174,7 +178,7 @@ def colour_literals(node, key=""):
             yield from colour_literals(v, key)
     elif isinstance(node, str) and key not in ("fontFamily", "theme"):
         for m in COLOUR_RE.findall(node):
-            if m[0] == "#" or "(" in m or m.lower() in NAMED_COLOURS | {"transparent", "currentcolor"}:
+            if m[0] == "#" or "(" in m or m.lower() in NAMED_COLOURS | SYSTEM_COLOURS | {"transparent", "currentcolor"}:
                 yield m
 
 
@@ -197,7 +201,10 @@ def test_mermaid_config_colours_from_tokens(scheme):
 
 
 @pytest.mark.parametrize("literal", [
-    ".edgePath .path{stroke:#ff0000}", "fill: red", "rgb(1,2,3)", "stroke:Transparent"])
+    ".edgePath .path{stroke:#ff0000}", "fill: red", "rgb(1,2,3)", "stroke:Transparent",
+    "FILL: #FF0000", "fill: RED", "RGB(1,2,3)", "fill: color(display-p3 1 0 0)", "fill: COLOR(srgb 1 0 0)",
+    "fill: Canvas", "fill: CanvasText", "fill: LinkText", "fill: ButtonFace", "fill: Highlight",
+    "fill: GrayText", "fill: HIGHLIGHT"])
 def test_mermaid_colour_scan_catches_stray_literal(literal):
     light, _ = _tokens()
     cfg = json.loads(render.config_path("light").read_text())
@@ -213,6 +220,7 @@ def test_mermaid_colour_scan_catches_stray_literal(literal):
     '<svg xmlns="http://www.w3.org/2000/svg"><foreignObject/></svg>',
     '<svg xmlns="http://www.w3.org/2000/svg"><script>x</script></svg>',
     '<svg xmlns="http://www.w3.org/2000/svg"><a href="https://example.com"/></svg>',
+    '<svg xmlns="http://www.w3.org/2000/svg"><a href="HTTPS://evil.example/x"/></svg>',
 ])
 def test_mermaid_rejects_unsafe_svg(tmp_path, svg):
     def runner(argv):
@@ -222,6 +230,40 @@ def test_mermaid_rejects_unsafe_svg(tmp_path, svg):
     with pytest.raises(BuildError, match=r"a\.md:3: .*not self-contained"):
         render.render_svg("flowchart LR", "light", tmp_path, "a.md:3", runner)
     assert not list((tmp_path / "mermaid").glob("*.svg"))
+
+
+def test_mermaid_cache_hit_is_validated(tmp_path):
+    render.render_svg("flowchart LR", "light", tmp_path, "a.md:1", Stub())
+    (hit,) = (tmp_path / "mermaid").glob("*.svg")
+    hit.write_text("<svg><script>x</script></svg>")
+    with pytest.raises(BuildError, match=r"a\.md:3: .*not self-contained"):
+        render.render_svg("flowchart LR", "light", tmp_path, "a.md:3", Stub())
+
+
+def test_mermaid_allowed_namespaces_pass():
+    render.validate_svg(SVG + ' xmlns:xlink="http://www.w3.org/1999/xlink"', "a.md:1", "light")
+
+
+def test_mermaid_cache_key_covers_flags_not_temp_paths(monkeypatch):
+    k = render.cache_key("src", "light")
+    orig = render.docker_argv
+    monkeypatch.setattr(render, "docker_argv", lambda i, o: [a.replace("transparent", "white") for a in orig(i, o)])
+    assert render.cache_key("src", "light") != k
+    monkeypatch.setattr(render, "docker_argv", orig)
+    seen = []
+    monkeypatch.setattr(render, "docker_argv", lambda i, o: seen.append((i, o)) or orig(i, o))
+    render.cache_key("src", "light")
+    assert render.cache_key("src", "light") == k and seen
+
+
+@pytest.mark.parametrize("indent", ["    ", "      ", "\t"])
+def test_mermaid_indented_fence_fails(tmp_path, indent):
+    page = "# T\n\n!!! note\n\n" + indent + "```mermaid\n" + indent + "%% alt: A.\n" + indent + "flowchart LR\n" + indent + "```\n"
+    ctx = make_ctx(tmp_path, {"a.md": page})
+    stub = Stub()
+    with pytest.raises(BuildError, match=r"a\.md:5: .*indented"):
+        transform.apply(ctx, stub)
+    assert stub.calls == []
 
 
 @pytest.mark.docker

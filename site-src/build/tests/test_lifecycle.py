@@ -69,7 +69,17 @@ def test_inserts_at_end_of_section(tmp_path):
 def test_inserts_when_section_is_last(tmp_path):
     ctx = _ctx(tmp_path, page="## The `basic` preset\n\nText.")
     _transform().apply(ctx)
-    assert (ctx.docs_dir / "workflows.md").read_text().endswith(preset_to_mermaid(PRESET))
+    assert (ctx.docs_dir / "workflows.md").read_text() == (
+        "## The `basic` preset\n\nText.\n\n" + preset_to_mermaid(PRESET))
+
+
+def test_heading_inside_fence_does_not_end_section(tmp_path):
+    page = "## The `basic` preset\n\n```sh\n## not a heading\n```\n\n## Next\n"
+    ctx = _ctx(tmp_path, page=page)
+    _transform().apply(ctx)
+    text = (ctx.docs_dir / "workflows.md").read_text()
+    assert text == ("## The `basic` preset\n\n```sh\n## not a heading\n```\n\n"
+                    + preset_to_mermaid(PRESET) + "\n## Next\n")
 
 
 def test_no_workflows_page_is_noop(tmp_path):
