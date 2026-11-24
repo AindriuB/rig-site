@@ -20,6 +20,9 @@ no row is one `planner` cannot find, and will re-plan.
 
 | Date | Task IDs | Summary | Heading (grep this exact string) |
 |---|---|---|---|
+| 2026-11-24 | 16 | Brand mark as dots on a track | ## 2026-11-24 — Brand mark: dots on a track |
+| 2026-11-24 | 11 | Header logo sizes, Mermaid sizing, header topic | ## 2026-11-24 — Theme header and diagram sizing |
+| 2026-11-24 | 12, 13, 14, 15 | Closed fifteen follow-ups: motion, landing guards, render, one pytest session | ## 2026-11-24 — Follow-up sweep: motion, landing guards, render, pytest session |
 | 2026-11-24 | 10 | Guarded Pages build and deploy workflow | ## 2026-11-24 — Pages deploy workflow |
 | 2026-11-24 | 07 | Push, forge and state visuals on the landing page | ## 2026-11-24 — Landing visuals |
 | 2026-11-24 | 06 | Landing page built from partials and captures | ## 2026-11-24 — Landing page |

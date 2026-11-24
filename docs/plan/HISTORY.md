@@ -17,6 +17,18 @@ in the same commit.
 **Cost:** <what was hard, what was tried and abandoned, what not to retry.>
 -->
 
+## 2026-11-24 — Brand mark: dots on a track
+The brand mark and favicons are now horizontal dots joined by a #667080 track (owner's option C, chosen over a vertical traffic-signal design). The brand test reads the favicon PNG with the standard library.
+**Cost:** Task 16 was redesigned mid-task after the owner saw the first mark. The test decodes the PNG itself because the CI venv has no Pillow; do not add Pillow for it. Open follow-ups: f-sen8 (P3) nothing checks that the committed `favicon.png` matches what `make_favicon.py` produces; f-79pq (P3) the circle regex in `test_brand_mark.py` matches one attribute order only.
+
+## 2026-11-24 — Theme header and diagram sizing
+The Material header logo is 1.4rem (about 84px) and the drawer logo 1.2rem (about 72px). Mermaid images are capped at min(40rem,100%) and centred via their parent paragraph, and the first header topic is hidden while the page title is shown.
+**Cost:** Task 11's AC4 was amended twice. The first amendment assumed a 16px root font; Material's root is 20px (font-size 125%), so the sizes had to be restated (f-e0aa, then f-8fxn). Compute rem sizes against 20px on this site. Browser checks of the built site are still pending: the orchestrator will do them after the PR build and deploy, so the header, scroll and diagram behaviour is verified from selectors and text tests only. The whole-session pytest failure (f-gqdv) was the old f-bthm collision on a branch cut before task 15, not a new fault.
+
+## 2026-11-24 — Follow-up sweep: motion, landing guards, render, pytest session
+Four small tasks closed fifteen follow-ups. The hero CI pulse now stops after a bounded count and the centred forges note has a class (12); the landing build fails on duplicate capture names and the srcset, `@import`, inline-colour and push-panel guards were tightened (13); the Mermaid render and lifecycle transform findings from tasks 04 and 05 were fixed (14); and loading the changelog build by path lets one `pytest site-src` session pass (root `pytest.ini` added), with the deploy concurrency key made per-ref (15). `rig owns` for task 10 was updated, closing f-xcb0.
+**Cost:** Open follow-ups: f-2p6e (P3, from 12); f-vfzw and f-thea (P3, from 14); f-0gn1 (NOTE, from 15); their wording is in the verify reports, not copied here. The f-bthm collision was fixed by loading the changelog `build.py` by path in its test (`test_changelog.py`) rather than renaming either file; `pytest.ini` only sets `norecursedirs`.
+
 ## 2026-11-24 — Pages deploy workflow
 `.github/workflows/pages.yml`, `build.sh` and `root.py` build the whole site and deploy it to Pages from main only, with the site guards run before deploy; `check_site.py` and the landing header partial were amended into Owns and edited. Merged through PR #1.
 **Cost:** The decorative-image guard had to allow `aria-hidden` imgs with an empty alt. Follow-ups, all open: f-bthm (P3) `site-src/landing/build.py` and `site-src/changelog/build.py` are both imported as top-level `build`, so `pytest site-src` in one session collides (4 failed, 9 errors); each directory passes alone, so rename one or import by path (`test_landing.py:13`); f-p9ze (P3) the concurrency key sends a `workflow_dispatch` on a non-main ref into the deploy group, where it can cancel a pending main run whose content is then not published; key the group on `refs/heads/main` too (`pages.yml:25`); f-xcb0 (NOTE) `rig owns` lists only the original five paths, so a gate reading it will flag `check_site.py` and `header.html` until the field is updated.
