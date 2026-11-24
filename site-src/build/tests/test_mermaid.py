@@ -144,6 +144,45 @@ def _tokens():
     return pick(light), pick(dark)
 
 
+NAMED_COLOURS = set("""aliceblue antiquewhite aqua aquamarine azure beige bisque black blanchedalmond blue
+blueviolet brown burlywood cadetblue chartreuse chocolate coral cornflowerblue cornsilk crimson cyan
+darkblue darkcyan darkgoldenrod darkgray darkgreen darkgrey darkkhaki darkmagenta darkolivegreen
+darkorange darkorchid darkred darksalmon darkseagreen darkslateblue darkslategray darkslategrey
+darkturquoise darkviolet deeppink deepskyblue dimgray dimgrey dodgerblue firebrick floralwhite
+forestgreen fuchsia gainsboro ghostwhite gold goldenrod gray green greenyellow grey honeydew hotpink
+indianred indigo ivory khaki lavender lavenderblush lawngreen lemonchiffon lightblue lightcoral
+lightcyan lightgoldenrodyellow lightgray lightgreen lightgrey lightpink lightsalmon lightseagreen
+lightskyblue lightslategray lightslategrey lightsteelblue lightyellow lime limegreen linen magenta
+maroon mediumaquamarine mediumblue mediumorchid mediumpurple mediumseagreen mediumslateblue
+mediumspringgreen mediumturquoise mediumvioletred midnightblue mintcream mistyrose moccasin
+navajowhite navy oldlace olive olivedrab orange orangered orchid palegoldenrod palegreen
+paleturquoise palevioletred papayawhip peachpuff peru pink plum powderblue purple rebeccapurple red
+rosybrown royalblue saddlebrown salmon sandybrown seagreen seashell sienna silver skyblue slateblue
+slategray slategrey snow springgreen steelblue tan teal thistle tomato turquoise violet wheat white
+whitesmoke yellow yellowgreen""".split())
+COLOUR_RE = re.compile(r"#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?|hwb|lab|lch|oklab|oklch)\([^)]*\)"
+                       r"|\b[A-Za-z]+\b")
+
+
+def colour_literals(node, key=""):
+    """Every colour literal in any string of a parsed config, except fontFamily and theme."""
+    if isinstance(node, dict):
+        for k, v in node.items():
+            yield from colour_literals(v, k)
+    elif isinstance(node, list):
+        for v in node:
+            yield from colour_literals(v, key)
+    elif isinstance(node, str) and key not in ("fontFamily", "theme"):
+        for m in COLOUR_RE.findall(node):
+            if m[0] == "#" or "(" in m or m.lower() in NAMED_COLOURS | {"transparent", "currentcolor"}:
+                yield m
+
+
+def stray_colours(cfg, allowed):
+    allowed = {a.lower() for a in allowed}
+    return sorted({c for c in colour_literals(cfg) if c.lower() not in allowed})
+
+
 @pytest.mark.parametrize("scheme", ["light", "dark"])
 def test_mermaid_config_colours_from_tokens(scheme):
     cfg = json.loads(render.config_path(scheme).read_text())
@@ -154,6 +193,20 @@ def test_mermaid_config_colours_from_tokens(scheme):
     assert values
     bad = {k: v for k, v in values.items() if v not in allowed}
     assert not bad, bad
+    assert not stray_colours(cfg, allowed)
+
+
+@pytest.mark.parametrize("literal", [
+    ".edgePath .path{stroke:#ff0000}", "fill: red", "rgb(1,2,3)", "stroke:Transparent"])
+def test_mermaid_colour_scan_catches_stray_literal(literal):
+    light, _ = _tokens()
+    cfg = json.loads(render.config_path("light").read_text())
+    assert not stray_colours(cfg, light)
+    cfg["themeCSS"] = literal
+    assert stray_colours(cfg, light)
+    cfg = json.loads(render.config_path("light").read_text())
+    cfg["sequence"]["x"] = [literal]
+    assert stray_colours(cfg, light)
 
 
 @pytest.mark.parametrize("svg", [
