@@ -32,13 +32,17 @@
     "fontFamily": "IBM Plex Sans, system-ui, sans-serif"
   },
   "flowchart": {
-    "htmlLabels": false
+    "htmlLabels": false,
+    "useMaxWidth": false
   },
   "sequence": {
-    "useMaxWidth": true,
+    "useMaxWidth": false,
     "actorMargin": 30,
     "messageMargin": 20,
     "boxMargin": 6,
     "noteMargin": 6
+  },
+  "state": {
+    "useMaxWidth": false
   }
 }

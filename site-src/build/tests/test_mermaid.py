@@ -284,3 +284,10 @@ def test_mermaid_docker_end_to_end(tmp_path):
         urls = re.findall(r"https?://[^\s\"')<]+", s)
         assert all(u.rstrip("/") in ("http://www.w3.org/2000/svg", "http://www.w3.org/1999/xlink")
                    for u in urls), urls
+
+
+@pytest.mark.parametrize("scheme", ["light", "dark"])
+def test_mermaid_config_natural_width(scheme):
+    cfg = json.loads(render.config_path(scheme).read_text())
+    for diagram in ("flowchart", "sequence", "state"):
+        assert cfg[diagram]["useMaxWidth"] is False
