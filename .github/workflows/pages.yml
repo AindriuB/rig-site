@@ -18,6 +18,13 @@ on:
 permissions:
   contents: read
 
+# Deploying events share one group and queue (never cancel a running deploy),
+# so each build starts from the latest gh-pages. Pull requests get a per-ref
+# group.
+concurrency:
+  group: pages-${{ github.event_name == 'pull_request' && github.ref || 'deploy' }}
+  cancel-in-progress: false
+
 jobs:
   build:
     name: build
@@ -64,9 +71,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    concurrency:
-      group: pages-deploy
-      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v7.0.1
 
