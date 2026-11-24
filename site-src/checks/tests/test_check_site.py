@@ -83,6 +83,10 @@ def test_img_alt(run_site, name):
     assert "index.html: img without alt: a.png" in lines(r)
 
 
+def test_img_decorative_passes(run_site):
+    assert run_site("img_decorative").returncode == 0
+
+
 def test_tree_unset_or_missing(run_site, tmp_path):
     r = run_site("x", unset=True)
     assert r.returncode == 1 and r.stderr.startswith("RIG_SITE_TREE:")
