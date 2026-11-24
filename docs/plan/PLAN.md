@@ -18,11 +18,17 @@ than no plan.
 **In flight:** 01, 02
 -->
 
-### Remaining site tasks
-06 landing page, 07 landing visuals, 10 Pages workflow.
+### Owner action: Pages dispatch token
+All ten site tasks are done. The `RIG_SITE_DISPATCH_TOKEN` secret must still be set in the rig repo so rig releases trigger a site rebuild.
+**Blocked by:** owner.
 
-### Follow-ups from 04 Mermaid render
-f-drha (indented fences skipped silently), f-fdg2 (cache key omits docker flags), f-r5zg (colour scan gaps), f-r6fy (case-sensitive URL check). Open P3 and NOTE findings with no blocker; see HISTORY.md.
+### Follow-ups
+All open P3 and NOTE findings, with no blocker; details in HISTORY.md.
+- 04: f-drha, f-fdg2, f-r5zg, f-r6fy.
+- 05: f-1zbs, f-q2vc.
+- 06: f-qx4j, f-sfkd, f-mr59, f-4n0e, f-gd7q.
+- 07: f-qk6m, f-0ky3.
+- 10: f-bthm, f-p9ze, f-xcb0.
 
 ## Next
 

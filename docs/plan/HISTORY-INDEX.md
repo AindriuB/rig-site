@@ -20,6 +20,9 @@ no row is one `planner` cannot find, and will re-plan.
 
 | Date | Task IDs | Summary | Heading (grep this exact string) |
 |---|---|---|---|
+| 2026-11-24 | 10 | Guarded Pages build and deploy workflow | ## 2026-11-24 — Pages deploy workflow |
+| 2026-11-24 | 07 | Push, forge and state visuals on the landing page | ## 2026-11-24 — Landing visuals |
+| 2026-11-24 | 06 | Landing page built from partials and captures | ## 2026-11-24 — Landing page |
 | 2026-11-24 | 04 | Offline light/dark Mermaid SVG rendering with cache | ## 2026-11-24 — Offline Mermaid rendering |
 | 2026-11-24 | 09 | Unversioned changelog page built from rig main | ## 2026-11-24 — Unversioned changelog page |
 | 2026-11-24 | 05 | Basic-preset state diagram generated per version | ## 2026-11-24 — Lifecycle diagram from each version's basic preset |
