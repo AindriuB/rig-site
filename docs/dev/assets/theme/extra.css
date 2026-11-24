@@ -1,0 +1,44 @@
+/* Maps Material's variables onto rig tokens. No literal colours here. */
+[data-md-color-scheme="default"],
+[data-md-color-scheme="slate"] {
+  --md-text-font: var(--rig-font-sans);
+  --md-code-font: var(--rig-font-mono);
+  --md-default-bg-color: var(--rig-bg);
+  --md-default-fg-color: var(--rig-text);
+  --md-default-fg-color--light: var(--rig-text-muted);
+  --md-default-fg-color--lighter: var(--rig-border);
+  --md-default-fg-color--lightest: var(--rig-border);
+  --md-primary-fg-color: var(--rig-surface);
+  --md-primary-fg-color--light: var(--rig-surface);
+  --md-primary-fg-color--dark: var(--rig-surface);
+  --md-primary-bg-color: var(--rig-text);
+  --md-primary-bg-color--light: var(--rig-text-muted);
+  --md-accent-fg-color: var(--rig-accent);
+  --md-accent-bg-color: var(--rig-on-accent);
+  --md-typeset-color: var(--rig-text);
+  --md-typeset-a-color: var(--rig-link);
+  --md-code-bg-color: var(--rig-code-bg);
+  --md-code-fg-color: var(--rig-text);
+  --md-footer-bg-color: var(--rig-surface);
+  --md-footer-bg-color--dark: var(--rig-code-bg);
+  --md-footer-fg-color: var(--rig-text);
+  --md-footer-fg-color--light: var(--rig-text-muted);
+  --md-footer-fg-color--lighter: var(--rig-text-muted);
+}
+
+.md-header {
+  border-bottom: 1px solid var(--rig-border);
+  box-shadow: none;
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3 {
+  font-weight: 600;
+  color: var(--rig-text);
+}
+
+.md-header__button.md-logo img {
+  height: 1.4rem;
+  width: auto;
+}
