@@ -19,7 +19,7 @@
 
 @media (prefers-reduced-motion: no-preference) {
   .hero-svg .card { animation: rig-card-travel 12s ease-in-out 1 forwards; }
-  .hero-svg .ci-pulse { animation: rig-ci-pulse 1.6s ease-out infinite; }
+  .hero-svg .ci-pulse { animation: rig-ci-pulse 1.6s ease-out 7 forwards; }
   .hero-svg .node { transition: fill 0.3s; }
   @keyframes rig-card-travel {
     0% { transform: translate(80px, 100px); }

@@ -9,4 +9,4 @@
 .forges-svg .link { fill: none; stroke: var(--rig-accent); stroke-width: 3; }
 .forges-svg .link-direct { stroke-dasharray: 8 6; }
 .forges-svg .note { fill: var(--rig-text-muted); font-family: var(--rig-font-sans); font-size: 13px; }
-.forges-svg text.note[x="360"] { text-anchor: middle; }
+.forges-svg text.note-centre { text-anchor: middle; }
