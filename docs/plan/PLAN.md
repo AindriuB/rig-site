@@ -19,7 +19,7 @@ than no plan.
 -->
 
 ### Owner action: Pages dispatch token
-The site tasks are done apart from 11 and 16 (theme CSS, brand mark), which are in review. The `RIG_SITE_DISPATCH_TOKEN` secret must still be set in the rig repo so rig releases trigger a site rebuild.
+All site tasks are merged. The `RIG_SITE_DISPATCH_TOKEN` secret must still be set in the rig repo so rig releases trigger a site rebuild.
 **Blocked by:** owner.
 
 ### Follow-ups
@@ -27,6 +27,10 @@ All open P3 and NOTE findings, with no blocker; details in HISTORY.md.
 - 12: f-2p6e (P3).
 - 14: f-vfzw, f-thea (P3).
 - 15: f-0gn1 (NOTE).
+- 16: f-sen8 (P3: no test that the committed `favicon.png` matches `make_favicon.py` output), f-79pq (P3: the circle regex in `test_brand_mark.py` matches one attribute order only).
+
+### Pending check: task 11 in a browser
+The built site (header logos, scrolled header topic, Mermaid sizing) has not been checked in a browser. The orchestrator does this after the PR build and deploy.
 
 ## Next
 
