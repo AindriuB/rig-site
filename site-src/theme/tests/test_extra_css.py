@@ -17,7 +17,7 @@ def test_ac1_diagram_cap():
     body = " ".join(decls("#only-light"))
     assert re.search(r"max-width:\s*min\(40rem,\s*100%\)", body)
     assert "height: auto" in body
-    assert "margin-inline: auto" in body
+    assert "text-align: center" in " ".join(b for s, b in rules() if ":has(> img" in s and "#only-light" in s)
     assert "#only-dark" in " ".join(s for s, _ in rules() if "#only-light" in s)
 
 
@@ -42,8 +42,10 @@ def test_ac4_logo_height_only():
     assert "width: auto" in body
     sel = [s for s, _ in rules() if ".md-header__button.md-logo img" in s][0]
     assert sel.count(".") >= 3  # outranks Material's two-class rule
+    drawer = " ".join(b for s, b in rules() if ".md-nav__title .md-nav__button.md-logo img" in s)
+    assert re.search(r"height:\s*1\.5rem", drawer) and "width: auto" in drawer
 
 
 def test_ac5_no_literal_colours():
-    assert not re.search(r"#[0-9a-fA-F]{3,8}\b(?![^{]*\{)", re.sub(r'\[[^\]]*\]', '', CSS))
+    assert not re.search(r"#[0-9a-fA-F]{3,8}\b", re.sub(r'\[[^\]]*\]', '', CSS))
     assert not re.search(r"\b(rgb|rgba|hsl|hsla)\(", CSS)
