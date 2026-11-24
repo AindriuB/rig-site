@@ -43,7 +43,7 @@ def test_ac4_logo_height_only():
     sel = [s for s, _ in rules() if ".md-header__button.md-logo img" in s][0]
     assert sel.count(".") >= 3  # outranks Material's two-class rule
     drawer = " ".join(b for s, b in rules() if ".md-nav__title .md-nav__button.md-logo img" in s)
-    assert re.search(r"height:\s*1\.5rem", drawer) and "width: auto" in drawer
+    assert re.search(r"height:\s*1\.2rem", drawer) and "width: auto" in drawer
 
 
 def test_ac5_no_literal_colours():
