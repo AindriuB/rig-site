@@ -50,3 +50,13 @@ def test_two_uses_on_one_line_all_checked(run_actions):
 def test_quoted_uses_key_is_checked(run_actions):
     r = run_actions("quoted_key")
     assert r.returncode == 1 and "actions/cache@main: not pinned" in r.stderr
+
+
+def test_value_on_next_line_fails_closed(run_actions):
+    r = run_actions("next_line")
+    assert r.returncode == 1 and ".github/workflows/ci.yml:4: uses value not readable" in r.stderr
+
+
+def test_comment_after_uses_fails_closed(run_actions):
+    r = run_actions("comment")
+    assert r.returncode == 1 and ".github/workflows/ci.yml:4: uses value not readable" in r.stderr

@@ -4,7 +4,9 @@ import re
 import sys
 from pathlib import Path
 
-USES = re.compile(r"(?:^|[{,])\s*(?:-\s*)?(['\"]?)uses\1\s*:\s*(['\"]?)([^\s'\"#,}]+)\2")
+KEY = r"(?:^|[{,])\s*(?:-\s*)?(['\"]?)uses\1\s*:"
+USES_KEY = re.compile(KEY)
+USES = re.compile(KEY + r"\s*(['\"]?)([^\s'\"#,}]+)\2")
 TAG = re.compile(r"^v\d+\.\d+\.\d+$")
 SHA = re.compile(r"^[0-9a-f]{40}$")
 
@@ -31,8 +33,12 @@ def main():
     bad = False
     for f in files:
         for n, line in enumerate(f.read_text().splitlines(), 1):
-            for m in USES.finditer(line):
-                if msg := problem(m.group(3)):
+            for k in USES_KEY.finditer(line):
+                m = USES.match(line, k.start())
+                if not m:
+                    print(f"{f}:{n}: uses value not readable on the same line; put the ref after `uses:`", file=sys.stderr)
+                    bad = True
+                elif msg := problem(m.group(3)):
                     print(f"{f}:{n}: {m.group(3)}: {msg}", file=sys.stderr)
                     bad = True
     return 1 if bad else 0

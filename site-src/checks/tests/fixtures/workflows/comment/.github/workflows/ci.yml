@@ -1,0 +1,5 @@
+jobs:
+  a:
+    steps:
+      - uses: # note
+        actions/cache@main
