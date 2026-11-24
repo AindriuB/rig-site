@@ -251,13 +251,13 @@ PAINT_CSS = re.compile(
 PAINT_ATTR = re.compile(r"""\b(?:fill|stroke|color|stop-color|flood-color)\s*=\s*(?:"([^"]*)"|'([^']*)')""", re.I)
 
 
-STYLE_ATTR = re.compile(r"""\bstyle\s*=\s*(?:"([^"]*)"|'([^']*)')""", re.I)
+STYLE_ATTR = re.compile(r"""\bstyle\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>"']+))""", re.I)
 
 
 def _named_in_style_attrs(text):
     """Named colours in the values of inline style attributes, whatever the property."""
     for m in STYLE_ATTR.finditer(text):
-        for decl in (m.group(1) or m.group(2)).split(";"):
+        for decl in (m.group(1) or m.group(2) or m.group(3) or "").split(";"):
             value = decl.partition(":")[2]
             if NAMED.search(value):
                 yield decl.strip()
@@ -301,7 +301,8 @@ def test_colour_guard_catches_bad_values():
 
 def test_colour_guard_catches_named_in_style_attrs():
     for bad in ('<p style="color: red">', '<svg style="border-top: 1px solid red"/>',
-                "<p style='margin:0;outline:2px dotted blue'>"):
+                "<p style='margin:0;outline:2px dotted blue'>", "<p style=border:red>",
+                "<p style=box-shadow:0/0/red>"):
         assert list(_named_in_style_attrs(bad)), bad
     assert not list(_named_in_style_attrs('<p style="color: var(--rig-fg); margin: 0">'))
 
