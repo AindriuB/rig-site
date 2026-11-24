@@ -6,7 +6,7 @@ def test_good_passes(run_actions):
 def test_major_tag_fails(run_actions):
     r = run_actions("bad_tag")
     assert r.returncode == 1
-    assert ".github/workflows/ci.yml:5: actions/checkout@v4: not pinned" in r.stdout
+    assert ".github/workflows/ci.yml:4: actions/checkout@v4: not pinned" in r.stdout
 
 
 def test_main_and_latest_fail(run_actions):
