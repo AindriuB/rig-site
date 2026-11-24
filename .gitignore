@@ -1,0 +1,18 @@
+# Kit: task files are working set, not tracked
+docs/plan/tasks/*
+!docs/plan/tasks/.gitkeep
+
+# Kit: harness scripts installed from the agent-kit repo
+.claude/
+
+# Build scratch and output
+.build/
+site/
+logs/
+*.log
+
+# Local tooling
+.venv/
+__pycache__/
+.worktrees/
+.DS_Store

@@ -29,15 +29,27 @@ on the default branch.
 
 ## Naming
 
-<!-- e.g. files kebab-case, types PascalCase, no abbreviations except id/url/api -->
+- Python 3.12. Modules and files are `snake_case`; transforms are `NN_name.py`
+  (two-digit prefix, run in filename order); guard scripts are `check_*.py`.
+- Site sources never live under `docs/`; that is the kit's planning tree and
+  nothing under it reaches the built site. Sources live under `site-src/`.
+- Local setup: `python3.12 -m venv .venv && .venv/bin/pip install -r site-src/requirements.txt`.
+- Every requirement in `site-src/requirements.txt` is pinned with `==`.
 
 ## Errors
 
-<!-- e.g. no silent catch; every thrown error carries a stable machine-readable code -->
+- Build and guard scripts fail with a non-zero exit and `path:line: message`
+  (or `path: message`) on stderr. No silent skip, except where a task file
+  names the skip.
+- The pipeline never writes the rig-site repository's own `gh-pages` ref: mike
+  runs against a scratch repo under `.build/`, because worktrees share refs.
 
 ## Tests
 
-<!-- e.g. one assert per behaviour; test names read as sentences; no sleeps -->
+- Tests are pytest, under each component's `tests/`, and write JUnit XML to
+  `logs/junit/TEST-<suite>.xml`.
+- Unit tests need no network. A test that needs Docker is marked `docker`.
+- One behaviour per test; no sleeps.
 
 ## Code comments *(kit)*
 
