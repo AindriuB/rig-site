@@ -1,0 +1,1457 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://aindriub.github.io/rig-site/docs/0.5/0.5/design/">
+      
+      
+        <link rel="prev" href="../workflows/">
+      
+      
+        <link rel="next" href="../release/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/theme/brand/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>rig: generic actions for agentic workflows - rig</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../assets/theme/tokens.css">
+    
+      <link rel="stylesheet" href="../assets/theme/fonts.css">
+    
+      <link rel="stylesheet" href="../assets/theme/extra.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link rel="icon" type="image/svg+xml" href="../assets/theme/brand/favicon.svg">
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rig-generic-actions-for-agentic-workflows" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="rig" class="md-header__button md-logo" aria-label="rig" data-md-component="logo">
+      
+  <img src="../assets/theme/brand/mark.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            rig
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              rig: generic actions for agentic workflows
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AindriuB/rig" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="rig" class="md-nav__button md-logo" aria-label="rig" data-md-component="logo">
+      
+  <img src="../assets/theme/brand/mark.svg" alt="logo">
+
+    </a>
+    rig
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AindriuB/rig" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing a workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rig: generic actions for agentic workflows
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rig: generic actions for agentic workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-contract-between-rig-and-its-callers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The contract between rig and its callers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-rig-push-does-and-does-not-guarantee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What rig push does and does not guarantee
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-forge-port" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The forge port
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-store-and-workflows-phase-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The store and workflows (phase 2)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phases
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../release/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release runbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decisions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decisions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#architecture" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Architecture
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-contract-between-rig-and-its-callers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The contract between rig and its callers
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-rig-push-does-and-does-not-guarantee" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What rig push does and does not guarantee
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-forge-port" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The forge port
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phase-1-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phase 1 commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-store-and-workflows-phase-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The store and workflows (phase 2)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phases
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="rig-generic-actions-for-agentic-workflows"><code>rig</code>: generic actions for agentic workflows<a class="headerlink" href="#rig-generic-actions-for-agentic-workflows" title="Permanent link">&para;</a></h1>
+<p>Status: phase 1 was released as 0.1.0. Phases 2 and 2.5 ship together as
+0.3.0 and are described in <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.md">phase-2.md</a> and
+<a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.5.md">phase-2.5.md</a>; <a href="../workflows/">workflows.md</a> documents the
+workflow file. Phase 3 (views and trackers) ships as 0.4.0 and 0.5.0: 0.4.0 is
+built and is described in <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-3.md">phase-3.md</a>; <code>rig tracker report</code> is
+built in 0.5.0. Later phases are outlines, each planned separately before
+it is built.</p>
+<p><strong>Direction.</strong> rig provides generic actions (tasks, findings, notes,
+workflow transitions, push, pull requests, CI waits, context briefs, config,
+login) that any loop can use, driven by any harness: Claude Code, other agent
+CLIs, CI or a person. It has no built-in lifecycle: a workflow file defines
+states, transitions and the gates that guard them. A review loop is one
+such workflow, owned by the project that runs it. The sections below that
+describe such a loop are the history of how rig started.</p>
+<p><code>rig</code> is its own tool. It began as a subdirectory of an agent toolkit and
+moved here with its history in phase 1.5. Its callers use it only through the
+contract below.</p>
+<h2 id="why">Why<a class="headerlink" href="#why" title="Permanent link">&para;</a></h2>
+<p>rig started as the mechanics of an agent review loop: plan → fanout →
+review → verify → record. In that loop, state and rules lived in prose and
+shell text:</p>
+<ul>
+<li><strong>State is markdown the model re-reads.</strong> Task state is parsed out of
+  <code>## Review round N</code> and <code>## Wave verified — &lt;sha&gt;</code> sections, then confirmed
+  with <code>gh</code> and <code>git</code> on every turn.</li>
+<li><strong>Rules are enforced by parsing shell.</strong> <code>scripts/push-guard.sh</code> decides
+  whether a Bash command is a safe push by matching its text. A regex cannot
+  understand bash: extending the guard to chained commands took four review
+  rounds, each of which found another way to push to <code>main</code>, and was reverted.</li>
+<li><strong>It is tied to GitHub.</strong> <code>gh</code> is called from <code>scripts/ci-wait.sh</code> and from
+  the <code>status</code>, <code>wave</code>, <code>merged</code> and <code>handoff</code> commands.</li>
+<li><strong>It does not scale past one developer.</strong> Sequential task numbers collide,
+  and <code>PLAN.md</code> and <code>HISTORY.md</code> conflict on merge.</li>
+</ul>
+<p><code>rig</code> is a small Go program that owns the mechanical parts: pushing, pull
+requests, CI waits and status now; tasks, findings and context later. A command
+that takes typed arguments can refuse a bad push by construction, where a guard
+has to recognise one in arbitrary shell.</p>
+<h2 id="decisions">Decisions<a class="headerlink" href="#decisions" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Go, standard library where possible.</strong> One static binary, no runtime.</li>
+<li><strong>Forge adapters only.</strong> <code>gh</code> now, <code>glab</code> next. Git is called directly; there
+  is no git abstraction to swap.</li>
+<li><strong>The forge is auto-detected</strong> from the <code>origin</code> remote's host.
+  <code>.claude/rig.json</code> overrides it.</li>
+<li><strong>rig holds a token only for a service with no CLI of its own.</strong> GitHub and
+  GitLab stay with <code>gh</code> and <code>glab</code>: the adapters shell out to them and use
+  whatever login the user already has, and <code>rig login github|gitlab</code> only
+  hands over to <code>gh auth login</code> or <code>glab auth login</code>. For Jira, which has no
+  such tool, <code>rig login jira</code> stores a token, in the OS keychain unless the
+  user explicitly chooses <code>--store file</code>. No config key holds a token or an
+  account; see <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.5.md">phase-2.5.md</a>.</li>
+<li><strong>No built-in workflow.</strong> States, transitions, gates, severities and task
+  fields come from a workflow file; rig ships only a small <code>basic</code> one.
+  What rig enforces whatever the workflow says is listed in
+  <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.md#what-rig-enforces-whatever-the-workflow-says">phase-2.md</a>.</li>
+<li><strong>Harness-neutral.</strong> The CLI with <code>--json</code> and exit codes, and later an
+  MCP server, are the only surfaces. Nothing assumes Claude Code.</li>
+<li><strong><code>scripts/push-guard.sh</code> is unchanged.</strong> It stays as the backstop for a raw
+  <code>git push</code>. <code>rig push</code> is the allowed route; the guard is not extended.</li>
+</ul>
+<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">&para;</a></h2>
+<p>Three layers. Only adapters know a technology.</p>
+<div class="highlight"><pre><span></span><code>./
+  cmd/rig/              commands: policy and output
+  internal/forge/       port: Forge interface, PullRequest, Check
+  internal/store/       port: Store interface (phase 2)
+  internal/tracker/     port: Tracker interface (phase 3); adapters in
+                        exec/, jira/, github/, gitlab/, fake/
+  internal/forge/github adapter: runs `gh … --json`
+  internal/forge/gitlab adapter: runs `glab`
+  internal/forge/fake   adapter: in memory, for tests
+  internal/git/         rev-parse, push, worktree list, merge-tree
+  internal/proc/        shell-free, time-limited subprocess
+  internal/config/      .claude/rig.json
+</code></pre></div>
+<ol>
+<li><strong>Commands</strong> (<code>cmd/rig</code>) hold policy and output. Text by default,
+   <code>--json</code> for agents. A command never calls <code>gh</code>, <code>glab</code> or a store backend
+   directly; it calls a port.</li>
+<li><strong>Ports</strong> (<code>internal/forge</code>, <code>internal/store</code>) are interfaces in neutral
+   types. Nothing in a port names GitHub or GitLab.</li>
+<li><strong>Adapters</strong> implement a port for one technology. They translate that
+   tool's JSON and vocabulary into the neutral types.</li>
+</ol>
+<p>Supporting packages:</p>
+<ul>
+<li><code>internal/proc</code> runs a subprocess from an argument vector with a deadline. It
+  never builds a shell string, and it kills the child when the deadline passes.</li>
+<li><code>internal/git</code> wraps the handful of git calls rig needs.</li>
+<li><code>internal/config</code> reads <code>.claude/rig.json</code>:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Meaning</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>forge</code></td>
+<td><code>github</code> or <code>gitlab</code></td>
+<td>detected from the origin host</td>
+</tr>
+<tr>
+<td><code>host</code></td>
+<td>forge host, for self-hosted instances</td>
+<td>the origin host</td>
+</tr>
+<tr>
+<td><code>pushPrefixes</code></td>
+<td>branch prefixes <code>rig push</code> may push</td>
+<td><code>["task", "record"]</code></td>
+</tr>
+</tbody>
+</table>
+<p>Install with <code>go install github.com/AindriuB/rig/cmd/rig@&lt;tag&gt;</code>. A caller
+that installs rig for its users can pin a tag and check <code>rig version</code> against
+the minimum it needs.</p>
+<h2 id="the-contract-between-rig-and-its-callers">The contract between rig and its callers<a class="headerlink" href="#the-contract-between-rig-and-its-callers" title="Permanent link">&para;</a></h2>
+<p>A caller talks to rig only through its commands, their exit codes and their
+<code>--json</code> output. It never imports rig's code or reads its files, and rig
+never reads the caller's. That is what lets rig live in another repository and
+be versioned on its own.</p>
+<p><code>rig version</code> prints a semantic version (<code>0.1.0</code> for phase 1, <code>0.3.0</code> with
+phases 2 and 2.5, <code>0.4.0</code> with the first part of phase 3) and exits 0. A
+new command, flag or JSON field raises the minor version. A change to
+anything in the tables below raises the major version.</p>
+<p><strong>Stable commands and exit codes</strong></p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Exit codes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rig version</code></td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>rig push &lt;task-id\|branch&gt; [--worktree &lt;path&gt;]</code></td>
+<td>0 pushed; 1 git ran and the push failed; 2 refused, git push never started</td>
+</tr>
+<tr>
+<td><code>rig pr view [&lt;pr\|branch&gt; \| --task &lt;id&gt;] [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error, including no such pull request</td>
+</tr>
+<tr>
+<td><code>rig pr checks [&lt;pr\|branch&gt; \| --task &lt;id&gt;] [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig pr list [--mine] [--head &lt;branch&gt;] [--state open\|closed\|merged] [--limit &lt;n&gt;] [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig pr open --head &lt;branch&gt; --title &lt;text&gt; [--base &lt;branch&gt;] [--body &lt;text&gt;] [--draft] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig pr wait &lt;pr-number \| --run &lt;run-id&gt;&gt; [--repo &lt;dir&gt;]</code></td>
+<td>0 green; 1 red; 2 error or timeout</td>
+</tr>
+<tr>
+<td><code>rig status [--json]</code></td>
+<td>0; 2 on a usage error</td>
+</tr>
+<tr>
+<td><code>rig task new --slug &lt;s&gt; --title &lt;text&gt; [--body &lt;text&gt; \| --body-file &lt;path&gt;] [--field &lt;name&gt;=&lt;value&gt;]… [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig task new --from [&lt;kind&gt;:]&lt;key&gt; [--state &lt;s&gt;] [--slug &lt;s&gt;] [--field &lt;name&gt;=&lt;value&gt;]… [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0, also when the issue is already linked (the existing task is printed and a line goes to stderr); 1 <code>--state</code> is not an intake state, nothing written; 2 on any other error, including no usable tracker and a <code>--field</code> the tracker owns</td>
+</tr>
+<tr>
+<td><code>rig task show &lt;task&gt; [--findings] [--notes] [--history] [--children] [--format &lt;text\|json\|markdown&gt; \| --json \| --markdown] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error, including two different formats</td>
+</tr>
+<tr>
+<td><code>rig task edit &lt;task&gt; [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0 saved, or nothing changed; 1 a field changed underneath the edit, or the edit changes a field the linked tracker owns, nothing written; 2 on any error, including no terminal and no <code>$VISUAL</code>/<code>$EDITOR</code>, or a file that does not parse</td>
+</tr>
+<tr>
+<td><code>rig task list [--state &lt;s&gt;]… [--all] [--parent &lt;task&gt; \| --roots \| --tree] [--format &lt;text\|json\|markdown&gt; \| --json \| --markdown] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error, including two different formats and more than one of <code>--parent</code>, <code>--roots</code>, <code>--tree</code></td>
+</tr>
+<tr>
+<td><code>rig task parent &lt;task&gt; &lt;parent\|none&gt; [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 1 the parent does not exist or would make a cycle, nothing written; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig task link &lt;task&gt; [&lt;kind&gt;:]&lt;key&gt; [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 1 the issue is already linked to another task, nothing written; 2 on any error. If the link is written and the refresh after it fails, exit 2 and the link stays</td>
+</tr>
+<tr>
+<td><code>rig task unlink &lt;task&gt; [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 1 the task is not linked; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig task start &lt;slug&gt; [--task-file &lt;path&gt;] [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0 made; 1 refused (no task file, or the path or branch is taken), nothing created; 2 usage or any other error, and what was half made is removed again</td>
+</tr>
+<tr>
+<td><code>rig task finish &lt;task&gt; --sha &lt;sha&gt; [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0 merged (the worktree is kept, with the reason, when it could not be removed); 1 refused, or a merge conflict that was aborted, nothing changed; 2 usage or any other error</td>
+</tr>
+<tr>
+<td><code>rig task move &lt;task&gt; &lt;state&gt; [--sha &lt;sha&gt;] [--pr &lt;n&gt;] [--reason &lt;text&gt;] [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0 moved; 1 refused by a gate or the workflow, nothing written; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig task set &lt;task&gt; --field &lt;name&gt;=&lt;value&gt;… [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 1 a field changed underneath, or the field is owned by the tracker the task is linked to, nothing written; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig task count &lt;task&gt; &lt;counter&gt; [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig task is &lt;task&gt; &lt;state&gt; [--repo &lt;dir&gt;]</code></td>
+<td>0 the effective state is <code>&lt;state&gt;</code>; 1 it is not; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig task log &lt;task&gt; [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig finding add &lt;task&gt; --severity &lt;sev&gt; --summary &lt;text&gt; [--path &lt;p[:line]&gt;] [--key &lt;k&gt;] [--field &lt;name&gt;=&lt;value&gt;]… [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0, also for a duplicate; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig finding list &lt;task&gt; [--status &lt;s&gt;]… [--blocking] [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig finding set &lt;task&gt; &lt;finding&gt; --status &lt;s&gt; [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig note add [&lt;task&gt;] --kind &lt;k&gt; --text &lt;text&gt; [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig note list [&lt;task&gt;] [--kind &lt;k&gt;] [--limit &lt;n&gt;] [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig workflow show [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig workflow validate [&lt;file&gt;] [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0 valid; 1 invalid; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig next [--who agent\|human] [--limit &lt;n&gt;] [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig context &lt;task&gt; [--budget &lt;tokens&gt;] [--format &lt;text\|json\|markdown&gt; \| --json \| --markdown] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error, including two different formats</td>
+</tr>
+<tr>
+<td><code>rig config get &lt;key&gt; [--global\|--repo\|--local] [--json]</code></td>
+<td>0; 1 not set; 2 error or unknown key</td>
+</tr>
+<tr>
+<td><code>rig config set &lt;key&gt; &lt;value&gt; --global\|--repo\|--local</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig config unset &lt;key&gt; --global\|--repo\|--local</code></td>
+<td>0, also when not set; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig config list [--global\|--repo\|--local] [--show-origin] [--json]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig tracker pull &lt;key&gt; \| --query &lt;q&gt; \| --label &lt;l&gt; [--children[=&lt;depth&gt;]] [--limit &lt;n&gt;] [--state &lt;s&gt;] [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 1 <code>--state</code> is not an intake state, before anything is read; 2 on any error, and at the end if any issue failed (the others are still made)</td>
+</tr>
+<tr>
+<td><code>rig tracker refresh [&lt;task&gt; \| --all] [--dry-run] [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error, and at the end if any task failed (the others are still refreshed)</td>
+</tr>
+<tr>
+<td><code>rig tracker report &lt;task&gt; [--status] [--comment pr\|state\|summary] [--include findings\|notes]… [--dry-run] [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0, also when an earlier report already sent the same (skipped); 1 the task's state has no <code>tracker.report.status</code> entry, the tracker has no transition to that status, or <code>--comment pr</code> and the task has no pull request, with nothing sent; 2 on any other error, including no tracker, an unlinked task, and a comment that failed after the status was sent (the status is recorded)</td>
+</tr>
+<tr>
+<td><code>rig tracker show &lt;key&gt; [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig tracker status [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0, also when the login does not work (it says so); 2 on any other error</td>
+</tr>
+<tr>
+<td><code>rig login</code></td>
+<td>0; 1 a login failed; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig login github\|gitlab\|jira [--url &lt;site&gt;] [--user &lt;email&gt;] [--token] [--repo] [--store keychain\|file]</code></td>
+<td>0; 1 the login failed or Jira rejected the token, nothing stored; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig login status [--json]</code></td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig logout jira [--url &lt;site&gt;] [--repo]</code></td>
+<td>0, also when already logged out; 2 on any error, including a store that could not be checked when the entry was found nowhere</td>
+</tr>
+<tr>
+<td><code>rig logout github\|gitlab</code></td>
+<td>2: prints the <code>gh</code>/<code>glab</code> command that does it</td>
+</tr>
+</tbody>
+</table>
+<p>An unknown flag is always exit 2: rig never ignores an argument it does not
+understand. In the phase-2 commands, exit 1 means refused by a gate or the
+workflow with nothing written, and exit 2 covers usage errors, an unknown or
+ambiguous task, a bad workflow file, and store or git errors. The commands'
+flags and behaviour are described in <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.md">phase-2.md</a> and
+<a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.5.md">phase-2.5.md</a>, and the workflow file in
+<a href="../workflows/">workflows.md</a>. <code>RIG_ACTOR</code> names who acted and <code>RIG_WORKFLOW</code>
+the workflow to use. The commands that write the store (<code>task new</code>, <code>edit</code>,
+<code>move</code>, <code>set</code>, <code>count</code>, <code>parent</code>, <code>link</code>, <code>unlink</code>; <code>finding add</code>, <code>set</code>;
+<code>note add</code>; <code>tracker pull</code>, <code>refresh</code>, <code>report</code>) also take <code>--actor &lt;name&gt;</code>, or its alias
+<code>--role &lt;name&gt;</code>, which beats <code>RIG_ACTOR</code> and git's <code>user.name</code> for the actor
+stamped on the events; an empty or control-character value, or the two flags
+with different values, is exit 2 with nothing written, and every other command
+rejects them as unknown options (exit 2); <code>RIG_JIRA_TOKEN</code> overrides a stored Jira token at use
+time.</p>
+<p><strong>Stable text output</strong></p>
+<ul>
+<li><code>rig pr wait</code>, green: exactly one line, <code>CI green: PR #&lt;n&gt;</code> or
+  <code>CI green: run &lt;id&gt;</code>. Red: <code>CI red: …</code> first, then the failed names, then
+  at most 40 log lines after <code>--- log tail ---</code>. Errors go to stderr with the
+  prefix <code>ci-wait:</code>.</li>
+<li><code>rig pr list</code>, and the pull request lines of <code>rig status</code>:
+  <code>#&lt;n&gt;  &lt;ci&gt;  &lt;head&gt;  &lt;title, at most 50 characters&gt;</code>, then <code>conflict</code>
+  and <code>draft</code> when they apply.</li>
+<li><code>rig push</code>, on success: <code>pushed &lt;branch&gt; to origin</code>.</li>
+<li><code>rig task start</code>, on success, exactly four lines, with these paddings:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>WORKTREE: &lt;worktree path&gt;
+BRANCH:   task/&lt;slug&gt;
+BASE:     &lt;base branch&gt;
+OWNS:     enforced from &lt;task file path&gt;
+</code></pre></div>
+<p>The base is <code>origin</code>'s default branch, else <code>main</code>, <code>master</code>, <code>trunk</code> or
+  <code>develop</code>, else the current branch. The worktree is
+  <code>&lt;worktrees.root&gt;/&lt;repository directory name&gt;/&lt;slug&gt;</code>.
+- <code>rig task finish</code>, on success: <code>MERGED: &lt;branch&gt; @ &lt;short sha&gt; -&gt; &lt;base&gt;</code>,
+  then <code>REMOVED: &lt;worktree&gt;</code>, or <code>KEPT:   &lt;worktree&gt; (&lt;reason&gt;)</code> when the
+  worktree could not be removed or the branch moved during the merge (its
+  later commits are not merged, and the branch is kept).</p>
+<p><strong>The <code>kit-task</code> marker.</strong> <code>rig task start</code> writes the file <code>kit-task</code> in the
+new worktree's own git directory (<code>git rev-parse --absolute-git-dir</code> there),
+where git never commits it. A caller that guards file ownership (the kit's
+owns-guard) reads it to find the task file. Its contract: one line, the path of
+the task file with forward slashes even on Windows, ending in a single LF, with
+no byte order mark. The path is absolute: rig finds the file in
+<code>docs/plan/tasks</code> of the main checkout or its enclosing workspace repository,
+or resolves <code>--task-file</code> against the working directory. If the file cannot be written,
+<code>rig task start</code> removes what it made and exits 2, so a worktree is never left
+without its marker.</p>
+<p><strong>Stable JSON fields</strong></p>
+<p>A pull request, from <code>rig pr view --json</code> and each element of
+<code>rig pr list --json</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>number</code></td>
+<td>integer</td>
+</tr>
+<tr>
+<td><code>url</code>, <code>title</code>, <code>head</code>, <code>headSha</code>, <code>base</code></td>
+<td>strings</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td><code>open</code>, <code>closed</code> or <code>merged</code></td>
+</tr>
+<tr>
+<td><code>draft</code></td>
+<td>boolean</td>
+</tr>
+<tr>
+<td><code>mergeable</code></td>
+<td><code>mergeable</code>, <code>conflicting</code> or <code>unknown</code></td>
+</tr>
+<tr>
+<td><code>mergeSha</code></td>
+<td>the merge commit; present only once merged</td>
+</tr>
+<tr>
+<td><code>ci</code></td>
+<td><code>red</code>, <code>running</code>, <code>green</code> or <code>none</code></td>
+</tr>
+<tr>
+<td><code>checks</code></td>
+<td>array of <code>{name, state, url}</code>; <code>state</code> is <code>pass</code>, <code>fail</code>, <code>cancel</code>, <code>pending</code> or <code>skipped</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>rig pr checks --json</code> is <code>{number, ci, checks}</code> with the same meanings.</p>
+<p><code>rig status --json</code> is <code>{handoff, tasks, worktrees, prs, prsError}</code>:
+<code>handoff</code> is <code>{written, lines}</code> or absent; <code>tasks</code> is an array of task file
+names without <code>.md</code>; each worktree is <code>{path, branch, ahead, dirty}</code>; <code>prs</code>
+holds pull requests as above; <code>prsError</code> is present when the forge could not
+be reached, and the rest of the output is still valid. It also has <code>store</code>,
+the view of the local store, which needs no network:
+<code>{tasks, findings, error?}</code>. <code>tasks</code> are the tasks not in a final state, in
+the order a task moves through the workflow. Each is <code>{id, short, slug, title,
+state, parent?, external?}</code>, where <code>state</code> is the effective state, <code>parent</code> is
+the parent's short id and <code>external</code> is <code>{kind, key}</code>; <code>findings</code> is <code>{open, byTask}</code>, with <code>byTask</code> mapping a task's
+short id to its open findings. <code>error</code> is set, and <code>tasks</code> empty, when the
+store could not be read.</p>
+<p><code>rig task start --json</code> is <code>{worktree, branch, base, taskFile}</code>.
+<code>rig task finish --json</code> is <code>{merged: {branch, sha, base}, kept?: {worktree,
+reason}, removed?}</code>.</p>
+<p><strong>Task JSON.</strong> The task printed by <code>rig task show --json</code>, <code>rig task list
+--json</code> and the other task commands gains <code>parent</code> (a task id; absent when
+there is none) and <code>external</code> (absent when the task is not linked):</p>
+<table>
+<thead>
+<tr>
+<th><code>external</code> field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>kind</code>, <code>key</code></td>
+<td>the tracker kind (<code>jira</code>, <code>github</code>, <code>gitlab</code> or <code>exec</code>) and the issue key</td>
+</tr>
+<tr>
+<td><code>host</code>, <code>project</code>, <code>url</code>, <code>type</code></td>
+<td>strings, each left out when empty; <code>type</code> is the tracker's own level label (<code>epic</code>, <code>Sub-task</code>)</td>
+</tr>
+<tr>
+<td><code>owned</code></td>
+<td>the rig fields the tracker owns</td>
+</tr>
+<tr>
+<td><code>syncedAt</code>, <code>rev</code></td>
+<td>when the task was last synced, and the tracker's revision of the issue then</td>
+</tr>
+<tr>
+<td><code>drift</code></td>
+<td>the owned fields whose local value differs from the last snapshot; <code>[]</code> when none</td>
+</tr>
+</tbody>
+</table>
+<p><code>rig task show --children --json</code> is the task with a <code>children</code> array of tasks.</p>
+<p><strong>Tracker JSON.</strong></p>
+<ul>
+<li><code>rig tracker pull --json</code> is <code>{items, skipped}</code>; an item is <code>{task, key,
+  existing, parent, warnings}</code>, where <code>task</code> is a task as above and <code>parent</code>
+  is the short id of its parent task, or <code>""</code>.</li>
+<li><code>rig tracker refresh --json</code> is <code>{tasks}</code>; an entry is <code>{task, key, status,
+  changed, replaced, error?, warnings?}</code>. <code>status</code> is <code>unchanged</code>, <code>updated</code>,
+  <code>gone</code> or <code>error</code>; <code>changed</code> lists the fields that changed; <code>replaced</code> is a
+  list of <code>{field, lost}</code> for each local edit the refresh overwrote.</li>
+<li><code>rig tracker report --json</code> is <code>{task, key, status, comment, skipped?,
+  dryRun?, warnings?}</code>; <code>status</code> is <code>{from, to}</code> and <code>comment</code> is <code>{kind, id}</code>,
+  each <code>null</code> when that part was not sent. With <code>--dry-run</code> nothing is sent:
+  <code>status</code> has only <code>to</code>, and <code>comment</code> has no id but a <code>body</code>.</li>
+<li><code>rig tracker show --json</code> is the issue: <code>{key, url, title, description,
+  acceptance, priority, assignee, labels, type, status, parent, rev}</code>.</li>
+<li><code>rig tracker status --json</code> is <code>{kind, trusted, capabilities, login}</code>;
+  <code>capabilities</code> is <code>{parent, children, types, search, comment, setStatus,
+  levels}</code> or <code>null</code>, and <code>login</code> is <code>{ok, error?}</code>.</li>
+</ul>
+<p><strong>Tracker report.</strong> <code>rig tracker report</code> sends a task's progress to the issue
+it is linked to (the task must be linked to an issue of the configured tracker,
+else exit 2). With neither <code>--status</code> nor <code>--comment</code> it is <code>--status --comment
+state</code>.</p>
+<ul>
+<li>The status is the workflow's <code>tracker.report.status</code> entry for the task's
+  effective state, sent with the tracker's set-status call. It is sent before
+  the comment, so a refusal means nothing has left the machine. A tracker that
+  cannot set a status (or cannot comment) gives a warning and the other part is
+  still sent; an unsupported status is dropped before the skip check, so a
+  repeat whose other part is skipped reports <code>skipped</code>.</li>
+<li>The comment is one of three fixed templates, and nothing else of the task
+  (title, body, fields) is ever sent:</li>
+<li><code>pr</code>: <code>rig: pull request for task &lt;short&gt;: &lt;url&gt;</code>. The URL comes from the
+    forge, by the task's recorded pull request number.</li>
+<li><code>state</code>: <code>rig: task &lt;short&gt; is now in state &lt;state&gt;.</code></li>
+<li><code>summary</code>: the <code>state</code> line, then <code>Counters: &lt;name&gt;=&lt;n&gt;, ...</code> (names sorted;
+    left out when the task has none), then <code>Pull request: &lt;url&gt;</code> (left out when
+    the task has none). If the forge read fails, the comment is sent without
+    the <code>Pull request:</code> line and the run warns.</li>
+<li><code>--include findings</code> appends a blank line, <code>Open findings:</code> and one
+    <code>- &lt;short&gt; &lt;severity&gt; &lt;summary&gt;</code> line per open finding (nothing when there
+    are none). <code>--include notes</code> appends a blank line, <code>Notes:</code> and one
+    <code>- &lt;kind&gt;: &lt;text&gt;</code> line per note, oldest first. Line breaks inside a
+    summary or note are folded to a space.</li>
+<li>Each real run that sends something writes one <code>tracker-report</code> event
+  <code>{kind, key, status?: {from, to, asked?}, comment?: {kind, id, digest}, at}</code>, recording
+  only what was sent; <code>digest</code> is the hex SHA-256 of the comment body, and the
+  body itself is not stored. <code>asked</code> is the status name the report requested
+  (<code>to</code> is the one the tracker reached, which may be spelled differently, as
+  GitLab's <code>open</code> becomes <code>opened</code>). An older rig skips the kind.</li>
+<li>A part is skipped when the latest earlier report for the same issue, written
+  since the task's latest link event, sent the same thing: the status when the
+  requested name equals its last sent <code>asked</code> or <code>to</code> (case and surrounding
+  spaces ignored), the comment when the latest comment
+  of the same kind has the same digest. Two report runs at once can both send:
+  there is no lock. When every requested part is
+  skipped nothing is sent, no event is written, and the output says <code>skipped</code>
+  (<code>"skipped": true</code> in JSON).</li>
+<li><code>--dry-run</code> calls no tracker method that writes, and writes nothing; it prints
+  <code>status: &lt;name&gt;</code> and <code>comment (&lt;kind&gt;):</code> followed by the exact body a real run
+  would send, with the same skip rules and warnings applied (a tracker that
+  cannot set a status or comment, or whose capabilities cannot be read).</li>
+<li>It never writes planning fields. A comment that fails after the status was
+  sent leaves the status recorded and exits 2; the next run sends the comment.</li>
+</ul>
+<p><strong>Markdown format.</strong> <code>--format markdown</code> (alias <code>--markdown</code>) is stable like
+JSON: sections and fields are only added; removing or reordering one is a major
+change. <code>--format json</code> is the alias of <code>--json</code>. Two different formats, or an
+unknown one, are exit 2. Text output stays free-form. Every Markdown output is
+UTF-8 with LF line endings, one trailing newline, no ANSI codes, no wrapping,
+and times in RFC 3339 UTC. A field with no value is left out, and a
+single-line value has its line breaks turned into one space.</p>
+<ul>
+<li><code>rig task show</code>: <code># &lt;title&gt;</code>, then a bullet block with these labels in this
+  order, each only when it has a value: <code>id</code>, <code>slug</code>, <code>state</code>, <code>recorded state</code>,
+  <code>branch</code>, <code>pr</code>, <code>head</code>, <code>reason</code>, <code>parent</code>, <code>external</code>, <code>created</code>, <code>updated</code>.
+  Then H2 sections in this order: <code>Body</code>, <code>Fields</code>, <code>Counters</code>, <code>Findings</code>
+  (with <code>--findings</code>), <code>Notes</code> (<code>--notes</code>), <code>History</code> (<code>--history</code>), <code>Children</code>
+  (<code>--children</code>). <code>Body</code>, <code>Fields</code> and <code>Counters</code> are left out when empty; a
+  requested section with nothing in it prints <code>none</code>.
+  <code>Body</code> is a blockquote: line endings become LF and every line starts with
+  <code>&gt;</code> (an empty line is <code>&gt;</code>). So a task body, which may come from a tracker,
+  cannot open a heading, a fence or an HTML block of its own. <code>Fields</code> and
+  <code>Counters</code> are <code>- name: value</code> lines sorted by name. A finding is
+  <code>- &lt;short&gt; [&lt;severity&gt;] &lt;status&gt;: &lt;summary&gt; (&lt;path&gt;)</code>; a note is
+  <code>- &lt;time&gt; [&lt;kind&gt;] &lt;text&gt;</code>.</li>
+<li><code>rig task list</code>: <code># Tasks</code>, then a bullet per task,
+  <code>- &lt;short&gt; [&lt;state&gt;] &lt;title&gt; (&lt;slug&gt;)</code>, followed by <code>— &lt;key&gt;</code> for a linked
+  task and <code>← &lt;parent short&gt;</code> for a task with a parent. No tasks prints
+  <code>none</code>. <code>--tree</code> indents each child under its parent in place of the <code>←</code>.</li>
+<li><code>rig context</code>: H2 sections named as the JSON <code>sections[].name</code> (<code>Header</code>,
+  <code>Body</code>, <code>Findings</code>, <code>Paths</code>, <code>Overlap</code>, <code>History</code>, <code>Commits</code>); a section the
+  budget hid is left out. <code>Body</code> is a blockquote as above and the others are
+  <code>-</code> bullets. An omitted count is the line <code>_… &lt;n&gt; more_</code>. The <code>Header</code> has
+  <code>parent:</code> and <code>external:</code> rows for a task that has them. The budget is
+  counted against the Markdown's own bytes; text and JSON are counted as
+  before.</li>
+</ul>
+<h2 id="what-rig-push-does-and-does-not-guarantee">What <code>rig push</code> does and does not guarantee<a class="headerlink" href="#what-rig-push-does-and-does-not-guarantee" title="Permanent link">&para;</a></h2>
+<p>Any command line that starts <code>rig push</code> can only make a non-forced push of
+one local branch named <code>&lt;prefix&gt;/&lt;name&gt;</code> to the branch of the same name on
+<code>origin</code>. It cannot name <code>main</code> or any bare branch, a tag, a refspec, another
+remote, or a force or delete option. Exit 2 means <code>git push</code> never started.</p>
+<p>Two things sit outside that guarantee.</p>
+<ul>
+<li><strong><code>.claude/rig.json</code> is the user's file.</strong> Its <code>pushPrefixes</code> decide which
+  prefixes count, so whoever can write it can widen the pushes: to
+  <code>release/x</code>, say, though still never to a bare branch, a tag or a force.
+  An agent must not edit it. The project settings template makes any Edit or
+  Write of <code>.claude/rig.json</code>, in the project or in a worktree below it, and any shell
+  command that names <code>rig.json</code>, ask first (<code>tests/rig-settings.bats</code> pins
+  those rules). A permission rule matches text, so this is a barrier, not a
+  proof: a shell command can build the file name without spelling it, and
+  two commands the template already allows can write and run a file
+  (<code>git log --output=&lt;path&gt;</code> and <code>rg --pre &lt;program&gt;</code>). Narrowing those allow
+  rules is a separate change.</li>
+<li><strong>Git's own configuration is not constrained.</strong> A pre-push hook, or
+  <code>remote.origin.receivepack</code>, runs whatever it says during any push, and an
+  agent can set either with <code>git config</code>. <code>rig push</code> runs the repository's
+  hooks like any push does, so it does not close this. The raw
+  <code>git push origin task/&lt;name&gt;</code> form the push guard allows has the same
+  limit. Closing it would mean pushing with hooks disabled, which would also
+  disable the hooks a project relies on; that trade has not been made.</li>
+</ul>
+<h2 id="the-forge-port">The forge port<a class="headerlink" href="#the-forge-port" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="kd">type</span><span class="w"> </span><span class="nx">Forge</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">ViewPR</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">ref</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">PullRequest</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">ListPRs</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">opts</span><span class="w"> </span><span class="nx">ListOptions</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="nx">PullRequest</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">CreatePR</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">in</span><span class="w"> </span><span class="nx">CreatePRInput</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">PullRequest</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">Checks</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">pr</span><span class="w"> </span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="nx">Check</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">WaitChecks</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">target</span><span class="w"> </span><span class="nx">WaitTarget</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="nx">WaitResult</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<span class="w">    </span><span class="nx">FailedLogs</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">,</span><span class="w"> </span><span class="nx">target</span><span class="w"> </span><span class="nx">WaitTarget</span><span class="p">,</span><span class="w"> </span><span class="nx">failed</span><span class="w"> </span><span class="p">[]</span><span class="nx">Check</span><span class="p">)</span><span class="w"> </span><span class="p">([]</span><span class="nx">LogLine</span><span class="p">,</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">type</span><span class="w"> </span><span class="nx">PullRequest</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">Number</span><span class="w">    </span><span class="kt">int</span>
+<span class="w">    </span><span class="nx">URL</span><span class="w">       </span><span class="kt">string</span>
+<span class="w">    </span><span class="nx">Title</span><span class="w">     </span><span class="kt">string</span>
+<span class="w">    </span><span class="nx">State</span><span class="w">     </span><span class="nx">PRState</span><span class="w">   </span><span class="c1">// open | closed | merged</span>
+<span class="w">    </span><span class="nx">Draft</span><span class="w">     </span><span class="kt">bool</span>
+<span class="w">    </span><span class="nx">Head</span><span class="w">      </span><span class="kt">string</span><span class="w">    </span><span class="c1">// head branch</span>
+<span class="w">    </span><span class="nx">HeadSHA</span><span class="w">   </span><span class="kt">string</span>
+<span class="w">    </span><span class="nx">Base</span><span class="w">      </span><span class="kt">string</span>
+<span class="w">    </span><span class="nx">Mergeable</span><span class="w"> </span><span class="nx">Mergeable</span><span class="w"> </span><span class="c1">// mergeable | conflicting | unknown</span>
+<span class="w">    </span><span class="nx">Checks</span><span class="w">    </span><span class="p">[]</span><span class="nx">Check</span>
+<span class="p">}</span>
+
+<span class="kd">type</span><span class="w"> </span><span class="nx">Check</span><span class="w"> </span><span class="kd">struct</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nx">Name</span><span class="w">  </span><span class="kt">string</span>
+<span class="w">    </span><span class="nx">State</span><span class="w"> </span><span class="nx">CheckState</span><span class="w"> </span><span class="c1">// pass | fail | cancel | pending | skipped</span>
+<span class="w">    </span><span class="nx">URL</span><span class="w">   </span><span class="kt">string</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><code>WaitTarget</code> is a pull request number or a CI run id. Later phases add <code>Merge</code>,
+<code>Comment</code> and <code>Reviews</code>.</p>
+<p>A pull request's overall CI state is derived from its checks in one place, in
+the port, so both adapters report it the same way: <code>red</code> if any check failed or
+was cancelled, else <code>running</code> if any is pending, else <code>green</code> if there is at
+least one check, else <code>none</code>.</p>
+<h2 id="phase-1-commands">Phase 1 commands<a class="headerlink" href="#phase-1-commands" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+<th>Exit codes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rig push &lt;task-id\|branch&gt; [--worktree &lt;path&gt;]</code></td>
+<td>Pushes one loop branch to <code>origin</code></td>
+<td>0 pushed, 1 rejected by the remote, 2 refused</td>
+</tr>
+<tr>
+<td><code>rig pr view\|list\|checks</code></td>
+<td>Prints neutral output from the forge</td>
+<td>0, 2 on error</td>
+</tr>
+<tr>
+<td><code>rig pr open --head &lt;branch&gt; …</code></td>
+<td>Opens a pull request. Never pushes, and takes its body only from <code>--body</code>, never from a file</td>
+<td>0, 2 on error</td>
+</tr>
+<tr>
+<td><code>rig pr wait &lt;pr&gt;</code> or <code>--run &lt;id&gt;</code></td>
+<td>Blocks until CI finishes</td>
+<td>0 green, 1 red, 2 error or timeout</td>
+</tr>
+<tr>
+<td><code>rig status [--json]</code></td>
+<td>The session brief, worktrees and one line per open PR</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>rig push</code> is the security-relevant command.</strong> It resolves a task id to its
+branch (<code>task/&lt;id&gt;-&lt;slug&gt;</code>, the slug taken from <code>docs/plan/tasks/&lt;id&gt;-*.md</code>,
+the same lookup as <code>derive_slug</code> in <code>scripts/_wt-common.sh</code>). It then refuses,
+with exit 2 and without running git, anything that is not a plain branch name
+under a configured prefix: a refspec (<code>a:b</code>), a <code>+</code> prefix, a <code>..</code> segment, a
+tag, any force or delete flag, and any unknown flag. What remains is run as
+<code>git -C &lt;worktree&gt; push -u origin &lt;branch&gt;:&lt;branch&gt;</code> — an argument vector, so
+there is nothing for a shell to reinterpret.</p>
+<p><strong><code>rig pr wait</code> keeps the contract of <code>scripts/ci-wait.sh</code></strong>, so callers do not
+change: the same exit codes, <code>CI green: PR #N</code> as the only line when green, the
+failed checks and a 40-line log tail when red, and <code>CI_WAIT_TIMEOUT</code> (seconds,
+default 1800). <code>ci-wait.sh</code> becomes a wrapper that execs <code>rig pr wait</code>.</p>
+<p><strong><code>rig status</code></strong> prints one line per open pull request in the format
+<code>commands/status.md</code> already uses:
+<code>#N  red|running|green|none  branch  title [conflict] [draft]</code>.</p>
+<p>Phase 1 is read-only on documents. State still comes from the existing
+<code>docs/plan</code> files, git and the forge.</p>
+<h2 id="the-store-and-workflows-phase-2">The store and workflows (phase 2)<a class="headerlink" href="#the-store-and-workflows-phase-2" title="Permanent link">&para;</a></h2>
+<p>A store holds work in progress outside the code tree: one append-only event
+log per task under <code>refs/rig/tasks/&lt;ULID&gt;</code>, local to the clone unless the
+user opts in to sharing it. A task's state is a fold over its events. Which
+states exist, which transitions are allowed and which gates guard them come
+from a workflow file, not from rig. Tasks, findings and notes carry typed
+fields the workflow declares. <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-2.md">phase-2.md</a> has the format, the
+commands and the extension points.</p>
+<p>The state machine this section used to define (planned → implementing →
+reviewed → verified@sha → pr_open → ci_green → ready → merged) is now
+an example workflow file, shown in phase-2.md as the worked example.</p>
+<h2 id="phases">Phases<a class="headerlink" href="#phases" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Phase</th>
+<th>What it delivers</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>This document, and a baseline of permission prompts and tokens per task</td>
+</tr>
+<tr>
+<td>1</td>
+<td><code>rig push</code>, <code>rig pr</code>, <code>rig status</code>, <code>rig version</code>; the github and gitlab adapters</td>
+</tr>
+<tr>
+<td>1.5</td>
+<td><code>cli/</code> moves to its own repository, <code>AindriuB/rig</code>, with its history</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Shipped in 0.3.0. Generic core: the store port and git-ref backend, workflow files with gates and hooks, <code>rig task</code>, <code>rig finding</code>, <code>rig note</code>, <code>rig workflow</code>, <code>rig next</code>, <code>rig context</code>. An example review loop is a test fixture, not built in</td>
+</tr>
+<tr>
+<td>2.5</td>
+<td>Shipped in 0.3.0. <code>rig config</code> (global, per-repo and local scopes; forge and tracker settings) and <code>rig login</code>/<code>rig logout</code> with keychain-held tokens</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Views and trackers, see <a href="https://github.com/AindriuB/rig/blob/v0.5.0/docs/phase-3.md">phase-3.md</a>. <strong>0.4.0 is built</strong>: <code>--format markdown</code> for <code>task show</code>, <code>task list</code> and <code>context</code>; task parent and external links (<code>task parent</code>, <code>link</code>, <code>unlink</code>, <code>list --parent\|--roots\|--tree</code>, <code>show --children</code>); a tracker port with <code>github</code>, <code>gitlab</code>, <code>jira</code> and <code>exec</code> adapters; <code>rig task new --from</code>, <code>rig tracker pull</code>, <code>refresh</code>, <code>show</code> and <code>status</code>; branch stamping with <code>{key}</code>; the store view in <code>rig status</code>; <code>rig task start</code> and <code>finish</code> with <code>worktrees.root</code>. <strong>0.5.0</strong>: <code>rig tracker report</code></td>
+</tr>
+<tr>
+<td>4</td>
+<td>Team scale: opt-in <code>rig sync</code> of the store, <code>rig claim</code>, retention and <code>rig gc</code>, a search index rebuilt from refs</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Metrics from event logs, for any workflow: time in each state, counter values, stop reasons, findings by path</td>
+</tr>
+<tr>
+<td>6</td>
+<td>An MCP server over the same core; each workflow transition becomes a typed tool</td>
+</tr>
+<tr>
+<td>Later, unscheduled</td>
+<td>HTML views and templates; an importer for <code>docs/plan</code> task files as a program the user runs. Tracker intake in phase 3 covers most of the importer's use</td>
+</tr>
+<tr>
+<td>1.0</td>
+<td>Phase 1's compatibility parts (<code>.claude/rig.json</code>, <code>claude-handoff.md</code> and <code>docs/plan/tasks</code> reads, default push prefixes) move behind config or are dropped, as a major change</td>
+</tr>
+</tbody>
+</table>
+<p>README, architecture, conventions, release notes and ADRs stay in the tree
+throughout. Plans, tasks, findings and history are what move into the store,
+for the projects that choose to use it.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": [], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
