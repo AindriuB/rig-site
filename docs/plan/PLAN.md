@@ -18,7 +18,12 @@ than no plan.
 **In flight:** 01, 02
 -->
 
-_Nothing open yet._
+### Merge the changelog page
+Task 09 is verified at d51e934 but `rig task finish` refused: the untracked `.venv2/` in its worktree counts as uncommitted. Remove `.venv2/` (and `.build/`), then finish with the same sha.
+**In flight:** 09
+
+### Remaining site tasks
+04 Mermaid render, 06 landing page, 07 landing visuals, 10 Pages workflow.
 
 ## Next
 
