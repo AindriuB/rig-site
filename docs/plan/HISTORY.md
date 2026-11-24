@@ -17,4 +17,6 @@ in the same commit.
 **Cost:** <what was hard, what was tried and abandoned, what not to retry.>
 -->
 
-_No entries yet._
+## 2026-11-24 — Kit scaffold filled and toolchain pinned
+`docs/conventions.md`, `docs/architecture.md` and `docs/release.md` now describe rig-site: the directory layout later tasks build into, repository topology, the release-to-Pages flow and the pytest and error-reporting rules. `site-src/requirements.txt` pins mkdocs, mkdocs-material, mike, pymdown-extensions and pytest, and `.gitignore` covers build scratch and worktrees.
+**Cost:** Nothing abandoned. The pipeline must never write this repository's own `gh-pages` ref, because worktrees share refs: mike runs against a scratch repo under `.build/`. Do not use a default-deny `/*` rule in `.gitignore`.

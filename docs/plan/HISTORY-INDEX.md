@@ -20,4 +20,4 @@ no row is one `planner` cannot find, and will re-plan.
 
 | Date | Task IDs | Summary | Heading (grep this exact string) |
 |---|---|---|---|
-_No entries yet._
+| 2026-11-24 | 01 | Conventions, architecture and release docs filled; toolchain pinned | ## 2026-11-24 — Kit scaffold filled and toolchain pinned |
