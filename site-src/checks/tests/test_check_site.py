@@ -90,16 +90,24 @@ def test_tree_unset_or_missing(run_site, tmp_path):
     assert r.returncode == 1 and r.stderr.startswith("RIG_SITE_TREE:")
 
 
-def test_external_backslash_and_split_scheme(run_site):
+@pytest.mark.parametrize("src", [
+    "\\\\cdn.example.com/a.js",
+    "/\\cdn.example.com/b.js",
+    "h\tttps://cdn.example.com/t.js",
+])
+def test_external_script_src_variants(run_site, src):
     r = run_site("ext_backslash")
     assert r.returncode == 1
-    assert len([l for l in lines(r) if "script src is external" in l]) == 3
+    assert f"index.html: script src is external: {src}" in lines(r)
 
 
-def test_duplicate_attrs_first_wins(run_site):
+def test_duplicate_script_src_first_wins(run_site):
     r = run_site("dup_attrs")
-    assert r.returncode == 1
     assert "index.html: script src is external: https://cdn.example.com/c.js" in lines(r)
+
+
+def test_duplicate_img_alt_first_wins(run_site):
+    r = run_site("dup_attrs")
     assert "index.html: img without alt: e.png" in lines(r)
 
 

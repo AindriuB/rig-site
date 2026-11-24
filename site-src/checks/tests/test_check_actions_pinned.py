@@ -40,3 +40,13 @@ def test_flow_mapping_step_fails(run_actions):
 def test_yaml_extension_is_checked(run_actions):
     r = run_actions("yaml_ext")
     assert r.returncode == 1 and "deploy.yaml:4: actions/checkout@main: not pinned" in r.stderr
+
+
+def test_two_uses_on_one_line_all_checked(run_actions):
+    r = run_actions("flow_multi")
+    assert r.returncode == 1 and "actions/checkout@main: not pinned" in r.stderr
+
+
+def test_quoted_uses_key_is_checked(run_actions):
+    r = run_actions("quoted_key")
+    assert r.returncode == 1 and "actions/cache@main: not pinned" in r.stderr
