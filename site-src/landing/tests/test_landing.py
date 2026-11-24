@@ -83,7 +83,6 @@ def test_css_order_base_first_then_filename(tmp_path):
 def test_stub_slots_present(page):
     for slot in ("push-panel", "forges", "state"):
         assert f'id="{slot}"' in page
-        assert (LANDING / "styles" / f"{slot}.css").read_text() == ""
 
 
 def test_links(page):

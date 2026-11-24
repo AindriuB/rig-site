@@ -1,0 +1,13 @@
+/* Visual 3: the narrow push. Refused items use a dashed border, a cross and a struck-through name, not colour alone. */
+.push-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 1rem; margin-top: 1rem; }
+.push-col { border: 2px solid var(--rig-signal-green); border-radius: 8px; padding: 0.25rem 1rem 0.75rem; background: var(--rig-bg); }
+.push-refused { border: 2px dashed var(--rig-signal-red); }
+.push-col h3 { margin: 0.5rem 0; font-size: 1.1rem; }
+.push-col ul { list-style: none; margin: 0; padding: 0; }
+.push-col li { padding: 0.3rem 0; }
+.push-col code { font-family: var(--rig-font-mono); }
+.push-accepted .mark { color: var(--rig-signal-green); }
+.push-refused .mark { color: var(--rig-signal-red); }
+.push-refused li code { text-decoration: line-through; text-decoration-thickness: 2px; }
+.refused-label { font-weight: 700; color: var(--rig-text); }
+.push-note { margin: 0.5rem 0 0; color: var(--rig-text-muted); font-size: 0.9rem; }
