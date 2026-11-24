@@ -1,0 +1,7 @@
+# Pinned so a build today and in a year produce the same site.
+# Bump deliberately, in its own change, after checking the release notes.
+mkdocs==1.6.1
+mkdocs-material==9.7.7
+mike==2.1.3
+pymdown-extensions==12.1
+pytest==8.4.2
