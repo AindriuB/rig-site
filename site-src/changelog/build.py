@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -56,7 +57,6 @@ def build(out: Path, rig: str, theme: Path, work: Path) -> None:
                              f"{RIG_BLOB}main/")
     build_dir = work / "changelog"
     if build_dir.exists():
-        import shutil
         shutil.rmtree(build_dir)
     docs_dir = build_dir / "docs"
     docs_dir.mkdir(parents=True)
