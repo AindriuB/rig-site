@@ -50,6 +50,7 @@ def test_mark_svg():
 def test_favicon_svg():
     svg = _svg("favicon.svg")
     assert 'viewBox="0 0 48 48"' in svg
+    assert svg.count("<line") == 1 and svg.index("<line") < svg.index("<circle")
     ln = _line(svg)
     assert (ln["x1"], ln["x2"]) == ("6", "42")
     assert ln["y1"] == ln["y2"] == "24" and 3 <= float(ln["stroke-width"]) <= 5
