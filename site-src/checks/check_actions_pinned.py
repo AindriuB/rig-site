@@ -4,7 +4,7 @@ import re
 import sys
 from pathlib import Path
 
-USES = re.compile(r"^\s*(?:-\s*)?uses:\s*(['\"]?)([^\s'\"#]+)\1")
+USES = re.compile(r"(?:^|[{,])\s*(?:-\s*)?uses:\s*(['\"]?)([^\s'\"#,}]+)\1")
 TAG = re.compile(r"^v\d+\.\d+\.\d+$")
 SHA = re.compile(r"^[0-9a-f]{40}$")
 
@@ -24,16 +24,16 @@ def problem(ref):
 
 def main():
     d = Path(".github/workflows")
-    files = sorted(d.glob("*.yml"))
+    files = sorted([*d.glob("*.yml"), *d.glob("*.yaml")])
     if not files:
-        print(f"{d}: no workflow files found")
+        print(f"{d}: no workflow files found", file=sys.stderr)
         return 1
     bad = False
     for f in files:
         for n, line in enumerate(f.read_text().splitlines(), 1):
-            m = USES.match(line)
+            m = USES.search(line)
             if m and (msg := problem(m.group(2))):
-                print(f"{f}:{n}: {m.group(2)}: {msg}")
+                print(f"{f}:{n}: {m.group(2)}: {msg}", file=sys.stderr)
                 bad = True
     return 1 if bad else 0
 

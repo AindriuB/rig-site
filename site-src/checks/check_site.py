@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Guards over the built site tree at $RIG_SITE_TREE. Stdlib only.
 
-Prints one `path: message` line per failure; exits 1 on any failure.
+Prints to stderr one `path: message` line per failure; exits 1 on any failure.
 """
 import os
 import re
@@ -27,7 +27,20 @@ PLANNING_NAMES = {
     "history", "history-index", "plan", "conventions", "architecture",
     "workflow", "release",
 }
-EXTERNAL = re.compile(r"^\s*(?:[A-Za-z][A-Za-z0-9+.-]*:|//)")
+EXTERNAL_RE = re.compile(r"^\s*(?:[A-Za-z][A-Za-z0-9+.-]*:|//)")
+VERSION = re.compile(r"^(?:v?\d+(?:\.\d+)*|latest|dev|stable)$")
+
+
+class _External:
+    """Match a URL the way a browser reads it: tab/newline stripped, backslash is slash."""
+
+    @staticmethod
+    def match(value):
+        v = re.sub(r"[\t\n\r]", "", value).replace("\\", "/")
+        return EXTERNAL_RE.match(v)
+
+
+EXTERNAL = _External()
 
 
 class Page(HTMLParser):
@@ -36,7 +49,9 @@ class Page(HTMLParser):
         self.problems = []
 
     def handle_starttag(self, tag, attrs):
-        a = dict(attrs)
+        a = {}
+        for k, v in attrs:
+            a.setdefault(k, v)
         if tag == "script":
             src = a.get("src")
             if src is not None:
@@ -65,7 +80,7 @@ def check_path(rel):
             out.append("excluded path segment 'plan'")
         if p.startswith("phase-"):
             out.append(f"excluded path segment '{p}' starts with 'phase-'")
-    inside_docs = len(parts) >= 2 and parts[0] == "docs"
+    inside_docs = len(parts) >= 3 and parts[0] == "docs" and bool(VERSION.match(parts[1]))
     if not inside_docs:
         for p in parts:
             stem = p.rsplit(".", 1)[0] if "." in p else p
@@ -77,7 +92,7 @@ def check_path(rel):
 def main():
     tree = os.environ.get("RIG_SITE_TREE")
     if not tree or not Path(tree).is_dir():
-        print(f"RIG_SITE_TREE: unset or not a directory: {tree!r}")
+        print(f"RIG_SITE_TREE: unset or not a directory: {tree!r}", file=sys.stderr)
         return 1
     root = Path(tree)
     fails = []
@@ -115,7 +130,7 @@ def main():
                 f"are not exactly the two expected unpkg strings"
             )
     for f in fails:
-        print(f)
+        print(f, file=sys.stderr)
     return 1 if fails else 0
 
 
