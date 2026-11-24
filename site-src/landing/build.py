@@ -26,55 +26,80 @@ def _capture_name(stem: str) -> str:
     return re.sub(r"^\d+-", "", stem)
 
 
+def _read(path: Path) -> str:
+    try:
+        return path.read_text(encoding="utf-8")
+    except OSError as e:
+        raise BuildError(f"{path}: cannot read: {e.strerror or e}") from e
+
+
+def _line(text: str, pos: int) -> int:
+    return text.count("\n", 0, pos) + 1
+
+
 def load_captures(src: Path) -> dict:
     caps = {}
     for p in sorted((src / "captures").glob("*.txt")):
-        caps[_capture_name(p.stem)] = p.read_text(encoding="utf-8")
+        caps[_capture_name(p.stem)] = _read(p)
     return caps
 
 
 def render_page(src: Path) -> str:
-    page = (src / "index.html").read_text(encoding="utf-8")
+    index = src / "index.html"
+    page = _read(index)
     partials = {p.stem: p for p in (src / "partials").glob("*.html")}
     captures = load_captures(src)
     used = set()
 
-    def include(m):
-        name = m.group(1)
-        if name not in partials:
-            raise BuildError(f"include '{name}' has no partial")
-        used.add(name)
-        return partials[name].read_text(encoding="utf-8")
+    def fill_captures(text: str, path: Path, whole: str, base: int = 0) -> str:
+        def capture(m):
+            name = m.group(1)
+            if name not in captures:
+                raise BuildError(f"{path}:{_line(whole, base + m.start())}: capture '{name}' not found")
+            return html.escape(captures[name].rstrip("\n"), quote=False)
 
-    page = INCLUDE.sub(include, page)
+        return CAPTURE.sub(capture, text)
+
+    def either(m):
+        if m.group("inc") is None:
+            return fill_captures(m.group(0), index, page, m.start())
+        name = m.group("inc")
+        if name not in partials:
+            raise BuildError(f"{index}:{_line(page, m.start())}: include '{name}' has no partial")
+        used.add(name)
+        text = _read(partials[name])
+        return fill_captures(text, partials[name], text)
+
+    both = re.compile(INCLUDE.pattern.replace("([A-Za-z0-9_-]+)", "(?P<inc>[A-Za-z0-9_-]+)") + "|" + CAPTURE.pattern)
+    out = both.sub(either, page)
     unused = sorted(set(partials) - used)
     if unused:
-        raise BuildError("partial(s) no marker uses: " + ", ".join(unused))
-
-    def capture(m):
-        name = m.group(1)
-        if name not in captures:
-            raise BuildError(f"capture '{name}' not found")
-        return html.escape(captures[name].rstrip("\n"), quote=False)
-
-    return CAPTURE.sub(capture, page)
+        names = ", ".join(str(partials[n]) for n in unused)
+        raise BuildError(f"{src / 'partials'}: partial(s) no marker in {index} uses: {names}")
+    return out
 
 
 def render_css(src: Path) -> str:
     styles = src / "styles"
-    files = [styles / "base.css"] + [p for p in sorted(styles.glob("*.css")) if p.name != "base.css"]
-    return "\n".join(p.read_text(encoding="utf-8") for p in files)
+    base = styles / "base.css"
+    files = [base] + [p for p in sorted(styles.glob("*.css")) if p.name != "base.css"]
+    return "\n".join(_read(p) for p in files)
 
 
 def build(out: Path, src: Path = HERE) -> None:
     page = render_page(src)
     css = render_css(src)
+    js = src / "landing.js"
+    if not js.is_file():
+        raise BuildError(f"{js}: not found")
+    if not THEME_ASSETS.is_dir():
+        raise BuildError(f"{THEME_ASSETS}: theme assets directory not found")
     out.mkdir(parents=True, exist_ok=True)
     (out / "index.html").write_text(page, encoding="utf-8")
     land = out / "assets" / "landing"
     land.mkdir(parents=True, exist_ok=True)
     (land / "landing.css").write_text(css, encoding="utf-8")
-    shutil.copyfile(src / "landing.js", land / "landing.js")
+    shutil.copyfile(js, land / "landing.js")
     theme = out / "assets" / "theme"
     if theme.exists():
         shutil.rmtree(theme)

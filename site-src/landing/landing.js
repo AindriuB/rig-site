@@ -7,8 +7,14 @@
   if (!blocks.length) return;
 
   var texts = blocks.map(function (b) { return b.textContent; });
-  blocks.forEach(function (b) {
-    b.style.minHeight = b.offsetHeight + "px";
+  // Reserve exactly the content height: line count x line-height, so the
+  // blocks never grow while typing and never leave a gap beyond the text.
+  blocks.forEach(function (b, i) {
+    var cs = window.getComputedStyle(b);
+    var lh = parseFloat(cs.lineHeight);
+    if (!(lh > 0)) lh = 1.5 * parseFloat(cs.fontSize);
+    var lines = texts[i].replace(/\n+$/, "").split("\n").length;
+    b.style.minHeight = (lines * lh + parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom)) + "px";
     b.textContent = "";
   });
 

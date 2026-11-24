@@ -169,23 +169,126 @@ def test_svgs_accessible(page):
         assert set(a["aria-labelledby"].split()) == {kids["title"], kids["desc"]}
 
 
+EXTERNAL = re.compile(r"^\s*([a-z][a-z0-9+.-]*:|//)", re.I)
+
+
+def _external_refs(page):
+    """Every URL-bearing attribute outside <a>, in any quoting."""
+    for tag in re.finditer(r"<([a-zA-Z][\w:-]*)\b([^>]*)>", page):
+        name, attrs = tag.group(1).lower(), tag.group(2)
+        if name == "a":
+            continue
+        for m in re.finditer(
+            r"""\b(src|href|xlink:href|data|poster|srcset|action|formaction)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))""",
+            attrs, re.I,
+        ):
+            yield tag.group(0), m.group(2) or m.group(3) or m.group(4) or ""
+
+
 def test_nothing_external_loaded(page, css):
-    for tag in re.finditer(r"<(script|img|link|iframe|source|video|audio)\b[^>]*>", page):
-        for m in re.finditer(r'\b(?:src|href)="([^"]*)"', tag.group(0)):
-            assert not re.match(r"^([a-z][a-z0-9+.-]*:|//)", m.group(1)), tag.group(0)
+    for tag, url in _external_refs(page):
+        assert not EXTERNAL.match(url), tag
     for m in re.finditer(r"url\(([^)]*)\)", css + page):
-        assert not re.match(r"""^['"]?([a-z][a-z0-9+.-]*:|//)""", m.group(1))
-    assert "@import" not in css
+        assert not re.match(r"""^\s*['"]?\s*([a-z][a-z0-9+.-]*:|//)""", m.group(1), re.I)
+    styles = css + "".join(re.findall(r"<style\b[^>]*>(.*?)</style>", page, re.S | re.I))
+    assert "@import" not in styles
+
+
+def test_external_guard_catches_bad_refs():
+    bad = ["<img src='https://example.com/x.png'>", '<embed src="https://example.com/y.svg">',
+           '<object data="//example.com/o"></object>', '<image href="http://e.com/i.png"/>',
+           "<use xlink:href=https://e.com/s.svg#a />"]
+    for b in bad:
+        assert any(EXTERNAL.match(u) for _, u in _external_refs(b)), b
+    assert not list(_external_refs('<a href="https://github.com/x">x</a>'))
+
+
+COLOUR = re.compile(
+    r"#[0-9a-fA-F]{3,8}\b|\b(?:rgb|hsl|hwb|lab|lch|oklab|oklch|color|color-mix|light-dark)a?\(",
+    re.I,
+)
+NAMED = re.compile(
+    r"(?<![\w-])(?:%s)(?![\w-])" % "|".join([
+        "aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige", "bisque", "black",
+        "blanchedalmond", "blue", "blueviolet", "brown", "burlywood", "cadetblue", "chartreuse",
+        "chocolate", "coral", "cornflowerblue", "cornsilk", "crimson", "cyan", "darkblue", "darkcyan",
+        "darkgoldenrod", "darkgray", "darkgrey", "darkgreen", "darkkhaki", "darkmagenta",
+        "darkolivegreen", "darkorange", "darkorchid", "darkred", "darksalmon", "darkseagreen",
+        "darkslateblue", "darkslategray", "darkslategrey", "darkturquoise", "darkviolet", "deeppink",
+        "deepskyblue", "dimgray", "dimgrey", "dodgerblue", "firebrick", "floralwhite", "forestgreen",
+        "fuchsia", "gainsboro", "ghostwhite", "gold", "goldenrod", "gray", "grey", "green",
+        "greenyellow", "honeydew", "hotpink", "indianred", "indigo", "ivory", "khaki", "lavender",
+        "lavenderblush", "lawngreen", "lemonchiffon", "lightblue", "lightcoral", "lightcyan",
+        "lightgoldenrodyellow", "lightgray", "lightgrey", "lightgreen", "lightpink", "lightsalmon",
+        "lightseagreen", "lightskyblue", "lightslategray", "lightslategrey", "lightsteelblue",
+        "lightyellow", "lime", "limegreen", "linen", "magenta", "maroon", "mediumaquamarine",
+        "mediumblue", "mediumorchid", "mediumpurple", "mediumseagreen", "mediumslateblue",
+        "mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue", "mintcream",
+        "mistyrose", "moccasin", "navajowhite", "navy", "oldlace", "olive", "olivedrab", "orange",
+        "orangered", "orchid", "palegoldenrod", "palegreen", "paleturquoise", "palevioletred",
+        "papayawhip", "peachpuff", "peru", "pink", "plum", "powderblue", "purple", "rebeccapurple",
+        "red", "rosybrown", "royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen", "seashell",
+        "sienna", "silver", "skyblue", "slateblue", "slategray", "slategrey", "snow", "springgreen",
+        "steelblue", "tan", "teal", "thistle", "tomato", "turquoise", "violet", "wheat", "white",
+        "whitesmoke", "yellow", "yellowgreen"]),
+    re.I,
+)
+# fill/stroke/colour values anywhere (CSS declarations or SVG attributes) must be a
+# token reference or a keyword that names no colour.
+PAINT_OK = {"none", "currentcolor", "transparent", "inherit", "context-fill", "context-stroke"}
+PAINT_CSS = re.compile(
+    r"(?<![\w-])(?:fill|stroke|color|background(?:-color)?|border(?:-[a-z]+)*-color|outline-color|stop-color|flood-color)\s*:\s*([^;}]+)", re.I)
+PAINT_ATTR = re.compile(r"""\b(?:fill|stroke|color|stop-color|flood-color)\s*=\s*(?:"([^"]*)"|'([^']*)')""", re.I)
+
+
+def _bad_paint(value):
+    v = value.strip().lower()
+    return not (v.startswith("var(--rig-") or v in PAINT_OK or v.startswith("url(#"))
 
 
 def test_no_colour_literals_in_sources():
-    pat = re.compile(r"#[0-9a-fA-F]{3,8}\b|\b(?:rgb|hsl)a?\(|\boklch\(")
     for p in LANDING.rglob("*"):
         rel = p.relative_to(LANDING).parts
         if not p.is_file() or rel[0] in ("captures", "tests", "__pycache__"):
             continue
-        assert not pat.search(p.read_text()), p
-    assert "rgb" not in "".join(p.read_text() for p in (LANDING / "styles").glob("*.css"))
+        text = p.read_text()
+        assert not COLOUR.search(text), p
+        if p.suffix == ".css":
+            for m in re.finditer(r"(?<![\w-])[a-z-]+\s*:\s*([^;}{]+)", text):
+                assert not NAMED.search(m.group(1)), (p, m.group(0))
+        for m in PAINT_CSS.finditer(text):
+            assert not _bad_paint(m.group(1)), (p, m.group(0))
+        if p.suffix in (".html", ".svg"):
+            for m in PAINT_ATTR.finditer(text):
+                assert not _bad_paint(m.group(1) or m.group(2)), (p, m.group(0))
+
+
+def test_colour_guard_catches_bad_values():
+    for bad in (".b{color:white;background:black}", "<rect fill='red'>", "a{color:hwb(0 0% 0%)}",
+                "a{x:lab(1 1 1)}", "a{x:color(srgb 1 1 1)}", ".a{stroke:#fff}", '<path fill="blue"/>'):
+        hit = COLOUR.search(bad) or NAMED.search(bad) or any(_bad_paint(m.group(1)) for m in PAINT_CSS.finditer(bad)) \
+            or any(_bad_paint(m.group(1) or m.group(2)) for m in PAINT_ATTR.finditer(bad))
+        assert hit, bad
+
+
+def test_errors_name_the_file(tmp_path):
+    src = make_src(tmp_path, "<p>x</p>\n<!-- include: nope -->", {})
+    with pytest.raises(build.BuildError, match=r"index\.html:2: include 'nope'"):
+        build.build(tmp_path / "o", src)
+    src = make_src(tmp_path / "b", "<p>x</p>", {"extra": "<p>y</p>"})
+    with pytest.raises(build.BuildError, match=r"extra\.html"):
+        build.build(tmp_path / "o", src)
+    src = make_src(tmp_path / "c", "<p>x</p>\n{{capture:zip}}", {})
+    with pytest.raises(build.BuildError, match=r"index\.html:2: capture 'zip'"):
+        build.build(tmp_path / "o", src)
+    src = make_src(tmp_path / "d", "<p>x</p>", {})
+    (src / "landing.js").unlink()
+    with pytest.raises(build.BuildError, match=r"landing\.js"):
+        build.build(tmp_path / "o", src)
+    src = make_src(tmp_path / "e", "<p>x</p>", {})
+    (src / "styles" / "base.css").unlink()
+    with pytest.raises(build.BuildError, match=r"base\.css"):
+        build.build(tmp_path / "o", src)
 
 
 def test_brand_and_favicons(page):
