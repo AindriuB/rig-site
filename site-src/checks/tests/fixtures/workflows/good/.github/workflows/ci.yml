@@ -1,0 +1,7 @@
+jobs:
+  a:
+    steps:
+      - uses: actions/checkout@v4.1.7
+      - uses: actions/setup-python@0123456789abcdef0123456789abcdef01234567 # v5
+      - uses: docker://alpine@sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+      - uses: ./local
