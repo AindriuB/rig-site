@@ -137,7 +137,7 @@ def rewrite_links(text: str, src_path: str, published: dict[str, str],
         if masked is None:
             continue
         for m in _IMG_REF.finditer(masked):
-            ident = m.group(1) or m.group(2) or ""
+            ident = m.group(1) or m.group(2) or m.group(0)[2:m.group(0).index("]")]
             image_ids.add(ident.strip().lower())
 
     out = []

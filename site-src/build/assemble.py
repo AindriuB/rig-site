@@ -13,7 +13,11 @@ from links import rewrite_links
 SITE_URL = "https://aindriub.github.io/rig-site/docs/{id}/"
 
 # Copied from data-prism's mkdocs.yml.
-VALIDATION = {"nav": {"omitted_files": "warn", "not_found": "warn"}}
+VALIDATION = {
+    "nav": {"omitted_files": "warn", "not_found": "warn", "absolute_links": "warn"},
+    "links": {"not_found": "warn", "absolute_links": "warn",
+              "unrecognized_links": "warn", "anchors": "warn"},
+}
 
 MARKDOWN_EXTENSIONS = [
     "admonition",
@@ -94,7 +98,7 @@ def write_config(ctx: VersionContext, nav: list) -> Path:
         "strict": True,
         "validation": VALIDATION,
         "plugins": ["search"],
-        "extra": {"version": {"provider": "mike"}},
+        "extra": {"version": {"provider": "mike"}, "generator": False},
         "markdown_extensions": MARKDOWN_EXTENSIONS,
         "nav": nav,
     }

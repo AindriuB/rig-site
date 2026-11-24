@@ -91,8 +91,11 @@ def test_core_generated_config(built):
     assert cfg["site_name"] == "rig" and cfg["edit_uri"] == "" and cfg["strict"] is True
     assert cfg["site_url"] == "https://aindriub.github.io/rig-site/docs/0.3/"
     assert cfg["repo_url"] == "https://github.com/AindriuB/rig"
-    assert cfg["validation"] == {"nav": {"omitted_files": "warn", "not_found": "warn"}}
-    assert cfg["plugins"] == ["search"] and cfg["extra"] == {"version": {"provider": "mike"}}
+    assert cfg["validation"] == {
+        "nav": {"omitted_files": "warn", "not_found": "warn", "absolute_links": "warn"},
+        "links": {"not_found": "warn", "absolute_links": "warn",
+                  "unrecognized_links": "warn", "anchors": "warn"}}
+    assert cfg["plugins"] == ["search"] and cfg["extra"] == {"version": {"provider": "mike"}, "generator": False}
     assert cfg["markdown_extensions"] == [
         "admonition", "pymdownx.details", "pymdownx.superfences", "pymdownx.highlight",
         "pymdownx.inlinehilite", "tables", "attr_list", "md_in_html",

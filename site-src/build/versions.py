@@ -50,21 +50,21 @@ def check_site_repo(site_repo: Path) -> None:
 def ensure_site_repo(site_repo: Path) -> None:
     if not (site_repo / ".git").exists():
         site_repo.mkdir(parents=True, exist_ok=True)
-        subprocess.run(["git", "init", "-q", str(site_repo)], check=True)
+        _run(["git", "init", "-q", str(site_repo)], site_repo, "git init", str(site_repo))
     # mike reads HEAD's commit, so the scratch repo needs one.
     if _git_out(site_repo, "rev-parse", "--verify", "-q", "HEAD") is None:
         _run(["git", "commit", "-q", "--allow-empty", "-m", "scratch"], site_repo,
              "git commit")
 
 
-def _run(cmd: list[str], cwd: Path, what: str) -> None:
+def _run(cmd: list[str], cwd: Path, what: str, where: str | None = None) -> None:
     r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True,
                        env={**os.environ, **GIT_ENV,
                             "PATH": f"{Path(sys.executable).parent}{os.pathsep}{os.environ['PATH']}"})
     if r.returncode:
         sys.stdout.write(r.stdout)
         sys.stderr.write(r.stderr)
-        raise BuildError(f"{what} failed (exit {r.returncode})")
+        raise BuildError(f"{where or cwd}: {what} failed (exit {r.returncode})")
 
 
 def _mike(*args: str) -> list[str]:
@@ -91,7 +91,7 @@ def build_version(spec: dict, mirror: Path, work: Path, cache: Path, theme: Path
     print(f"deploying {ctx.id} ({ctx.title})", flush=True)
     _run(_mike("deploy", "--deploy-prefix", "docs", "--update-aliases",
                "--alias-type", "redirect", "-F", str(config), "-t", ctx.title,
-               ctx.id, *ctx.aliases), site_repo, f"mike deploy {ctx.id}")
+               ctx.id, *ctx.aliases), site_repo, f"mike deploy {ctx.id}", str(config))
     return config
 
 

@@ -57,3 +57,8 @@ def test_core_relative_image_fails_with_path_and_line():
 def test_core_relative_reference_image_fails():
     with pytest.raises(BuildError, match=r"README\.md:3: relative image"):
         rw("![alt][p]\n\n[p]: docs/pic.png\n")
+
+
+def test_core_collapsed_reference_image_fails():
+    with pytest.raises(BuildError, match=r"README\.md:3: relative image"):
+        rw("![p][]\n\n[p]: docs/pic.png\n")
