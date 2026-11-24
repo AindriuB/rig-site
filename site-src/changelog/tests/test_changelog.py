@@ -1,3 +1,4 @@
+import importlib.util
 import os
 import subprocess
 import sys
@@ -7,8 +8,9 @@ import pytest
 import yaml
 
 CL = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(CL))
-import build  # noqa: E402
+_spec = importlib.util.spec_from_file_location("changelog_build", CL / "build.py")
+changelog_build = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(changelog_build)
 
 ENV = {"GIT_AUTHOR_NAME": "t", "GIT_AUTHOR_EMAIL": "t@t", "GIT_COMMITTER_NAME": "t",
        "GIT_COMMITTER_EMAIL": "t@t", "GIT_CONFIG_GLOBAL": "/dev/null"}
