@@ -1,0 +1,23 @@
+/* Visual 2: the terminal replay. The full transcript is the default. */
+.terminal {
+  background: var(--rig-code-bg);
+  border: 1px solid var(--rig-border);
+  border-radius: 8px;
+  padding: 0 1rem 1rem;
+  overflow-x: auto;
+}
+.terminal-bar { display: flex; gap: 0.4rem; padding: 0.75rem 0 0.25rem; }
+.dot { width: 0.7rem; height: 0.7rem; border-radius: 50%; display: inline-block; }
+.dot-red { background: var(--rig-signal-red); }
+.dot-amber { background: var(--rig-signal-amber); }
+.dot-green { background: var(--rig-signal-green); }
+.term-block {
+  margin: 0.75rem 0 0;
+  font-family: var(--rig-font-mono);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--rig-text);
+  white-space: pre-wrap;
+  user-select: text;
+}
+.term-block.is-typing::after { content: "\2588"; color: var(--rig-accent); }
