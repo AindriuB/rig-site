@@ -1,0 +1,12 @@
+/* Visual 5: where state lives. The blocked link is dashed and crossed, not colour alone. */
+.state-figure { margin: 1rem 0 0; }
+.state-figure figcaption { color: var(--rig-text-muted); font-size: 0.9rem; }
+.state-svg { width: 100%; height: auto; display: block; }
+.state-svg rect { fill: var(--rig-bg); stroke: var(--rig-border); stroke-width: 2; }
+.state-svg .clone rect { fill: var(--rig-surface); stroke-dasharray: 2 0; }
+.state-svg .store rect { stroke: var(--rig-accent); stroke-width: 3; }
+.state-svg .head { fill: var(--rig-text); font-family: var(--rig-font-sans); font-size: 17px; font-weight: 600; }
+.state-svg .mono { fill: var(--rig-text-muted); font-family: var(--rig-font-mono); font-size: 16px; }
+.state-svg .blocked { stroke: var(--rig-border); stroke-width: 3; stroke-dasharray: 8 6; fill: none; }
+.state-svg .cross { stroke: var(--rig-signal-red); stroke-width: 4; stroke-linecap: round; fill: none; }
+.state-svg .note { fill: var(--rig-text-muted); font-family: var(--rig-font-sans); font-size: 13px; text-anchor: middle; }
