@@ -65,7 +65,9 @@ class Page(HTMLParser):
             if "stylesheet" in rel and href is not None and EXTERNAL.match(href):
                 self.problems.append(f"stylesheet href is external: {href}")
         elif tag == "img":
-            if not (a.get("alt") or "").strip():
+            alt = a.get("alt")
+            decorative = alt == "" and (a.get("aria-hidden") or "").strip().lower() == "true"
+            if not (alt or "").strip() and not decorative:
                 self.problems.append(f"img without alt: {a.get('src', '')}")
 
     def handle_startendtag(self, tag, attrs):
