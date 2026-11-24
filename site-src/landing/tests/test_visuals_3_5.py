@@ -30,9 +30,12 @@ def test_push_panel_accepts_and_refuses(page):
     refused = re.search(r'push-refused.*', s, re.S).group(0)
     for t in ("task/", "record/", "task id", "exists locally", "not the default branch"):
         assert t in accepted, t
+    items = [text_of(li) for li in re.findall(r"<li\b.*?</li>", refused, re.S)]
     for t in ("the default branch", "a tag", "a refspec", "a force push"):
-        assert t in refused, t
-    assert refused.count("Refused:") == 4  # a text label per item, not colour alone
+        assert any(t in i for i in items), t
+    assert len(items) == 4
+    for i in items:
+        assert "Refused:" in i  # a text label per item, not colour alone
     assert "✕" in refused
 
 
