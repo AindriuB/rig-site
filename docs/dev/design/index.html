@@ -695,8 +695,14 @@ has to recognise one in arbitrary shell.</p>
 <li><strong>Go, standard library where possible.</strong> One static binary, no runtime.</li>
 <li><strong>Forge adapters only.</strong> <code>gh</code> now, <code>glab</code> next. Git is called directly; there
   is no git abstraction to swap.</li>
-<li><strong>The forge is auto-detected</strong> from the <code>origin</code> remote's host.
-  <code>.claude/rig.json</code> overrides it.</li>
+<li><strong>The forge is auto-detected</strong> from the <code>origin</code> remote's host. The layered
+  config (<code>rig config</code>) overrides it, by the scope order <code>rig config get</code>
+  reports (local, repo section, <code>.claude/rig.json</code>, global), then origin
+  detection. A kind from a less specific scope never overrides a host from a
+  more specific one; a host that names no known forge falls back to a less
+  specific kind. Without a home directory forge selection treats the global
+  layer as empty, but <code>rig push</code> still fails closed (exit 2): its policy may
+  live in the global file.</li>
 <li><strong>rig holds a token only for a service with no CLI of its own.</strong> GitHub and
   GitLab stay with <code>gh</code> and <code>glab</code>: the adapters shell out to them and use
   whatever login the user already has, and <code>rig login github|gitlab</code> only
@@ -742,7 +748,8 @@ has to recognise one in arbitrary shell.</p>
 <li><code>internal/proc</code> runs a subprocess from an argument vector with a deadline. It
   never builds a shell string, and it kills the child when the deadline passes.</li>
 <li><code>internal/git</code> wraps the handful of git calls rig needs.</li>
-<li><code>internal/config</code> reads <code>.claude/rig.json</code>:</li>
+<li><code>internal/config</code> reads the layered config (<code>rig config</code>); <code>.claude/rig.json</code>
+  is still honoured, and the forge and the push prefixes come from it:</li>
 </ul>
 <table>
 <thead>
@@ -1236,6 +1243,7 @@ remote, or a force or delete option. Exit 2 means <code>git push</code> never st
 <li><strong><code>.claude/rig.json</code> is the user's file.</strong> Its <code>pushPrefixes</code> decide which
   prefixes count, so whoever can write it can widen the pushes: to
   <code>release/x</code>, say, though still never to a bare branch, a tag or a force.
+  In a bare layout the worktree's own files apply, as for <code>rig config</code>.
   An agent must not edit it. The project settings template makes any Edit or
   Write of <code>.claude/rig.json</code>, in the project or in a worktree below it, and any shell
   command that names <code>rig.json</code>, ask first (<code>tests/rig-settings.bats</code> pins
