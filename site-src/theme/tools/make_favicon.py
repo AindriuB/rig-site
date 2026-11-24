@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Draw assets/brand/favicon.png (32x32): the three-dot mark.
+"""Draw assets/brand/favicon.png (32x32): the three-dot track mark.
 
 Reads the signal colours from the dark set in assets/tokens.css. Needs Pillow
 (tools/requirements.txt). Run from anywhere; nothing here is copied into a site.
@@ -28,14 +28,25 @@ def signal_colours() -> list[str]:
     return out
 
 
+def border_colour() -> str:
+    css = (ASSETS / "tokens.css").read_text()
+    block = css.split("}", 1)[0]
+    m = re.search(r"--rig-border:\s*(#[0-9a-fA-F]{6})\s*;", block)
+    if not m:
+        raise SystemExit("--rig-border not found in dark set of tokens.css")
+    return m.group(1)
+
+
 def main() -> None:
     size = 32 * SCALE
     img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
-    r = 4.4 * SCALE
+    y = 16 * SCALE
+    half = 2 * SCALE  # track stroke 4px: half-width 2
+    draw.rectangle((5 * SCALE, y - half, 27 * SCALE, y + half), fill=border_colour())
+    r = 4 * SCALE
     for cx, colour in zip((5, 16, 27), signal_colours()):
         c = cx * SCALE
-        y = 16 * SCALE
         draw.ellipse((c - r, y - r, c + r, y + r), fill=colour)
     img.resize((32, 32), Image.LANCZOS).save(ASSETS / "brand" / "favicon.png")
 
