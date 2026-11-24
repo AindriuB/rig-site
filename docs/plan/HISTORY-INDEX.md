@@ -20,6 +20,8 @@ no row is one `planner` cannot find, and will re-plan.
 
 | Date | Task IDs | Summary | Heading (grep this exact string) |
 |---|---|---|---|
+| 2026-11-24 | 04 | Offline light/dark Mermaid SVG rendering with cache | ## 2026-11-24 — Offline Mermaid rendering |
+| 2026-11-24 | 09 | Unversioned changelog page built from rig main | ## 2026-11-24 — Unversioned changelog page |
 | 2026-11-24 | 05 | Basic-preset state diagram generated per version | ## 2026-11-24 — Lifecycle diagram from each version's basic preset |
 | 2026-11-24 | 08 | Built-site and workflow-pin guard checks | ## 2026-11-24 — Site guards |
 | 2026-11-24 | 03 | Per-version docs assembly and mike deploy pipeline | ## 2026-11-24 — Versioned docs pipeline |
