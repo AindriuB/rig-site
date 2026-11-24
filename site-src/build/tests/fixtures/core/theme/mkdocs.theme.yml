@@ -1,0 +1,5 @@
+theme:
+  name: material
+  custom_dir: theme/overrides
+extra_css:
+  - assets/theme/extra.css
