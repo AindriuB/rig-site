@@ -328,6 +328,40 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#updating" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Updating
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Updating">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automatic-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -520,6 +554,40 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#updating" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Updating
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Updating">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automatic-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -630,8 +698,38 @@ steps many times a day, but it does not depend on any particular loop.</p>
 <p>rig needs Go 1.24 or later, <code>git</code>, and <code>gh</code> (GitHub) or <code>glab</code> (GitLab).</p>
 <div class="highlight"><pre><span></span><code>go<span class="w"> </span>install<span class="w"> </span>github.com/AindriuB/rig/cmd/rig@latest
 </code></pre></div>
-<p>Release binaries for five platforms, with a <code>SHA256SUMS</code> file, are on the
-project's GitHub release page.</p>
+<p>Release binaries for five platforms, with a <code>SHA256SUMS</code> file and its
+<code>SHA256SUMS.sig</code> signature, are on the project's GitHub release page. Releases
+are signed from 0.5.2; earlier releases are not, and <code>rig update</code> will not
+install them.</p>
+<h3 id="updating">Updating<a class="headerlink" href="#updating" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>rig<span class="w"> </span>update<span class="w">            </span><span class="c1"># install the latest release</span>
+rig<span class="w"> </span>update<span class="w"> </span>--check<span class="w">    </span><span class="c1"># report only; exit 1 when a newer release exists</span>
+rig<span class="w"> </span>update<span class="w"> </span>--to<span class="w"> </span><span class="m">0</span>.5.2<span class="w"> </span><span class="c1"># install a given release</span>
+</code></pre></div>
+<p><code>rig update</code> replaces the running binary with the release binary for your
+platform. That includes a copy you built with <code>go install</code>: it is replaced by
+the release binary built from the same tag, not rebuilt from source. It
+downloads only from the project's GitHub releases, and installs only after the
+signature, the checksum and a run of the new binary's <code>version</code> all pass. If
+any of them fails, or the directory is not writable, the installed file is
+untouched.</p>
+<p>A process that is already running keeps the old binary: on Linux and macOS the
+old file is replaced, not edited, so a running process keeps its inode, and on
+Windows the old binary is moved to <code>rig.exe.old</code> (removed on a later run).
+Start rig again to use the new one.</p>
+<h4 id="automatic-updates">Automatic updates<a class="headerlink" href="#automatic-updates" title="Permanent link">&para;</a></h4>
+<p><code>update.auto</code> sets what rig does after a command finishes:</p>
+<ul>
+<li><code>off</code> (the default): nothing.</li>
+<li><code>notify</code>: when a newer release exists, print one line to stderr.</li>
+<li><code>install</code>: install it, and print one line to stderr.</li>
+</ul>
+<p>Set it in the global file only (<code>rig config set update.auto notify --global</code>);
+a repository cannot turn it on. rig checks at most once every 24 hours, and
+never changes the command's exit code. It does nothing in CI (<code>CI</code> set), when
+stderr is not a terminal, with <code>--json</code>, for <code>rig update</code> and <code>rig version</code>,
+and when the check cannot reach GitHub within 2 seconds.</p>
 <h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>rig push &lt;task-id|branch&gt; [--worktree &lt;path&gt;]
 rig pr view [&lt;pr|branch&gt; | --task &lt;id&gt;] [--json] [--repo &lt;dir&gt;]
@@ -678,6 +776,7 @@ rig login &lt;service&gt; [--url &lt;site&gt;] [--user &lt;email&gt;] [--token] 
 rig login status [--json]
 rig logout &lt;service&gt; [--url &lt;site&gt;] [--repo]   (jira; github and gitlab print the gh/glab command)
 rig version
+rig update [--check] [--to &lt;version&gt;] [--json]
 </code></pre></div>
 <p><code>--actor &lt;name&gt;</code> (alias <code>--role &lt;name&gt;</code>) is accepted by the commands above that
 write the store, and by no other. It sets the actor recorded on each event the
@@ -797,8 +896,8 @@ and <code>rig context</code> as Markdown, for people and for agents that read pr
 Naming two different formats, or an unknown one, is exit 2.</p>
 <p>An unknown flag always exits 2. <code>--json</code> output and the exit codes are a
 stable contract, described in <a href="design/">docs/design.md</a>. The store and
-the task commands are described in <a href="https://github.com/AindriuB/rig/blob/v0.5.1/docs/phase-2.md">docs/phase-2.md</a>, config
-and login in <a href="https://github.com/AindriuB/rig/blob/v0.5.1/docs/phase-2.5.md">docs/phase-2.5.md</a>, and the workflow file
+the task commands are described in <a href="https://github.com/AindriuB/rig/blob/v0.5.3/docs/phase-2.md">docs/phase-2.md</a>, config
+and login in <a href="https://github.com/AindriuB/rig/blob/v0.5.3/docs/phase-2.5.md">docs/phase-2.5.md</a>, and the workflow file
 format, with a worked example, in <a href="workflows/">docs/workflows.md</a>.</p>
 <p>Tasks live in <code>refs/rig/</code> and <code>.git/rig/</code> of the clone, so they stay on your
 machine: rig does not push or fetch them, and a repository looks the same to
@@ -817,7 +916,7 @@ anyone who does not use rig. With no setup, rig uses a small built-in
 for another remote, a force push or tags.</p>
 <h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
 <p><code>rig config</code> holds the newer settings (the forge, the tracker, the workflow);
-see <a href="https://github.com/AindriuB/rig/blob/v0.5.1/docs/phase-2.5.md">docs/phase-2.5.md</a>. <code>.claude/rig.json</code> in the
+see <a href="https://github.com/AindriuB/rig/blob/v0.5.3/docs/phase-2.5.md">docs/phase-2.5.md</a>. <code>.claude/rig.json</code> in the
 repository is optional and still read. Every key has a default.</p>
 <table>
 <thead>
@@ -908,6 +1007,11 @@ file as yours: do not let an agent edit it unasked.</p>
 <td>none</td>
 </tr>
 <tr>
+<td><code>update.auto</code></td>
+<td><code>off</code>, <code>notify</code> or <code>install</code>: what rig does after a command when a newer release exists. Global file only</td>
+<td><code>off</code></td>
+</tr>
+<tr>
 <td><code>worktrees.root</code></td>
 <td>Where <code>rig task start</code> puts worktrees: <code>&lt;root&gt;/&lt;repo name&gt;/&lt;slug&gt;</code></td>
 <td><code>.worktrees</code></td>
@@ -940,7 +1044,7 @@ planned next.</p>
 </ol>
 <h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
 <p>Copyright 2026 Andrew Bannister. Licensed under the Apache License,
-Version 2.0; see <a href="https://github.com/AindriuB/rig/blob/v0.5.1/LICENSE">LICENSE</a>.</p>
+Version 2.0; see <a href="https://github.com/AindriuB/rig/blob/v0.5.3/LICENSE">LICENSE</a>.</p>
 
 
 
