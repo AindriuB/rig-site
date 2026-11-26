@@ -657,7 +657,7 @@
 <a href="https://github.com/AindriuB/rig/blob/main/docs/phase-2.5.md">phase-2.5.md</a>; <a href="../workflows/">workflows.md</a> documents the
 workflow file. Phase 3 (views and trackers) ships as 0.4.0 and 0.5.0: 0.4.0 is
 built and is described in <a href="https://github.com/AindriuB/rig/blob/main/docs/phase-3.md">phase-3.md</a>; <code>rig tracker report</code> is
-built in 0.5.0. Later phases are outlines, each planned separately before
+built in 0.5.0, and <code>rig tracker push</code> in 0.6.0 (see <a href="https://github.com/AindriuB/rig/blob/main/docs/phase-3.5.md">phase-3.5.md</a>). Later phases are outlines, each planned separately before
 it is built.</p>
 <p><strong>Direction.</strong> rig provides generic actions (tasks, findings, notes,
 workflow transitions, push, pull requests, CI waits, context briefs, config,
@@ -964,6 +964,10 @@ anything in the tables below raises the major version.</p>
 <td>0, also when an earlier report already sent the same (skipped); 1 the task's state has no <code>tracker.report.status</code> entry, the tracker has no transition to that status, or <code>--comment pr</code> and the task has no pull request, with nothing sent; 2 on any other error, including no tracker, an unlinked task, and a comment that failed after the status was sent (the status is recorded)</td>
 </tr>
 <tr>
+<td><code>rig tracker push &lt;task&gt; [--tree] [--dry-run] [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]</code></td>
+<td>0 pushed, or nothing to push (every selected task already linked); 1 refused before anything is created: a type outside <code>tracker.push.types</code>, a depth beyond <code>tracker.push.levels</code>, a type the tracker lacks or places not below its parent's, an unlinked parent not in the run, a tracker that cannot create; 2 on any other error, including a create that failed part way (what was made stays linked)</td>
+</tr>
+<tr>
 <td><code>rig tracker show &lt;key&gt; [--json] [--repo &lt;dir&gt;]</code></td>
 <td>0; 2 on any error</td>
 </tr>
@@ -1028,7 +1032,7 @@ flags and behaviour are described in <a href="https://github.com/AindriuB/rig/bl
 <a href="../workflows/">workflows.md</a>. <code>RIG_ACTOR</code> names who acted and <code>RIG_WORKFLOW</code>
 the workflow to use. The commands that write the store (<code>task new</code>, <code>edit</code>,
 <code>move</code>, <code>set</code>, <code>count</code>, <code>parent</code>, <code>link</code>, <code>unlink</code>; <code>finding add</code>, <code>set</code>;
-<code>note add</code>; <code>tracker pull</code>, <code>refresh</code>, <code>report</code>) also take <code>--actor &lt;name&gt;</code>, or its alias
+<code>note add</code>; <code>tracker pull</code>, <code>refresh</code>, <code>report</code>, <code>push</code>) also take <code>--actor &lt;name&gt;</code>, or its alias
 <code>--role &lt;name&gt;</code>, which beats <code>RIG_ACTOR</code> and git's <code>user.name</code> for the actor
 stamped on the events; an empty or control-character value, or the two flags
 with different values, is exit 2 with nothing written, and every other command
@@ -1183,6 +1187,15 @@ there is none) and <code>external</code> (absent when the task is not linked):</
   dryRun?, warnings?}</code>; <code>status</code> is <code>{from, to}</code> and <code>comment</code> is <code>{kind, id}</code>,
   each <code>null</code> when that part was not sent. With <code>--dry-run</code> nothing is sent:
   <code>status</code> has only <code>to</code>, and <code>comment</code> has no id but a <code>body</code>.</li>
+<li><code>rig tracker push --json</code> is <code>{dryRun?, pushed, skipped, notPushed}</code>, each a
+  list of <code>{task, title, key?, url?, type?, parent?, status, error?,
+  payload?}</code>. <code>task</code> is the task's short id. <code>status</code> is <code>created</code>, <code>linked</code>
+  (an earlier push's issue, found by its marker), <code>created-with-error</code> (the
+  issue exists and is linked, but the create reported an error), <code>skipped</code>
+  (the task was already linked), <code>would-create</code> (<code>--dry-run</code>) or <code>not-pushed</code>
+  (the run stopped before it; the first has <code>error</code>). <code>payload</code> is on
+  <code>--dry-run</code> only: <code>{type?, title, body, acceptance?, labels, parentKey?}</code>,
+  exactly what a real run would send.</li>
 <li><code>rig tracker show --json</code> is the issue: <code>{key, url, title, description,
   acceptance, priority, assignee, labels, type, status, parent, rev}</code>.</li>
 <li><code>rig tracker status --json</code> is <code>{kind, trusted, capabilities, login}</code>;
@@ -1193,6 +1206,28 @@ there is none) and <code>external</code> (absent when the task is not linked):</
   or <code>project: RIG ok (no issues yet)</code>; a missing project does not change the
   exit code. When the check fails with an error, <code>project</code> is <code>{error}</code> and the
   text output says <code>project: not checked: &lt;error&gt;</code>.</li>
+</ul>
+<p><strong>Tracker push.</strong> <code>rig tracker push &lt;task&gt;</code> creates an issue on the
+configured tracker for an unlinked task, and with <code>--tree</code> for its unlinked
+descendants, parents first, then links each task to its issue. See
+<a href="https://github.com/AindriuB/rig/blob/main/docs/phase-3.5.md">phase-3.5.md</a> for what is sent and the failure cases.</p>
+<ul>
+<li>Only the task's <code>type</code>, title, body, acceptance criteria (Jira, and only with
+  <code>tracker.jira.acceptanceField</code>), a parent issue key and one marker label
+  leave the machine. Nothing else of the task does.</li>
+<li>A linked task is skipped, so a re-run never creates a second issue. One task
+  is created at a time; the first failure stops the run and exits 2, and the
+  rest are listed as <code>not-pushed</code>.</li>
+<li>Before each create rig writes a <code>tracker-push</code> event
+  <code>{marker, kind, host?, project?}</code> (the marker label and the tracker). A task
+  with that event and no link may already have an issue: the next push
+  searches the tracker for the marker, and links what it finds instead of
+  creating. A task's lock file under the git common directory
+  (<code>rig/push/&lt;task&gt;.lock</code>) stops two pushes of one task at once. An older rig
+  skips the event kind.</li>
+<li>After the create the task gets an <code>external</code> link and a <code>tracker-sync</code>
+  snapshot in one write, so the tracker owns the owned fields from then on.</li>
+<li><code>--dry-run</code> creates and writes nothing and prints each payload.</li>
 </ul>
 <p><strong>Tracker report.</strong> <code>rig tracker report</code> sends a task's progress to the issue
 it is linked to (the task must be linked to an issue of the configured tracker,
@@ -1433,11 +1468,11 @@ an example workflow file, shown in phase-2.md as the worked example.</p>
 </tr>
 <tr>
 <td>3</td>
-<td>Views and trackers, see <a href="https://github.com/AindriuB/rig/blob/main/docs/phase-3.md">phase-3.md</a>. <strong>0.4.0 is built</strong>: <code>--format markdown</code> for <code>task show</code>, <code>task list</code> and <code>context</code>; task parent and external links (<code>task parent</code>, <code>link</code>, <code>unlink</code>, <code>list --parent\|--roots\|--tree</code>, <code>show --children</code>); a tracker port with <code>github</code>, <code>gitlab</code>, <code>jira</code> and <code>exec</code> adapters; <code>rig task new --from</code>, <code>rig tracker pull</code>, <code>refresh</code>, <code>show</code> and <code>status</code>; branch stamping with <code>{key}</code>; the store view in <code>rig status</code>; <code>rig task start</code> and <code>finish</code> with <code>worktrees.root</code>. <strong>0.5.0</strong>: <code>rig tracker report</code></td>
+<td>Views and trackers, see <a href="https://github.com/AindriuB/rig/blob/main/docs/phase-3.md">phase-3.md</a>. <strong>0.4.0 is built</strong>: <code>--format markdown</code> for <code>task show</code>, <code>task list</code> and <code>context</code>; task parent and external links (<code>task parent</code>, <code>link</code>, <code>unlink</code>, <code>list --parent\|--roots\|--tree</code>, <code>show --children</code>); a tracker port with <code>github</code>, <code>gitlab</code>, <code>jira</code> and <code>exec</code> adapters; <code>rig task new --from</code>, <code>rig tracker pull</code>, <code>refresh</code>, <code>show</code> and <code>status</code>; branch stamping with <code>{key}</code>; the store view in <code>rig status</code>; <code>rig task start</code> and <code>finish</code> with <code>worktrees.root</code>. <strong>0.5.0</strong>: <code>rig tracker report</code>. <strong>0.6.0</strong>: <code>rig tracker push</code></td>
 </tr>
 <tr>
 <td>3.5</td>
-<td>Self-update, see <a href="https://github.com/AindriuB/rig/blob/main/docs/phase-3.5.md">phase-3.5.md</a>. <strong>0.5.2</strong>: signed releases, <code>rig update</code>, <code>update.auto</code></td>
+<td>Self-update and tracker push, see <a href="https://github.com/AindriuB/rig/blob/main/docs/phase-3.5.md">phase-3.5.md</a>. <strong>0.5.2</strong>: signed releases, <code>rig update</code>, <code>update.auto</code>. <strong>0.6.0</strong>: <code>rig tracker push</code></td>
 </tr>
 <tr>
 <td>4</td>

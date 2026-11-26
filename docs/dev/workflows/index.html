@@ -1003,6 +1003,21 @@ order, after a move has been written. A hook gets <code>{event, task}</code> as 
 standard input and has 30 seconds. A hook that fails is reported on standard
 error, and in <code>hookErrors</code> with <code>--json</code>, but it never undoes the move.
 Something that must be able to refuse a move is a <code>command</code> gate, not a hook.</p>
+<p>What <code>rig task move</code> does, in order:</p>
+<ol>
+<li>It looks up the transition from the task's effective state to the target.
+   With no such transition the move is refused. A target of <code>$previous</code> on a
+   task that has never moved is refused too.</li>
+<li>It evaluates every gate of that transition, not stopping at the first
+   failure.</li>
+<li>If any gate failed, the move is refused: exit 1, and nothing is written.</li>
+<li>Otherwise it writes the move. If the task, its findings or its branch head
+   changed since they were read, it starts again from step 1, a few times, and
+   then gives up with a conflict.</li>
+<li>Only after the write do the hooks run. A hook that fails is reported, and
+   the move stands.</li>
+</ol>
+<p><img alt="A task move looks up the transition, checks every gate, refuses and writes nothing if one fails, otherwise writes (retrying if the task changed) and then runs hooks whose failures never undo the move." src="../assets/diagrams/workflows-2-light.svg#only-light" /><img alt="A task move looks up the transition, checks every gate, refuses and writes nothing if one fails, otherwise writes (retrying if the task changed) and then runs hooks whose failures never undo the move." src="../assets/diagrams/workflows-2-dark.svg#only-dark" /></p>
 <h3 id="arguments-and-placeholders">Arguments and placeholders<a class="headerlink" href="#arguments-and-placeholders" title="Permanent link">&para;</a></h3>
 <p><code>command</code> gates and hooks are argument vectors. rig runs the program directly
 and never through a shell. An argument that is exactly <code>{short}</code>, <code>{id}</code>,
@@ -1047,13 +1062,41 @@ repository cannot change it.</p>
   <code>acceptance</code> need a <code>list</code> field; every other attribute needs a <code>string</code> or
   <code>text</code> field. Each attribute is mapped from at most one field. With no <code>map</code>,
   the owned fields are <code>title</code> and <code>body</code>.</li>
-<li><code>report.status</code> goes from a rig state to the name of a tracker status. rig
+<li>
+<p><code>report.status</code> goes from a rig state to the name of a tracker status. rig
   checks that the states are declared and the names are not empty. <code>rig tracker report</code> sends the entry
   for the task's current state as the issue's status; a state with no entry
-  sends no status (exit 1).</li>
+  sends no status (exit 1).</p>
+</li>
+<li>
+<p><code>push</code> says which issue type <code>rig tracker push</code> gives a task. It has two
+  lists of the tracker's own type names:</p>
+</li>
+<li><code>levels</code> is ordered from the top. The pushed task takes the first name;
+    each child, one deeper, takes the next; with <code>--tree</code> a task's depth
+    chooses its type. A task that has a <code>type</code> field, or a linked issue with a
+    type, uses that instead, and its children continue from it. A task deeper
+    than the list is refused (exit 1).</li>
+<li><code>types</code> lists the names a task's own <code>type</code> field may choose; any other is
+    refused.</li>
+<li>rig hardcodes no type names: it neither knows <code>Epic</code>, <code>Story</code> nor <code>Task</code>.
+    The names are whatever your tracker calls them, and rig checks them
+    against the tracker's list before it creates anything. A tracker that lists
+    no types is sent none. If <code>push</code> is present, <code>levels</code> must name at least
+    one type; no name may be empty or repeated.</li>
 </ul>
+<p>A four-level list, for Jira:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">"push"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="nt">"levels"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Initiative"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Epic"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Story"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Sub-task"</span><span class="p">],</span>
+<span class="w">  </span><span class="nt">"types"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Bug"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Story"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Sub-task"</span><span class="p">]</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>A two-level list, for a GitHub organisation with issue types:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">"push"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nt">"levels"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"Feature"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Task"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
+</code></pre></div>
 <p><code>rig workflow validate</code> reports each broken rule with its JSON path, for
 example <code>tracker.map.priority</code>.</p>
+<p><code>tracker.push</code> is new in 0.6.0; older rigs reject it.</p>
 <p><strong>0.3.0 cannot load a workflow file that has a <code>tracker</code> key, or a <code>branch</code>
 template that uses <code>{key}</code>.</strong> It rejects the unknown key or placeholder and
 exits 2. If one global file is shared between machines, update rig on all of
@@ -1136,6 +1179,19 @@ owned field you edited locally, and lists it under <code>replaced</code> in <cod
 the value that was lost. A deleted issue is reported as <code>gone</code> and nothing is
 written. <code>task unlink</code> leaves the fields as they are; from then on they are the
 task's own.</p>
+<p>In steps:</p>
+<ol>
+<li><code>rig tracker pull</code> and <code>rig task new --from</code> look for a task that has the
+   issue. If one does, they return it; if not, they create a linked task with
+   the owned fields copied from the issue.</li>
+<li><code>rig task link</code> is refused (exit 1) if another task has the issue;
+   otherwise it links the task.</li>
+<li><code>rig tracker refresh</code> reads the issue again. If the issue is gone it is
+   reported as <code>gone</code> and nothing is written. Otherwise the owned fields are
+   overwritten, and any a local edit changed are listed as <code>replaced</code>.</li>
+<li><code>rig task unlink</code> drops the link and leaves the fields as they are.</li>
+</ol>
+<p><img alt="Pull and task new from an issue return the task that already has it or create a linked one, task link is refused if another task has the issue, refresh overwrites owned fields or reports gone and writes nothing, and unlink drops the link and keeps the fields." src="../assets/diagrams/workflows-3-light.svg#only-light" /><img alt="Pull and task new from an issue return the task that already has it or create a linked one, task link is refused if another task has the issue, refresh overwrites owned fields or reports gone and writes nothing, and unlink drops the link and keeps the fields." src="../assets/diagrams/workflows-3-dark.svg#only-dark" /></p>
 <h2 id="worked-example-a-review-loop">Worked example: a review loop<a class="headerlink" href="#worked-example-a-review-loop" title="Permanent link">&para;</a></h2>
 <p>An example review workflow: plan, implement, review, verify, pull request,
 merge. It is one workflow among others. The file below is the fixture rig
@@ -1191,6 +1247,7 @@ uses it keeps its own copy.</p>
 <span class="w">  </span><span class="p">]</span>
 <span class="p">}</span>
 </code></pre></div>
+<p><img alt="States of the review-loop workflow from planned to merged, with the gates on each move, the round counter on reviewed to implementing, a stop route from every non-final state, and stopped returning to the state it left." src="../assets/diagrams/workflows-4-light.svg#only-light" /><img alt="States of the review-loop workflow from planned to merged, with the gates on each move, the round counter on reviewed to implementing, a stop route from every non-final state, and stopped returning to the state it left." src="../assets/diagrams/workflows-4-dark.svg#only-dark" /></p>
 <p>Reading it through:</p>
 <ul>
 <li><strong>Starting.</strong> A task begins in <code>planned</code>. It cannot move to <code>implementing</code>

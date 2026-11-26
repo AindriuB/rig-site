@@ -567,6 +567,7 @@
 <h2 id="version-bump">Version bump<a class="headerlink" href="#version-bump" title="Permanent link">&para;</a></h2>
 <ul>
 <li>File: <code>cmd/rig/version.go</code> — set <code>version</code> to <code>&lt;version&gt;</code>.</li>
+<li>Changelog: in the release commit, move <code>## [Unreleased]</code> entries of <code>CHANGELOG.md</code> under <code>## [&lt;version&gt;] - &lt;date&gt;</code> and add its compare link, before the tag.</li>
 <li>Commit: <code>release: &lt;version&gt;</code> on a <code>task/release-&lt;version&gt;</code> branch; PR to <code>main</code>.</li>
 <li>Wait: CI <code>ci.yml</code> green on the PR, then merge.</li>
 <li>Skip when <code>go run ./cmd/rig version</code> on <code>main</code> already prints <code>&lt;version&gt;</code>.</li>
@@ -598,6 +599,12 @@
 <td><code>gh release edit v&lt;version&gt; --draft=false --latest</code></td>
 <td>none (manual)</td>
 <td>none</td>
+</tr>
+<tr>
+<td>rig-site rebuild</td>
+<td>GitHub release published</td>
+<td><code>site-dispatch.yml</code></td>
+<td><code>RIG_SITE_DISPATCH_TOKEN</code></td>
 </tr>
 </tbody>
 </table>

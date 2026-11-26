@@ -398,6 +398,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pushing-tasks-to-a-tracker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pushing tasks to a tracker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#development" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -624,6 +635,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#pushing-tasks-to-a-tracker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pushing tasks to a tracker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#development" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -771,6 +793,7 @@ rig config set &lt;key&gt; &lt;value&gt; --global|--repo|--local
 rig config unset &lt;key&gt; --global|--repo|--local
 rig config list [--global|--repo|--local] [--show-origin] [--json]
 rig tracker pull &lt;key&gt; | --query &lt;q&gt; | --label &lt;l&gt; [--children[=&lt;depth&gt;]] [--limit &lt;n&gt;] [--state &lt;s&gt;] [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig tracker push &lt;task&gt; [--tree] [--dry-run] [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
 rig tracker refresh [&lt;task&gt; | --all] [--dry-run] [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
 rig tracker report &lt;task&gt; [--status] [--comment pr|state|summary] [--include findings|notes]... [--dry-run] [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
 rig tracker show &lt;key&gt; [--json] [--repo &lt;dir&gt;]
@@ -858,6 +881,11 @@ is trimmed; an empty one, one with a control character, or <code>--actor</code> 
 <td>0; 1 <code>--state</code> refused; 2 on any error, or if any issue failed</td>
 </tr>
 <tr>
+<td><code>rig tracker push</code></td>
+<td>Creates an issue on the tracker for a task that has none, and with <code>--tree</code> for its unlinked descendants, then links each. The type comes from the workflow's <code>tracker.push</code>. <code>--dry-run</code> prints what would be sent.</td>
+<td>0; 1 refused before anything is created; 2 on any other error, including a create that failed part way</td>
+</tr>
+<tr>
 <td><code>rig tracker refresh</code></td>
 <td>Re-reads linked issues and overwrites the owned fields of their tasks with the tracker's values. <code>--dry-run</code> writes nothing.</td>
 <td>0; 2 on any error, or if any task failed</td>
@@ -907,6 +935,8 @@ format, with a worked example, in <a href="workflows/">docs/workflows.md</a>.</p
 machine: rig does not push or fetch them, and a repository looks the same to
 anyone who does not use rig. With no setup, rig uses a small built-in
 <code>basic</code> workflow (<code>open</code>, <code>active</code>, <code>done</code>).</p>
+<p>The command map groups every command by its first word.</p>
+<p><img alt="Every rig command grouped under its first word, with each subcommand as a node under its noun." src="assets/diagrams/index-1-light.svg#only-light" /><img alt="Every rig command grouped under its first word, with each subcommand as a node under its noun." src="assets/diagrams/index-1-dark.svg#only-dark" /></p>
 <h2 id="what-rig-push-will-push">What <code>rig push</code> will push<a class="headerlink" href="#what-rig-push-will-push" title="Permanent link">&para;</a></h2>
 <p>A branch is pushed only if all of these hold:</p>
 <ul>
@@ -1029,6 +1059,21 @@ are resolved the worktree must still be under the checkout; otherwise <code>rig 
 start</code> stops with an error. Only the global file may point outside the
 checkout, with an absolute path. <code>tracker.url</code> has a trust rule of its own:
 see <a href="workflows/#linking-tasks-to-a-tracker">docs/workflows.md</a>.</p>
+<h2 id="pushing-tasks-to-a-tracker">Pushing tasks to a tracker<a class="headerlink" href="#pushing-tasks-to-a-tracker" title="Permanent link">&para;</a></h2>
+<p><code>rig tracker push</code> makes issues from tasks. It sends each task's title, body,
+type, parent and one <code>rig/...</code> marker label. With a Jira tracker that has
+<code>tracker.jira.acceptanceField</code> set, it also sends the acceptance criteria. It
+sends nothing else; the marker lets a re-run find an issue an earlier run made
+instead of creating a second one.</p>
+<div class="highlight"><pre><span></span><code>rig<span class="w"> </span>tracker<span class="w"> </span>push<span class="w"> </span><span class="m">07</span><span class="w"> </span>--tree<span class="w"> </span>--dry-run<span class="w">   </span><span class="c1"># show what would be created</span>
+rig<span class="w"> </span>tracker<span class="w"> </span>push<span class="w"> </span><span class="m">07</span><span class="w"> </span>--tree<span class="w">             </span><span class="c1"># create task 07's issue and its subtasks' issues</span>
+</code></pre></div>
+<p>The issue types come from <code>tracker.push.levels</code> in the workflow file (see
+<a href="workflows/#the-tracker-key">docs/workflows.md</a>). After a push the
+tracker owns the title and body: <code>rig task set</code> and <code>rig task edit</code> refuse to
+change them, and <code>rig tracker refresh</code> copies the tracker's values back.
+Details, and what happens when a push stops part way, are in
+<a href="https://github.com/AindriuB/rig/blob/main/docs/phase-3.5.md">docs/phase-3.5.md</a>.</p>
 <h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>go<span class="w"> </span>vet<span class="w"> </span>./...
 </code></pre></div>
@@ -1045,7 +1090,16 @@ planned next.</p>
    raises the minor version; a change to an existing one raises the major.</li>
 <li>Tag the commit <code>v&lt;version&gt;</code> and push the tag.</li>
 <li>The release workflow builds the binaries and drafts a GitHub release.</li>
+<li>When the tag is pushed, <code>release.yml</code> checks that the tag matches
+   <code>rig version</code> and runs <code>go test</code>. It then builds the binaries, writes the
+   checksums and signs them, and drafts a GitHub release. A failing step stops
+   the flow and no draft is made.</li>
+<li>Publish the draft by hand with <code>gh release edit &lt;tag&gt; --draft=false</code>.</li>
+<li>Publishing triggers <code>site-dispatch.yml</code>, which sends <code>rig-release</code> to
+   rig-site, and rig-site rebuilds. Without the <code>RIG_SITE_DISPATCH_TOKEN</code>
+   secret the dispatch is skipped with a notice and rig-site does not rebuild.</li>
 </ol>
+<p><img alt="A tag push runs release.yml, which stops on any failing step or drafts a release, and publishing the draft sends rig-release to rig-site, which rebuilds unless the secret is absent." src="assets/diagrams/index-2-light.svg#only-light" /><img alt="A tag push runs release.yml, which stops on any failing step or drafts a release, and publishing the draft sends rig-release to rig-site, which rebuilds unless the secret is absent." src="assets/diagrams/index-2-dark.svg#only-dark" /></p>
 <h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
 <p>Copyright 2026 Andrew Bannister. Licensed under the Apache License,
 Version 2.0; see <a href="https://github.com/AindriuB/rig/blob/main/LICENSE">LICENSE</a>.</p>
