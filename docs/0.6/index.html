@@ -1,0 +1,1153 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://aindriub.github.io/rig-site/docs/0.6/0.6/">
+      
+      
+      
+        <link rel="next" href="workflows/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/theme/brand/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>rig</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="assets/theme/tokens.css">
+    
+      <link rel="stylesheet" href="assets/theme/fonts.css">
+    
+      <link rel="stylesheet" href="assets/theme/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  <link rel="icon" type="image/svg+xml" href="assets/theme/brand/favicon.svg">
+
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rig" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="rig" class="md-header__button md-logo" aria-label="rig" data-md-component="logo">
+      
+  <img src="assets/theme/brand/mark.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            rig
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Overview
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="custom" data-md-color-accent="custom"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/AindriuB/rig" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="rig" class="md-nav__button md-logo" aria-label="rig" data-md-component="logo">
+      
+  <img src="assets/theme/brand/mark.svg" alt="logo">
+
+    </a>
+    rig
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/AindriuB/rig" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#updating" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Updating
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Updating">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automatic-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-rig-push-will-push" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What rig push will push
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pushing-tasks-to-a-tracker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pushing tasks to a tracker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#releasing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Releasing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="workflows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Writing a workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="design/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    rig: generic actions for agentic workflows
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="release/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release runbook
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#updating" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Updating
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Updating">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automatic-updates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic updates
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-rig-push-will-push" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What rig push will push
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pushing-tasks-to-a-tracker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pushing tasks to a tracker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#development" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Development
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#releasing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Releasing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#license" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        License
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="rig">rig<a class="headerlink" href="#rig" title="Permanent link">&para;</a></h1>
+<p><code>rig</code> is a small command-line tool for the mechanical parts of a
+branch-per-task workflow: pushing a task branch, opening and reading pull
+requests, waiting for CI, keeping tasks, findings and notes, and printing where
+the work stands. It was built for loops where coding agents run these
+steps many times a day, but it does not depend on any particular loop.</p>
+<p>It exists for two reasons:</p>
+<ul>
+<li><strong>A narrow push.</strong> <code>rig push</code> takes a task id or a branch name and nothing
+  else. It cannot push the default branch, a tag, a refspec or a force push,
+  so it is safe to allow without a prompt.</li>
+<li><strong>One interface over two forges.</strong> The same commands and the same output
+  work on GitHub and GitLab. rig runs <code>gh</code> or <code>glab</code> underneath and uses the
+  login you already have. It stores a token only for Jira, which has no such
+  tool, and then in the OS keychain.</li>
+<li><strong>Tasks and rules you define.</strong> Tasks, findings and notes live in your
+  repository's git directory, outside any branch. A workflow file you write
+  says which states a task passes through and what must be true before each
+  move, and rig refuses a move that breaks it. See
+  <a href="workflows/">docs/workflows.md</a>.</li>
+</ul>
+<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
+<p>rig needs Go 1.24 or later, <code>git</code>, and <code>gh</code> (GitHub) or <code>glab</code> (GitLab).</p>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>install<span class="w"> </span>github.com/AindriuB/rig/cmd/rig@latest
+</code></pre></div>
+<p>Release binaries for five platforms, with a <code>SHA256SUMS</code> file and its
+<code>SHA256SUMS.sig</code> signature, are on the project's GitHub release page. Releases
+are signed from 0.5.2; earlier releases are not, and <code>rig update</code> will not
+install them.</p>
+<h3 id="updating">Updating<a class="headerlink" href="#updating" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>rig<span class="w"> </span>update<span class="w">            </span><span class="c1"># install the latest release</span>
+rig<span class="w"> </span>update<span class="w"> </span>--check<span class="w">    </span><span class="c1"># report only; exit 1 when a newer release exists</span>
+rig<span class="w"> </span>update<span class="w"> </span>--to<span class="w"> </span><span class="m">0</span>.5.2<span class="w"> </span><span class="c1"># install a given release</span>
+</code></pre></div>
+<p><code>rig update</code> replaces the running binary with the release binary for your
+platform. That includes a copy you built with <code>go install</code>: it is replaced by
+the release binary built from the same tag, not rebuilt from source. It
+downloads only from the project's GitHub releases, and installs only after the
+signature, the checksum and a run of the new binary's <code>version</code> all pass. If
+any of them fails, or the directory is not writable, the installed file is
+untouched.</p>
+<p>A process that is already running keeps the old binary: on Linux and macOS the
+old file is replaced, not edited, so a running process keeps its inode, and on
+Windows the old binary is moved to <code>rig.exe.old</code> (removed on a later run).
+Start rig again to use the new one.</p>
+<h4 id="automatic-updates">Automatic updates<a class="headerlink" href="#automatic-updates" title="Permanent link">&para;</a></h4>
+<p><code>update.auto</code> sets what rig does after a command finishes:</p>
+<ul>
+<li><code>off</code> (the default): nothing.</li>
+<li><code>notify</code>: when a newer release exists, print one line to stderr.</li>
+<li><code>install</code>: install it, and print one line to stderr.</li>
+</ul>
+<p>Set it in the global file only (<code>rig config set update.auto notify --global</code>);
+a repository cannot turn it on. rig checks at most once every 24 hours, and
+never changes the command's exit code. It does nothing in CI (<code>CI</code> set), when
+stderr is not a terminal, with <code>--json</code>, for <code>rig update</code> and <code>rig version</code>,
+and when the check cannot reach GitHub within 2 seconds.</p>
+<h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>rig push &lt;task-id|branch&gt; [--worktree &lt;path&gt;]
+rig pr view [&lt;pr|branch&gt; | --task &lt;id&gt;] [--json] [--repo &lt;dir&gt;]
+rig pr list [--mine] [--head &lt;branch&gt;] [--state open|closed|merged] [--limit &lt;n&gt;] [--json] [--repo &lt;dir&gt;]
+rig pr checks [&lt;pr|branch&gt; | --task &lt;id&gt;] [--json] [--repo &lt;dir&gt;]
+rig pr open --head &lt;branch&gt; --title &lt;text&gt; [--base &lt;branch&gt;] [--body &lt;text&gt;] [--draft] [--repo &lt;dir&gt;]
+rig pr wait &lt;pr-number | --run &lt;run-id&gt;&gt; [--repo &lt;dir&gt;]
+rig status [--json]
+rig task new --slug &lt;s&gt; --title &lt;text&gt; [--body &lt;text&gt; | --body-file &lt;path&gt;] [--field &lt;name&gt;=&lt;value&gt;]... [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig task new --from [&lt;kind&gt;:]&lt;key&gt; [--state &lt;s&gt;] [--slug &lt;s&gt;] [--field &lt;name&gt;=&lt;value&gt;]... [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig task show &lt;task&gt; [--findings] [--notes] [--history] [--children] [--format &lt;text|json|markdown&gt; | --json | --markdown] [--repo &lt;dir&gt;]
+rig task edit &lt;task&gt; [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig task list [--state &lt;s&gt;]... [--all] [--parent &lt;task&gt; | --roots | --tree] [--format &lt;text|json|markdown&gt; | --json | --markdown] [--repo &lt;dir&gt;]
+rig task parent &lt;task&gt; &lt;parent|none&gt; [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig task link &lt;task&gt; [&lt;kind&gt;:]&lt;key&gt; [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig task unlink &lt;task&gt; [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig task move &lt;task&gt; &lt;state&gt; [--sha &lt;sha&gt;] [--pr &lt;n&gt;] [--reason &lt;text&gt;] [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig task set &lt;task&gt; --field &lt;name&gt;=&lt;value&gt;... [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig task count &lt;task&gt; &lt;counter&gt; [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig task start &lt;slug&gt; [--task-file &lt;path&gt;] [--json] [--repo &lt;dir&gt;]
+rig task finish &lt;task&gt; --sha &lt;sha&gt; [--json] [--repo &lt;dir&gt;]
+rig task is &lt;task&gt; &lt;state&gt; [--repo &lt;dir&gt;]
+rig task log &lt;task&gt; [--json] [--repo &lt;dir&gt;]
+rig finding add &lt;task&gt; --severity &lt;sev&gt; --summary &lt;text&gt; [--path &lt;p[:line]&gt;] [--key &lt;k&gt;] [--field &lt;name&gt;=&lt;value&gt;]... [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig finding list &lt;task&gt; [--status &lt;s&gt;]... [--blocking] [--json] [--repo &lt;dir&gt;]
+rig finding set &lt;task&gt; &lt;finding&gt; --status &lt;s&gt; [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig note add [&lt;task&gt;] --kind &lt;k&gt; --text &lt;text&gt; [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig note list [&lt;task&gt;] [--kind &lt;k&gt;] [--limit &lt;n&gt;] [--json] [--repo &lt;dir&gt;]
+rig workflow show [--json] [--repo &lt;dir&gt;]
+rig workflow validate [&lt;file&gt;] [--json] [--repo &lt;dir&gt;]
+rig next [--who agent|human] [--limit &lt;n&gt;] [--json] [--repo &lt;dir&gt;]
+rig context &lt;task&gt; [--budget &lt;tokens&gt;] [--format &lt;text|json|markdown&gt; | --json | --markdown] [--repo &lt;dir&gt;]
+rig config get &lt;key&gt; [--global|--repo|--local] [--json]
+rig config set &lt;key&gt; &lt;value&gt; --global|--repo|--local
+rig config unset &lt;key&gt; --global|--repo|--local
+rig config list [--global|--repo|--local] [--show-origin] [--json]
+rig tracker pull &lt;key&gt; | --query &lt;q&gt; | --label &lt;l&gt; [--children[=&lt;depth&gt;]] [--limit &lt;n&gt;] [--state &lt;s&gt;] [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig tracker push &lt;task&gt; [--tree] [--dry-run] [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig tracker refresh [&lt;task&gt; | --all] [--dry-run] [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig tracker report &lt;task&gt; [--status] [--comment pr|state|summary] [--include findings|notes]... [--dry-run] [--actor &lt;name&gt;] [--json] [--repo &lt;dir&gt;]
+rig tracker show &lt;key&gt; [--json] [--repo &lt;dir&gt;]
+rig tracker status [--json] [--repo &lt;dir&gt;]
+rig login                                  (the forge, then Jira when tracker.kind is jira)
+rig login &lt;service&gt; [--url &lt;site&gt;] [--user &lt;email&gt;] [--token] [--repo] [--store keychain|file]   (github, gitlab or jira; the flags are for jira; --token stores a personal access token, with no user; --pat is the 0.4.0 name and still works)
+rig login status [--json]
+rig logout &lt;service&gt; [--url &lt;site&gt;] [--repo]   (jira; github and gitlab print the gh/glab command)
+rig version
+rig update [--check] [--to &lt;version&gt;] [--json]
+</code></pre></div>
+<p><code>--actor &lt;name&gt;</code> (alias <code>--role &lt;name&gt;</code>) is accepted by the commands above that
+write the store, and by no other. It sets the actor recorded on each event the
+command writes: a label for the audit trail, not authentication. The actor is
+the flag, else <code>$RIG_ACTOR</code>, else git's <code>user.name</code>, else <code>unknown</code>. The value
+is trimmed; an empty one, one with a control character, or <code>--actor</code> and
+<code>--role</code> given with different values is exit 2, with nothing written.</p>
+<table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What it does</th>
+<th>Exit codes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>rig push</code></td>
+<td>Pushes one branch to <code>origin</code>. A task id such as <code>07</code> resolves to <code>task/07-&lt;slug&gt;</code>.</td>
+<td>0 pushed; 1 the push failed; 2 refused, git never ran</td>
+</tr>
+<tr>
+<td><code>rig pr view</code>, <code>checks</code>, <code>list</code></td>
+<td>Prints pull requests and their CI state in one neutral form.</td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig pr open</code></td>
+<td>Opens a pull request for a branch that is already pushed. It never pushes.</td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig pr wait</code></td>
+<td>Blocks until a pull request's checks, or one CI run, finish.</td>
+<td>0 green; 1 red; 2 error or timeout</td>
+</tr>
+<tr>
+<td><code>rig status</code></td>
+<td>Prints the handoff note, task files, worktrees and open pull requests, then a view of the store: open tasks with their effective states, and open findings. The store view reads only local data and makes no network call.</td>
+<td>0; 2 on a usage error</td>
+</tr>
+<tr>
+<td><code>rig task</code>, <code>rig finding</code>, <code>rig note</code></td>
+<td>Create and read tasks, findings and notes, and move a task between states. <code>rig task is</code> answers "is it in this state?" with its exit code.</td>
+<td>0; 1 refused by a workflow gate, nothing written; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig task show --children</code>, <code>rig task list --parent</code>, <code>--roots</code>, <code>--tree</code></td>
+<td>Show a task with its children; list the children of one task, the tasks with no parent, or all tasks as a forest.</td>
+<td>as <code>rig task</code></td>
+</tr>
+<tr>
+<td><code>rig task parent &lt;task&gt; &lt;parent\|none&gt;</code></td>
+<td>Sets or clears a task's parent. A missing parent or a cycle is refused.</td>
+<td>0; 1 refused, nothing written; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig task new --from [&lt;kind&gt;:]&lt;key&gt;</code></td>
+<td>Creates a task linked to a tracker issue and copies the issue's fields into it. If the issue is already linked, prints that task, with a note on stderr. <code>--state</code> must be one of the workflow's intake states.</td>
+<td>0; 1 refused (<code>--state</code>); 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig task link &lt;task&gt; [&lt;kind&gt;:]&lt;key&gt;</code>, <code>rig task unlink &lt;task&gt;</code></td>
+<td>Links an existing task to an issue and refreshes it, or removes the link and keeps the fields. A linked task's owned fields cannot be changed by <code>rig task set</code> or <code>rig task edit</code>.</td>
+<td>0; 1 refused (issue already linked; task not linked); 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig task start &lt;slug&gt;</code>, <code>rig task finish &lt;task&gt; --sha &lt;sha&gt;</code></td>
+<td><code>start</code> makes a git worktree and branch <code>task/&lt;slug&gt;</code> for a task file and ties the worktree to it. <code>finish</code> merges exactly the verified commit into the default branch and removes the worktree.</td>
+<td>0; 1 refused, nothing changed (a merge conflict is aborted); 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig tracker pull</code></td>
+<td>Creates linked tasks from one issue, a search or a label, and with <code>--children</code> the issue's sub-issues.</td>
+<td>0; 1 <code>--state</code> refused; 2 on any error, or if any issue failed</td>
+</tr>
+<tr>
+<td><code>rig tracker push</code></td>
+<td>Creates an issue on the tracker for a task that has none, and with <code>--tree</code> for its unlinked descendants, then links each. The type comes from the workflow's <code>tracker.push</code>. <code>--dry-run</code> prints what would be sent.</td>
+<td>0; 1 refused before anything is created; 2 on any other error, including a create that failed part way</td>
+</tr>
+<tr>
+<td><code>rig tracker refresh</code></td>
+<td>Re-reads linked issues and overwrites the owned fields of their tasks with the tracker's values. <code>--dry-run</code> writes nothing.</td>
+<td>0; 2 on any error, or if any task failed</td>
+</tr>
+<tr>
+<td><code>rig tracker report</code></td>
+<td>Sends a linked task's progress to its issue: a status from the workflow's <code>tracker.report.status</code>, then a comment (<code>pr</code>, <code>state</code> or <code>summary</code>; findings and notes only with <code>--include</code>). With neither <code>--status</code> nor <code>--comment</code> it sends the status and a <code>state</code> comment. Each send is recorded in a <code>tracker-report</code> event (the status as <code>from</code>, <code>to</code> and the requested <code>asked</code>). A repeat that changes nothing is skipped; <code>--dry-run</code> prints what would be sent.</td>
+<td>0; 1 no status mapped for the state, no such transition, or no pull request for <code>--comment pr</code>, with nothing sent; 2 on any other error</td>
+</tr>
+<tr>
+<td><code>rig tracker show</code>, <code>rig tracker status</code></td>
+<td>Prints one issue; or prints the tracker kind, whether its configuration is trusted, what it supports and whether the login works, and, for Jira, whether the configured project exists. Neither writes.</td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig workflow</code></td>
+<td>Shows the workflow in effect, or checks a workflow file.</td>
+<td>0; <code>validate</code> 1 invalid; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig next</code>, <code>rig context</code></td>
+<td>List what each open task needs, and print a size-limited brief for one task. They never call the forge.</td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig config</code></td>
+<td>Reads and writes settings in <code>~/.rig/config.json</code> (<code>--global</code>, <code>--repo</code>) or <code>&lt;repo&gt;/.rig/config.json</code> (<code>--local</code>). <code>rig config set</code> needs a scope.</td>
+<td>0; <code>get</code> 1 not set; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig login</code>, <code>rig logout</code></td>
+<td><code>login</code> hands over to <code>gh</code> or <code>glab</code> for GitHub and GitLab, and stores a Jira token in the keychain. <code>rig login status</code> shows where you are logged in, never a token.</td>
+<td>0; 1 a login failed; 2 on any error</td>
+</tr>
+</tbody>
+</table>
+<p><code>--format markdown</code> (or <code>--markdown</code>) prints <code>rig task show</code>, <code>rig task list</code>
+and <code>rig context</code> as Markdown, for people and for agents that read prose;
+<code>--format json</code> is the same as <code>--json</code>, and <code>--format text</code> is the default.
+Naming two different formats, or an unknown one, is exit 2.</p>
+<p>An unknown flag always exits 2. <code>--json</code> output and the exit codes are a
+stable contract, described in <a href="design/">docs/design.md</a>. The store and
+the task commands are described in <a href="https://github.com/AindriuB/rig/blob/v0.6.0/docs/phase-2.md">docs/phase-2.md</a>, config
+and login in <a href="https://github.com/AindriuB/rig/blob/v0.6.0/docs/phase-2.5.md">docs/phase-2.5.md</a>, and the workflow file
+format, with a worked example, in <a href="workflows/">docs/workflows.md</a>.</p>
+<p>Tasks live in <code>refs/rig/</code> and <code>.git/rig/</code> of the clone, so they stay on your
+machine: rig does not push or fetch them, and a repository looks the same to
+anyone who does not use rig. With no setup, rig uses a small built-in
+<code>basic</code> workflow (<code>open</code>, <code>active</code>, <code>done</code>).</p>
+<p>The command map groups every command by its first word.</p>
+<p><img alt="Every rig command grouped under its first word, with each subcommand as a node under its noun." src="assets/diagrams/index-1-light.svg#only-light" /><img alt="Every rig command grouped under its first word, with each subcommand as a node under its noun." src="assets/diagrams/index-1-dark.svg#only-dark" /></p>
+<h2 id="what-rig-push-will-push">What <code>rig push</code> will push<a class="headerlink" href="#what-rig-push-will-push" title="Permanent link">&para;</a></h2>
+<p>A branch is pushed only if all of these hold:</p>
+<ul>
+<li>it is <code>&lt;prefix&gt;/&lt;name&gt;</code>, and the prefix is in <code>pushPrefixes</code> (by default
+  <code>task</code> and <code>record</code>);</li>
+<li>it uses only letters, digits and <code>. _ / -</code>;</li>
+<li>it is not the repository's default branch;</li>
+<li>it exists locally.</li>
+</ul>
+<p>It is pushed to the branch of the same name on <code>origin</code>. There is no option
+for another remote, a force push or tags.</p>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<p><code>rig config</code> holds the newer settings (the forge, the tracker, the workflow);
+see <a href="https://github.com/AindriuB/rig/blob/v0.6.0/docs/phase-2.5.md">docs/phase-2.5.md</a>. <code>.claude/rig.json</code> in the
+repository is optional and still read. Every key has a default.</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Meaning</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>forge</code></td>
+<td><code>github</code> or <code>gitlab</code></td>
+<td>detected from the origin host</td>
+</tr>
+<tr>
+<td><code>host</code></td>
+<td>the forge's host, for a self-hosted instance</td>
+<td>the origin host</td>
+</tr>
+<tr>
+<td><code>pushPrefixes</code></td>
+<td>branch prefixes <code>rig push</code> may push</td>
+<td><code>["task", "record"]</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>pushPrefixes</code> widens what <code>rig push</code> can do without a prompt, so treat the
+file as yours: do not let an agent edit it unasked.</p>
+<p>The keys of <code>rig config</code> (see <code>rig config list</code>) are:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Meaning</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>forge.kind</code>, <code>forge.host</code></td>
+<td>The forge, and its host for a self-hosted instance</td>
+<td>detected from the origin host</td>
+</tr>
+<tr>
+<td><code>push.prefixes</code></td>
+<td>Branch prefixes <code>rig push</code> may push. Never from <code>.rig/config.json</code></td>
+<td><code>["task", "record"]</code></td>
+</tr>
+<tr>
+<td><code>workflow</code></td>
+<td>A workflow preset name or an absolute path. Global file only</td>
+<td><code>basic</code></td>
+</tr>
+<tr>
+<td><code>tracker.kind</code></td>
+<td><code>local</code>, <code>jira</code>, <code>github</code>, <code>gitlab</code> or <code>exec</code></td>
+<td><code>local</code> (no tracker)</td>
+</tr>
+<tr>
+<td><code>tracker.url</code></td>
+<td>The tracker's <code>https://</code> address. A tracked <code>.rig/config.json</code> cannot supply it</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>tracker.project</code></td>
+<td>A Jira project key, <code>owner/name</code>, or <code>group/.../name</code></td>
+<td>the origin remote's path (GitHub, GitLab)</td>
+</tr>
+<tr>
+<td><code>tracker.command</code></td>
+<td>For <code>exec</code>: the program and its arguments. Global file only</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>tracker.jira.api</code></td>
+<td><code>auto</code>, <code>v2</code> or <code>v3</code></td>
+<td><code>auto</code></td>
+</tr>
+<tr>
+<td><code>tracker.jira.epicField</code></td>
+<td>The Jira Server or Data Center "Epic Link" field id</td>
+<td>found by name</td>
+</tr>
+<tr>
+<td><code>tracker.jira.acceptanceField</code></td>
+<td>The Jira field id that holds acceptance criteria</td>
+<td>none</td>
+</tr>
+<tr>
+<td><code>update.auto</code></td>
+<td><code>off</code>, <code>notify</code> or <code>install</code>: what rig does after a command when a newer release exists. Global file only</td>
+<td><code>off</code></td>
+</tr>
+<tr>
+<td><code>worktrees.root</code></td>
+<td>Where <code>rig task start</code> puts worktrees: <code>&lt;root&gt;/&lt;repo name&gt;/&lt;slug&gt;</code></td>
+<td><code>.worktrees</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>worktrees.root</code> is relative to the repository's main checkout, or absolute.
+A value that comes from the repository's own <code>.rig/config.json</code> (or the
+default) must be a relative path without a <code>..</code> element, and after symlinks
+are resolved the worktree must still be under the checkout; otherwise <code>rig task
+start</code> stops with an error. Only the global file may point outside the
+checkout, with an absolute path. <code>tracker.url</code> has a trust rule of its own:
+see <a href="workflows/#linking-tasks-to-a-tracker">docs/workflows.md</a>.</p>
+<h2 id="pushing-tasks-to-a-tracker">Pushing tasks to a tracker<a class="headerlink" href="#pushing-tasks-to-a-tracker" title="Permanent link">&para;</a></h2>
+<p><code>rig tracker push</code> makes issues from tasks. It sends each task's title, body,
+type, parent and one <code>rig/...</code> marker label. With a Jira tracker that has
+<code>tracker.jira.acceptanceField</code> set, it also sends the acceptance criteria. It
+sends nothing else; the marker lets a re-run find an issue an earlier run made
+instead of creating a second one.</p>
+<div class="highlight"><pre><span></span><code>rig<span class="w"> </span>tracker<span class="w"> </span>push<span class="w"> </span><span class="m">07</span><span class="w"> </span>--tree<span class="w"> </span>--dry-run<span class="w">   </span><span class="c1"># show what would be created</span>
+rig<span class="w"> </span>tracker<span class="w"> </span>push<span class="w"> </span><span class="m">07</span><span class="w"> </span>--tree<span class="w">             </span><span class="c1"># create task 07's issue and its subtasks' issues</span>
+</code></pre></div>
+<p>The issue types come from <code>tracker.push.levels</code> in the workflow file (see
+<a href="workflows/#the-tracker-key">docs/workflows.md</a>). After a push the
+tracker owns the title and body: <code>rig task set</code> and <code>rig task edit</code> refuse to
+change them, and <code>rig tracker refresh</code> copies the tracker's values back.
+Details, and what happens when a push stops part way, are in
+<a href="https://github.com/AindriuB/rig/blob/v0.6.0/docs/phase-3.5.md">docs/phase-3.5.md</a>.</p>
+<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>vet<span class="w"> </span>./...
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>./...
+</code></pre></div>
+<p>The tests use throwaway git repositories and stub <code>gh</code> and <code>glab</code> programs, so
+they need no network and no login. The code is in three layers: commands in
+<code>cmd/rig</code>, the forge interface in <code>internal/forge</code>, and one adapter per forge
+below it. <a href="design/">docs/design.md</a> has the full design and the phases
+planned next.</p>
+<h2 id="releasing">Releasing<a class="headerlink" href="#releasing" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Set <code>version</code> in <code>cmd/rig/version.go</code>. A new command, flag or JSON field
+   raises the minor version; a change to an existing one raises the major.</li>
+<li>Tag the commit <code>v&lt;version&gt;</code> and push the tag.</li>
+<li>The release workflow builds the binaries and drafts a GitHub release.</li>
+<li>When the tag is pushed, <code>release.yml</code> checks that the tag matches
+   <code>rig version</code> and runs <code>go test</code>. It then builds the binaries, writes the
+   checksums and signs them, and drafts a GitHub release. A failing step stops
+   the flow and no draft is made.</li>
+<li>Publish the draft by hand with <code>gh release edit &lt;tag&gt; --draft=false</code>.</li>
+<li>Publishing triggers <code>site-dispatch.yml</code>, which sends <code>rig-release</code> to
+   rig-site, and rig-site rebuilds. Without the <code>RIG_SITE_DISPATCH_TOKEN</code>
+   secret the dispatch is skipped with a notice and rig-site does not rebuild.</li>
+</ol>
+<p><img alt="A tag push runs release.yml, which stops on any failing step or drafts a release, and publishing the draft sends rig-release to rig-site, which rebuilds unless the secret is absent." src="assets/diagrams/index-2-light.svg#only-light" /><img alt="A tag push runs release.yml, which stops on any failing step or drafts a release, and publishing the draft sends rig-release to rig-site, which rebuilds unless the secret is absent." src="assets/diagrams/index-2-dark.svg#only-dark" /></p>
+<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
+<p>Copyright 2026 Andrew Bannister. Licensed under the Apache License,
+Version 2.0; see <a href="https://github.com/AindriuB/rig/blob/v0.6.0/LICENSE">LICENSE</a>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": [], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+    
+    
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
