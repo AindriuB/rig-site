@@ -509,6 +509,33 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -1038,6 +1065,16 @@ stamped on the events; an empty or control-character value, or the two flags
 with different values, is exit 2 with nothing written, and every other command
 rejects them as unknown options (exit 2); <code>RIG_JIRA_TOKEN</code> overrides a stored Jira token at use
 time.</p>
+<p><strong>Hooks and the event feed (0.7.0).</strong> A hook is given
+<code>{"format":1,"event","task","effective"}</code> on standard input, and <code>rig events
+--json</code> prints the same object per line without <code>effective</code>. <code>format</code> is the
+payload's version. New event kinds and new event fields are additive, a
+<code>kind:*</code> consumer ignores kinds it does not know, and a change to an existing
+kind's <code>data</code> bumps the event's <code>v</code>. A write made inside a hook records a
+<code>cause</code> (<code>event</code>, <code>hook</code>, <code>depth</code>), with the depth read from the log, and a
+write at depth 3 runs no inline hooks. Hooks get an allowlisted environment,
+plus <code>RIG_ACTOR=hook:&lt;name&gt;</code> and <code>RIG_HOOK_*</code>. The full reference is
+<a href="../hooks/">hooks.md</a>.</p>
 <p><strong>Stable text output</strong></p>
 <ul>
 <li><code>rig pr wait</code>, green: exactly one line, <code>CI green: PR #&lt;n&gt;</code> or

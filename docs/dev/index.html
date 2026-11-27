@@ -530,6 +530,33 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -803,6 +830,8 @@ rig login &lt;service&gt; [--url &lt;site&gt;] [--user &lt;email&gt;] [--token] 
 rig login status [--json]
 rig logout &lt;service&gt; [--url &lt;site&gt;] [--repo]   (jira; github and gitlab print the gh/glab command)
 rig version
+rig events [--since &lt;file&gt; | --cursor-file &lt;file&gt;] [--from-start] [--follow] [--json] [--repo &lt;dir&gt;]
+rig hooks start [--json] [--] &lt;cmd&gt; [args...]
 rig update [--check] [--to &lt;version&gt;] [--json]
 </code></pre></div>
 <p><code>--actor &lt;name&gt;</code> (alias <code>--role &lt;name&gt;</code>) is accepted by the commands above that
@@ -914,6 +943,16 @@ is trimmed; an empty one, one with a control character, or <code>--actor</code> 
 <td><code>rig config</code></td>
 <td>Reads and writes settings in <code>~/.rig/config.json</code> (<code>--global</code>, <code>--repo</code>) or <code>&lt;repo&gt;/.rig/config.json</code> (<code>--local</code>). <code>rig config set</code> needs a scope.</td>
 <td>0; <code>get</code> 1 not set; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig events</code></td>
+<td>Prints every event across all tasks, and notes that belong to no task, from a cursor file, optionally following new ones. See <a href="hooks/">docs/hooks.md</a>.</td>
+<td>0; 2 on any error</td>
+</tr>
+<tr>
+<td><code>rig hooks start</code></td>
+<td>Starts a program detached, without the <code>RIG_HOOK_*</code> variables, so long work outlives the hook that starts it. Prints its process id.</td>
+<td>0; 2 on any error</td>
 </tr>
 <tr>
 <td><code>rig login</code>, <code>rig logout</code></td>

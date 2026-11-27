@@ -587,6 +587,33 @@
   
 
     
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hooks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hooks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -998,11 +1025,18 @@ never blocks anything.</p>
 <h3 id="hooks">Hooks<a class="headerlink" href="#hooks" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><span class="p">{</span><span class="w"> </span><span class="nt">"on"</span><span class="p">:</span><span class="w"> </span><span class="s2">"enter:stopped"</span><span class="p">,</span><span class="w"> </span><span class="nt">"run"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"notify-user"</span><span class="p">,</span><span class="w"> </span><span class="s2">"{short}"</span><span class="p">,</span><span class="w"> </span><span class="s2">"{reason}"</span><span class="p">]</span><span class="w"> </span><span class="p">}</span>
 </code></pre></div>
-<p><code>on</code> is <code>enter:&lt;state&gt;</code>, <code>leave:&lt;state&gt;</code> or <code>transition</code>. Hooks run, in file
-order, after a move has been written. A hook gets <code>{event, task}</code> as JSON on
-standard input and has 30 seconds. A hook that fails is reported on standard
-error, and in <code>hookErrors</code> with <code>--json</code>, but it never undoes the move.
-Something that must be able to refuse a move is a <code>command</code> gate, not a hook.</p>
+<p>A hook is a program rig runs after it has written an event. <code>on</code> is a selector
+or a list of them: <code>transition</code>, <code>enter:&lt;state&gt;</code>, <code>leave:&lt;state&gt;</code>, <code>final</code>,
+<code>kind:&lt;kind&gt;</code> or <code>kind:*</code>. Hooks run in file order, for every event a single-task
+write produces, not only for the first. No <code>rig tracker</code> command runs
+inline hooks. A hook gets
+<code>{"format":1,"event","task","effective"}</code> as JSON on standard input, runs with
+an allowlisted environment (add what it needs with <code>"env": ["GH_TOKEN"]</code>) and
+has 30 seconds by default. A hook that fails is reported on standard error, and
+in <code>hookErrors</code> with <code>--json</code>, but it never undoes the write. Something that
+must be able to refuse a move is a <code>command</code> gate, not a hook.</p>
+<p>Names, selectors, the payload, the environment, the loop guard, <code>rig hooks
+start</code>, <code>rig events</code> and recipes are in <a href="../hooks/">hooks.md</a>.</p>
 <p>What <code>rig task move</code> does, in order:</p>
 <ol>
 <li>It looks up the transition from the task's effective state to the target.
@@ -1014,8 +1048,9 @@ Something that must be able to refuse a move is a <code>command</code> gate, not
 <li>Otherwise it writes the move. If the task, its findings or its branch head
    changed since they were read, it starts again from step 1, a few times, and
    then gives up with a conflict.</li>
-<li>Only after the write do the hooks run. A hook that fails is reported, and
-   the move stands.</li>
+<li>Only after the write do the hooks run, once for each event the move wrote
+   (the <code>transition</code>, and a <code>count</code> when the transition counts something). A
+   hook that fails is reported, and the move stands.</li>
 </ol>
 <p><img alt="A task move looks up the transition, checks every gate, refuses and writes nothing if one fails, otherwise writes (retrying if the task changed) and then runs hooks whose failures never undo the move." src="../assets/diagrams/workflows-2-light.svg#only-light" /><img alt="A task move looks up the transition, checks every gate, refuses and writes nothing if one fails, otherwise writes (retrying if the task changed) and then runs hooks whose failures never undo the move." src="../assets/diagrams/workflows-2-dark.svg#only-dark" /></p>
 <h3 id="arguments-and-placeholders">Arguments and placeholders<a class="headerlink" href="#arguments-and-placeholders" title="Permanent link">&para;</a></h3>
@@ -1024,8 +1059,9 @@ and never through a shell. An argument that is exactly <code>{short}</code>, <co
 <code>{slug}</code>, <code>{state}</code>, <code>{reason}</code> or <code>{sha}</code> is replaced by that value, and the
 value stays one argument whatever it contains, spaces and <code>;</code> included. A
 placeholder inside longer text, such as <code>--to={state}</code>, is refused by
-validation. In a hook <code>{state}</code> is the state entered; in a gate it is the state
-the move leaves.</p>
+validation. In a hook <code>{state}</code> is the task's state after the event, and
+<code>{reason}</code> and <code>{sha}</code> are refused when the hook's <code>on</code> selector can fire for a
+kind other than <code>transition</code>; in a gate <code>{state}</code> is the state the move leaves.</p>
 <h2 id="linking-tasks-to-a-tracker">Linking tasks to a tracker<a class="headerlink" href="#linking-tasks-to-a-tracker" title="Permanent link">&para;</a></h2>
 <p>A <strong>tracker</strong> is an issue tracker: Jira, GitHub issues, GitLab issues, or any
 other that you reach through a program of your own (<code>exec</code>). A task can be
